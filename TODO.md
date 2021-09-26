@@ -1,3 +1,11 @@
+# TODO
+
+Release:
+- Screenshots
+- Prevent splitters from splitting after death
+- Mute ambient sounds after death
+- Test Windows build
+
 Mechanics:
 - Movement ability (short-duration intangible sprint, "phasing")
 - Flocking: http://www.kfish.org/boids/pseudocode.html
