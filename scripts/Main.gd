@@ -86,6 +86,9 @@ func _ready():
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
 	$Player.set_process_input(false)
+	
+	$MenuLayer/Control/FullscreenCheckBox.pressed = OS.get_name() != "HTML5"
+
 
 
 func setup():
@@ -165,7 +168,7 @@ func _input(event):
 	if event.is_action_pressed("quit"):
 		if $Player.health > 0:
 			$Player.damage($Player.health)
-		else:
+		elif OS.get_name() != "HTML5":
 			get_tree().quit()
 	
 	elif event.is_action_pressed("restart"):
