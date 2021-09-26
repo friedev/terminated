@@ -129,6 +129,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AuthorLabel" type="Label" parent="MenuLayer/Control"]
+modulate = Color( 0, 1, 1, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 250.0
+margin_right = 176.0
+margin_bottom = 304.0
+theme = ExtResource( 7 )
+text = "VERSION 1.0.0
+BY AARON FRIESEN
+HTTPS://MAUGRIFT.COM"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="InstructionsLabel" type="Label" parent="MenuLayer/Control"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -146,21 +162,6 @@ text = "       [R] TO START
 HOLD [LMB] TO SHOOT
  TAP [LMB] FOR SHOTGUN
      [RMB] FOR LASER"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AuthorLabel" type="Label" parent="MenuLayer/Control"]
-modulate = Color( 0, 1, 1, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = 269.0
-margin_right = 176.0
-margin_bottom = 304.0
-theme = ExtResource( 7 )
-text = "BY AARON FRIESEN
-HTTPS://MAUGRIFT.COM"
 __meta__ = {
 "_edit_use_anchors_": false
 }
