@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/enemy_hum_deep.wav-4f1e66895b739601a9aec7606dd51675.sample"
+
+[deps]
+
+source_file="res://audio/sound/enemy_hum_deep.wav"
+dest_files=[ "res://.import/enemy_hum_deep.wav-4f1e66895b739601a9aec7606dd51675.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

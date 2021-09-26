@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://sprites/circle_outlined.png" type="Texture" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 240.0
+
+[node name="Obstacle" type="StaticBody2D"]
+position = Vector2( 306, 282 )
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0, 0.501961, 0, 1 )
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( -256, -256 )

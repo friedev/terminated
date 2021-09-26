@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://sprites/gib.png" type="Texture" id=1]
+
+[node name="Gib" type="Sprite"]
+light_mask = 3
+z_index = -1
+texture = ExtResource( 1 )
