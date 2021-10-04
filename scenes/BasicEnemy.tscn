@@ -75,6 +75,7 @@ explosiveness = 1.0
 process_material = SubResource( 4 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
 occluder = SubResource( 5 )
 
 [node name="AmbientLight" type="Light2D" parent="."]

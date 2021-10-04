@@ -156,6 +156,8 @@ func _process(delta: float):
 		$HUDLayer/Control/HealthLabel.modulate = Color.red
 	else:
 		$HUDLayer/Control/HealthLabel.modulate = Color.white
+	
+	$HUDLayer/Control/FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
 
 
 # If the player leaves the arena, they die
@@ -173,7 +175,9 @@ func _input(event):
 	
 	elif event.is_action_pressed("restart"):
 		setup()
-
+	
+	elif event.is_action_pressed("fps"):
+		$HUDLayer/Control/FPSLabel.visible = !$HUDLayer/Control/FPSLabel.visible
 
 func _on_Timer_timeout():
 	if $Player.health == 0:
