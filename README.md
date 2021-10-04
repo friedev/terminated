@@ -4,6 +4,16 @@ Slay robots in this top-down arena shooter inspired by [Devil Daggers](https://d
 
 TERMINATED (including all code, art, and music) was created by [Aaron Friesen](https://maugrift.com). Contributions via GitHub pull requests are welcome! Some ideas for new content and changes can be found in `TODO.md`.
 
+## Instructions
+
+- [R] to start
+- [ESC] to quit
+- [WASD] to move
+- Hold [LMB] to shoot
+- Tap [LMB] for shotgun
+- [RMB] for laser
+- [SCROLL] to zoom
+
 ## Assets and Tools
 
 - Font: [FixedSys Excelsior](https://github.com/kika/fixedsys)
