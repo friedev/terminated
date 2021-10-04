@@ -161,7 +161,8 @@ text = "       [R] TO START
     [WASD] TO MOVE
 HOLD [LMB] TO SHOOT
  TAP [LMB] FOR SHOTGUN
-     [RMB] FOR LASER"
+     [RMB] FOR LASER
+	  [SCROLL] TO ZOOM"
 __meta__ = {
 "_edit_use_anchors_": false
 }

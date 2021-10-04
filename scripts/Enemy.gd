@@ -173,7 +173,7 @@ func _on_ChargeTimer_timeout():
 
 
 func split():
-	if not splitter or health <= 0:
+	if not splitter or health <= 0 or player.health <= 0:
 		return
 	
 	if len(get_tree().get_nodes_in_group("Enemies")) < max_enemies:
