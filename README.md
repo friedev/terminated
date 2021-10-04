@@ -13,6 +13,7 @@ TERMINATED (including all code, art, and music) was created by [Aaron Friesen](h
 - Tap [LMB] for shotgun
 - [RMB] for laser
 - [SCROLL] to zoom
+- [F] to toggle FPS
 
 ## Assets and Tools
 
