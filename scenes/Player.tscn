@@ -66,6 +66,7 @@ occluder = SubResource( 2 )
 
 [node name="ShakeCamera2D" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 2, 2 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
