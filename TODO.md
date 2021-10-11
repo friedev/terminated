@@ -1,12 +1,7 @@
 # TODO
 
-Release:
-- Screenshots
-- Prevent splitters from splitting after death
-- Mute ambient sounds after death
-- Test Windows build
-
 Mechanics:
+- Queue shotgun shot if LMB is tapped before cooldown expires
 - Movement ability (short-duration intangible sprint, "phasing")
 - Flocking: http://www.kfish.org/boids/pseudocode.html
 - Flamethrower (tap RMB for laser, hold for flamethrower)
@@ -23,3 +18,4 @@ Graphics:
 
 Audio:
 - Unique enemy death sounds?
+- Mute ambient sounds after death
