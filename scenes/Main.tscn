@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://ui/themes/theme_hud_title.tres" type="Theme" id=1]
 [ext_resource path="res://audio/music/terminated_loop.mp3" type="AudioStream" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://sprites/tile.png" type="Texture" id=5]
-[ext_resource path="res://sprites/light.png" type="Texture" id=6]
 [ext_resource path="res://ui/themes/theme_hud.tres" type="Theme" id=7]
 [ext_resource path="res://sprites/check.png" type="Texture" id=8]
 [ext_resource path="res://ui/styles/stylebox_button_pressed.tres" type="StyleBox" id=9]
@@ -17,7 +16,7 @@
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
+0/region = Rect2( 0, 0, 8, 8 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
@@ -32,26 +31,20 @@
 
 [sub_resource type="ImageTexture" id=3]
 
-[sub_resource type="CircleShape2D" id=4]
-radius = 512.0
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 256, 256 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
-
-[node name="Light2D" type="Light2D" parent="."]
-texture = ExtResource( 6 )
-range_item_cull_mask = 2
 
 [node name="TileMap" type="TileMap" parent="."]
 light_mask = 3
 z_index = -1
 tile_set = SubResource( 1 )
-cell_size = Vector2( 16, 16 )
-cell_quadrant_size = 4
+cell_size = Vector2( 8, 8 )
 cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
 occluder_light_mask = 3
 format = 1
-tile_data = PoolIntArray( 983041, 0, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 
@@ -60,36 +53,21 @@ tile_data = PoolIntArray( 983041, 0, 0 )
 [node name="Control" type="Control" parent="HUDLayer"]
 margin_right = 40.0
 margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthLabel" type="Label" parent="HUDLayer/Control"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 120.0
-margin_bottom = 32.0
-theme = ExtResource( 7 )
-text = "HEALTH: 5/5"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+rect_scale = Vector2( 2, 2 )
 
 [node name="TimerLabel" type="Label" parent="HUDLayer/Control"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 188.0
+margin_left = 280.0
 margin_top = 16.0
 margin_right = 252.0
 margin_bottom = 32.0
 theme = ExtResource( 7 )
 text = "00:00.00"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="KillsLabel" type="Label" parent="HUDLayer/Control"]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = 292.0
@@ -109,7 +87,7 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 168.0
+margin_left = 280.0
 margin_top = 288.0
 margin_right = 272.0
 margin_bottom = 304.0
@@ -125,9 +103,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="MenuLayer"]
 margin_right = 40.0
 margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+rect_scale = Vector2( 2, 2 )
 
 [node name="TitleLabel" type="Label" parent="MenuLayer/Control"]
 modulate = Color( 1, 0, 0, 1 )
@@ -135,16 +111,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 68.0
+margin_left = 160.0
 margin_top = 80.0
-margin_right = 372.0
+margin_right = 464.0
 margin_bottom = 112.0
 theme = ExtResource( 1 )
 text = "T E R M I N A T E D"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AuthorLabel" type="Label" parent="MenuLayer/Control"]
 modulate = Color( 0, 1, 1, 1 )
@@ -167,10 +140,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 132.0
+margin_left = 220.0
 margin_top = 135.0
-margin_right = 308.0
-margin_bottom = 265.0
+margin_right = 396.0
+margin_bottom = 284.0
 theme = ExtResource( 7 )
 text = "       [R] TO START
      [ESC] TO QUIT
@@ -180,18 +153,15 @@ HOLD [LMB] TO SHOOT
  TAP [LMB] FOR SHOTGUN
      [RMB] FOR LASER
   [SCROLL] TO ZOOM"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SoundLabel" type="Label" parent="MenuLayer/Control"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 344.0
+margin_left = 504.0
 margin_top = 168.0
-margin_right = 384.0
+margin_right = 544.0
 margin_bottom = 184.0
 theme = ExtResource( 7 )
 text = "SOUND"
@@ -205,9 +175,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 344.0
+margin_left = 504.0
 margin_top = 208.0
-margin_right = 384.0
+margin_right = 544.0
 margin_bottom = 224.0
 theme = ExtResource( 7 )
 text = "MUSIC"
@@ -221,9 +191,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 281.0
+margin_left = 441.0
 margin_top = 248.0
-margin_right = 384.0
+margin_right = 544.0
 margin_bottom = 264.0
 theme = ExtResource( 7 )
 text = "FULLSCREEN"
@@ -237,9 +207,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 281.0
+margin_left = 441.0
 margin_top = 288.0
-margin_right = 384.0
+margin_right = 544.0
 margin_bottom = 304.0
 theme = ExtResource( 7 )
 text = "SCREEN SHAKE"
@@ -253,9 +223,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 400.0
+margin_left = 560.0
 margin_top = 160.0
-margin_right = 424.0
+margin_right = 584.0
 margin_bottom = 184.0
 theme = ExtResource( 7 )
 custom_icons/radio_checked = ExtResource( 8 )
@@ -278,9 +248,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 400.0
+margin_left = 560.0
 margin_top = 200.0
-margin_right = 424.0
+margin_right = 584.0
 margin_bottom = 224.0
 theme = ExtResource( 7 )
 custom_icons/radio_checked = ExtResource( 8 )
@@ -303,9 +273,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 400.0
+margin_left = 560.0
 margin_top = 240.0
-margin_right = 424.0
+margin_right = 584.0
 margin_bottom = 264.0
 theme = ExtResource( 7 )
 custom_icons/radio_checked = ExtResource( 8 )
@@ -328,9 +298,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 400.0
+margin_left = 560.0
 margin_top = 280.0
-margin_right = 424.0
+margin_right = 584.0
 margin_bottom = 304.0
 theme = ExtResource( 7 )
 custom_icons/radio_checked = ExtResource( 8 )
@@ -344,9 +314,6 @@ custom_styles/disabled = ExtResource( 9 )
 custom_styles/hover_pressed = ExtResource( 11 )
 custom_styles/normal = ExtResource( 11 )
 pressed = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
@@ -363,7 +330,6 @@ shape = SubResource( 4 )
 wait_time = 4.0
 one_shot = true
 
-[connection signal="player_damaged" from="Player" to="." method="_on_Player_player_damaged"]
 [connection signal="toggled" from="MenuLayer/Control/SoundCheckBox" to="." method="_on_SoundCheckBox_toggled"]
 [connection signal="toggled" from="MenuLayer/Control/MusicCheckBox" to="." method="_on_MusicCheckBox_toggled"]
 [connection signal="toggled" from="MenuLayer/Control/FullscreenCheckBox" to="." method="_on_FullscreenCheckBox_toggled"]

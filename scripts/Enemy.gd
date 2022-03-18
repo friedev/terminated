@@ -30,9 +30,6 @@ onready var player: KinematicBody2D = get_tree().get_root().find_node("Player", 
 onready var base_modulate: Color = $Sprite.modulate
 onready var damage_modulate := Color(2, 2, 2, 1)
 
-onready var initial_death_light_energy: float = $DeathLight.energy
-var death_light_duration: float = 0.25 # seconds
-
 onready var health := max_health
 var velocity := Vector2()
 var stun_duration := 0.0
@@ -64,9 +61,7 @@ func _physics_process(delta: float):
 			var collision = move_and_collide(velocity * delta, true, true, true)
 			if collision:
 				if collision.collider == player:
-					player.damage(1, (player.position - self.position).normalized() * attack_knockback)
-					if max_health == 1:
-						die()
+					player.die()
 				elif "Enemy" in collision.collider.name:
 					if max_health > 1 and collision.collider.max_health == 1:
 						collision.collider.die()
@@ -80,17 +75,6 @@ func _physics_process(delta: float):
 			velocity = move_and_slide(velocity)
 	elif not charging:
 		look_at(player.position)
-
-
-func _process(delta: float):
-	if stun_duration <= 0:
-		$Sprite.modulate = base_modulate
-	else:
-		$Sprite.modulate = damage_modulate
-	
-	if health <= 0:
-		$DeathLight.energy -= (delta / death_light_duration) * initial_death_light_energy
-		$DeathLight.energy = max($DeathLight.energy, 0.0)
 
 
 func damage(amount: int, knockback = Vector2(), knockback_duration = 0.5):
@@ -112,18 +96,16 @@ func die():
 	set_physics_process(false)
 	$Sprite.visible = false
 	$CollisionShape2D.disabled = true
-	$LightOccluder2D.visible = false
-	$AmbientLight.visible = false
 	$DeathSound.pitch_scale = randf() + 0.5
 	$DeathSound.play()
 	$AmbientSound.stop()
-	$DeathLight.enabled = true
 
 	if bomb:
 		for body in $BombArea.get_overlapping_bodies():
-			if body == player:
-				player.damage(1, (player.position - self.position).normalized() * attack_knockback)
-			elif "Enemy" in body.name and body != self and body.health > 0:
+			if (body == player
+					or ("Enemy" in body.name
+					and body != self
+					and body.health > 0)):
 				body.die()
 		$BombParticles1.emitting = true
 		$BombParticles2.emitting = true
@@ -156,9 +138,7 @@ func _on_ChargeTimer_timeout():
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
 		var object_hit = $RayCast2D.get_collider()
-		if object_hit == player:
-			object_hit.damage(damage, (object_hit.position - self.position).normalized() * attack_knockback)
-		elif "Enemy" in object_hit.name:
+		if object_hit == player or "Enemy" in object_hit.name:
 			object_hit.die()
 			# TODO just use normal damage when there are bosses
 			#if object_hit.health > 0:

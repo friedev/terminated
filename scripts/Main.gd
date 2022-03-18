@@ -47,11 +47,8 @@ export var final_wave_min_delay := 4
 onready var sound_bus_index = AudioServer.get_bus_index("Sound")
 onready var music_bus_index = AudioServer.get_bus_index("Music")
 
-export var arena_radius := 512
-export var spawn_radius := 512
-
-export var health_format_string := "HEALTH: %d/%d"
-export var kills_format_string := "KILLS: %d"
+export var arena_radius := 256
+export var spawn_radius := 256
 
 onready var gib_small := preload("res://scenes/Gib.tscn")
 onready var gib_large := preload("res://scenes/GibLarge.tscn")
@@ -75,13 +72,12 @@ func _ready():
 	#seed(123)
 	#seed("CorrectHorseBatteryStaple".hash())
 	
-	for x in range(-arena_radius, arena_radius):
-		for y in range(-arena_radius, arena_radius):
-			var cellv := Vector2(x, y)
-			if (cellv.abs() * $TileMap.cell_size).length() <= arena_radius:
-				$TileMap.set_cellv(cellv, 0)
+	var x_range = arena_radius / $TileMap.cell_size.x
+	var y_range = arena_radius / $TileMap.cell_size.y
+	for x in range(-x_range, x_range):
+		for y in range(-y_range, y_range):
+			$TileMap.set_cell(x, y, 0)
 	
-	$Player.health = 0
 	$Player.visible = false
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
@@ -113,8 +109,6 @@ func setup():
 	$Player.set_physics_process(true)
 	$Player.set_process_input(true)
 	
-	$HUDLayer/Control/HealthLabel.text = health_format_string % [$Player.health, $Player.max_health]
-	$HUDLayer/Control/KillsLabel.text = kills_format_string % kills
 	$MenuLayer/Control.visible = false
 	
 	$SpawnTimer.wait_time = waves[0].time
@@ -131,9 +125,17 @@ func spawn_wave(index: int):
 func spawn_enemy(enemy_scene):
 	# Make sure to update splitter spawn code too (Enemy.gd)
 	var instance = enemy_scene.instance()
-	var angle = rand_range(0, 2 * PI)
-	instance.position = Vector2(cos(angle), sin(angle)) * spawn_radius
-	instance.rotation = rand_range(0, 2 * PI)
+	var pos_range = (randf() * 2 - 1) * spawn_radius
+	var pos_binary = (randi() % 2 * 2 - 1) * spawn_radius
+	var x
+	var y
+	if randi() % 2 == 0:
+		x = pos_range
+		y = pos_binary
+	else:
+		x = pos_binary
+		y = pos_range
+	instance.position = Vector2(x, y)
 	instance.add_to_group("Enemies")
 	add_child(instance)
 	instance.connect("enemy_killed", self, "_on_enemy_killed")
@@ -144,18 +146,15 @@ func _process(delta: float):
 	update()
 	
 	# Update timer; stop timer after player dies
-	if $Player.health > 0:
+	if $Player.alive:
 		var milliseconds := OS.get_ticks_msec() - start_time
 		var seconds := milliseconds / 1000
 		var minutes := seconds / 60
 		milliseconds %= 1000
 		seconds %= 60
 		$HUDLayer/Control/TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
-	
-	if $Player.stun_duration > 0:
-		$HUDLayer/Control/HealthLabel.modulate = Color.red
 	else:
-		$HUDLayer/Control/HealthLabel.modulate = Color.white
+		$MenuLayer/Control.visible = true
 	
 	$HUDLayer/Control/FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
 
@@ -163,13 +162,13 @@ func _process(delta: float):
 # If the player leaves the arena, they die
 func _on_Area2D_body_exited(body):
 	if body == $Player:
-		$Player.damage($Player.health)
+		$Player.die()
 
 
 func _input(event):
 	if event.is_action_pressed("quit"):
-		if $Player.health > 0:
-			$Player.damage($Player.health)
+		if $Player.alive:
+			$Player.die()
 		elif OS.get_name() != "HTML5":
 			get_tree().quit()
 	
@@ -180,7 +179,7 @@ func _input(event):
 		$HUDLayer/Control/FPSLabel.visible = !$HUDLayer/Control/FPSLabel.visible
 
 func _on_Timer_timeout():
-	if $Player.health == 0:
+	if not $Player.alive:
 		return
 	
 	spawn_wave(wave)
@@ -196,11 +195,9 @@ func _on_Timer_timeout():
 
 
 func _on_enemy_killed(enemy):
-	# If the player is alive, count this enemy death as a kill
-	if $Player.health > 0:
+	if $Player.alive:
 		kills += 1
-		$HUDLayer/Control/KillsLabel.text = kills_format_string % kills
-
+	
 	# Place gibs, regardless of cause of death
 	if $Area2D.overlaps_body(enemy):
 		var instance: Sprite
@@ -232,12 +229,6 @@ func _draw():
 				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)
 				if power > 0.0:
 					draw_line(enemy.position, enemy.laser_target, enemy.laser_shot_color, 4.0 * power, false)
-
-
-func _on_Player_player_damaged():
-	$HUDLayer/Control/HealthLabel.text = health_format_string % [$Player.health, $Player.max_health]
-	if $Player.health <= 0:
-		$MenuLayer/Control.visible = true
 
 
 func _on_SoundCheckBox_toggled(button_pressed):
