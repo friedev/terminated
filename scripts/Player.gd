@@ -67,8 +67,9 @@ enum {
 
 const max_cooldown = 500
 
-export var walk_speed: int
-export var fly_speed: int
+export var walk_speed := 96
+export var fly_speed := 192
+export var inertia := 2
 
 onready var bullet := preload("res://scenes/Bullet.tscn")
 onready var main: Node2D = get_tree().get_root().find_node("Main", true, false)
@@ -130,31 +131,51 @@ func _input(event):
 		shoot_weapon(LASER)
 
 
-func _physics_process(delta: float):
-	look_at(get_global_mouse_position() - $ShakeCamera2D.position)
-	
-	velocity = Vector2()
-	if Input.is_action_pressed("right"):
-		velocity.x += 1
-	if Input.is_action_pressed("left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("down"):
-		velocity.y += 1
-	if Input.is_action_pressed("up"):
-		velocity.y -= 1
+func get_mouse_position():
+	return get_global_mouse_position() - $ShakeCamera2D.position
 
-	if velocity.length() != 0:
+
+func get_angle_to_mouse():
+	return global_position.angle_to_point(get_mouse_position())
+
+
+func _physics_process(delta: float):
+	var input_velocity := Vector2()
+	if Input.is_action_pressed("right"):
+		input_velocity.x += 1
+	if Input.is_action_pressed("left"):
+		input_velocity.x -= 1
+	if Input.is_action_pressed("down"):
+		input_velocity.y += 1
+	if Input.is_action_pressed("up"):
+		input_velocity.y -= 1
+
+	var new_rotation: float
+	if input_velocity.length() != 0:
 		var magnitude: float
-		if (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot2")):
+		var new_velocity := Vector2()
+		if (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot2") or cooling_down()):
+			new_velocity = input_velocity.normalized()
 			magnitude = walk_speed
 			$FlyParticles.emitting = false
+			new_rotation = get_angle_to_mouse()
 		else:
+			if velocity.length() == 0 or is_equal_approx(abs(velocity.angle_to(input_velocity)), PI):
+				new_velocity = input_velocity.normalized()
+			else:
+				new_velocity = (velocity.normalized() * inertia + input_velocity.normalized()).normalized()
+			new_rotation = new_velocity.angle()
 			magnitude = fly_speed
 			$FlyParticles.emitting = true
-		velocity = velocity.normalized() * magnitude
+		velocity = new_velocity * magnitude
 		velocity = move_and_slide(velocity)
 	else:
+		velocity = Vector2()
 		$FlyParticles.emitting = false
+		new_rotation = get_angle_to_mouse()
+	new_rotation += PI
+	# TODO export variable for rotation weight
+	rotation = lerp_angle(rotation, new_rotation, 15 * delta)
 	
 	var shoot_currently_pressed := Input.is_action_pressed("shoot1")
 	if shoot_currently_pressed or shoot_pressed:
@@ -214,11 +235,8 @@ func shoot_bullet(
 		stun: float,
 		color: Color):
 	var instance = bullet.instance()
-	# TODO fix magic number offset used so that bullet doesn't appear on the
-	# back side of player
-	instance.position = self.position + Vector2(cos(self.rotation), sin(self.rotation)) * 16
+	instance.position = position
 	instance.initial_position = instance.position
-	instance.rotation = self.rotation + (randf() * spread) - (spread * 0.5)
 	instance.initial_velocity = velocity
 	instance.damage = damage
 	instance.speed = speed
@@ -228,9 +246,15 @@ func shoot_bullet(
 	instance.modulate = color
 	instance.add_to_group("Bullets")
 	main.add_child(instance)
+	# look_at() must be called after the instance has entered the tree
+	instance.look_at(get_mouse_position())
+	instance.rotation += (randf() * spread) - (spread * 0.5)
+	# TODO export variable for distance to stop bullet appearing behind player
+	instance.position += Vector2(16, 0).rotated(instance.rotation)
 
 
 func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
+	$RayCast2D.look_at(get_mouse_position())
 	$RayCast2D.cast_to = Vector2(max_range, 0)
 	$RayCast2D.force_raycast_update()
 	var collision_point: Vector2
@@ -246,7 +270,10 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 
 	$RayCast2D.clear_exceptions()
 	laser_start = position
-	laser_end = collision_point if $RayCast2D.is_colliding() else $RayCast2D.cast_to.rotated(rotation) + position
+	if $RayCast2D.is_colliding():
+		laser_end = collision_point
+	else:
+		laser_end = $RayCast2D.cast_to.rotated($RayCast2D.global_rotation) + position
 
 
 func die():
