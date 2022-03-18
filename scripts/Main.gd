@@ -50,8 +50,8 @@ onready var music_bus_index = AudioServer.get_bus_index("Music")
 export var arena_radius := 256
 export var spawn_radius := 256
 
-onready var gib_small := preload("res://scenes/Gib.tscn")
-onready var gib_large := preload("res://scenes/GibLarge.tscn")
+onready var debris_small := preload("res://scenes/Debris.tscn")
+onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
 
 onready var enemies := [
 	preload("res://scenes/BasicEnemy.tscn"),
@@ -96,8 +96,8 @@ func setup():
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		enemy.free()
 	
-	for gib in get_tree().get_nodes_in_group("Gibs"):
-		gib.free()
+	for debris in get_tree().get_nodes_in_group("Debris"):
+		debris.free()
 	
 	kills = 0
 	wave = 0
@@ -198,17 +198,17 @@ func _on_enemy_killed(enemy):
 	if $Player.alive:
 		kills += 1
 	
-	# Place gibs, regardless of cause of death
+	# Place debris, regardless of cause of death
 	if $Area2D.overlaps_body(enemy):
 		var instance: Sprite
 		if enemy.bomb or enemy.max_health > 1:
-			instance = gib_large.instance()
+			instance = debris_large.instance()
 		else:
-			instance = gib_small.instance()
+			instance = debris_small.instance()
 		
 		instance.position = enemy.position
 		instance.rotation = randf() * (2 * PI)
-		instance.add_to_group("Gibs")
+		instance.add_to_group("Debris")
 		add_child(instance)
 
 
