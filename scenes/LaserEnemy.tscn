@@ -24,6 +24,7 @@ laser = true
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, 0.5 )
 rotation = 1.5708
 texture = ExtResource( 1 )
 

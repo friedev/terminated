@@ -85,7 +85,12 @@ func _physics_process(delta: float):
 	if velocity.length() > velocity_threshold:
 		rotation = velocity.angle()
 
-	var collision = move_and_collide(velocity * delta)
+	var collision: KinematicCollision2D
+	if flocking:
+		collision = move_and_collide(velocity * delta)
+	else:
+		collision = move_and_collide(velocity * delta, true, true, true)
+
 	if collision:
 		if collision.collider == player:
 			player.die()
@@ -95,6 +100,9 @@ func _physics_process(delta: float):
 			elif max_health == 1 and collision.collider.max_health > 1:
 				die()
 				return
+
+	if not flocking:
+		velocity = move_and_slide(velocity)
 
 
 func direction_to_player() -> Vector2:
