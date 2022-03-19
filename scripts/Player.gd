@@ -274,7 +274,9 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
 		var object_hit = $RayCast2D.get_collider()
-		if "Enemy" in object_hit.name:
+		if object_hit is TileMap:
+			break
+		if object_hit.is_in_group("enemies"):
 			object_hit.damage(damage, (object_hit.position - self.position).normalized() * knockback, stun)
 			if object_hit.health > 0:
 				break

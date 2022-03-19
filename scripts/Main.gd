@@ -75,8 +75,16 @@ func _ready():
 	#seed(123)
 	#seed("CorrectHorseBatteryStaple".hash())
 
-	var x_range = arena_radius / $TileMap.cell_size.x
-	var y_range = arena_radius / $TileMap.cell_size.y
+	var x_range = arena_radius * 2 / $TileMap.cell_size.x
+	var y_range = arena_radius * 2 / $TileMap.cell_size.y
+	for x in range(-x_range, x_range):
+		for y in range(-y_range, y_range):
+			var flip_x := randi() % 2 == 0
+			var flip_y := randi() % 2 == 0
+			$TileMap.set_cell(x, y, 1, flip_x, flip_y)
+
+	x_range = arena_radius / $TileMap.cell_size.x
+	y_range = arena_radius / $TileMap.cell_size.y
 	for x in range(-x_range, x_range):
 		for y in range(-y_range, y_range):
 			$TileMap.set_cell(x, y, 0)
@@ -180,12 +188,6 @@ func _physics_process(delta):
 		flock_center /= len(flock)
 
 
-# If the player leaves the arena, they die
-func _on_Area2D_body_exited(body):
-	if body == $Player:
-		$Player.die()
-
-
 func _input(event):
 	if event.is_action_pressed("quit"):
 		if $Player.alive:
@@ -221,17 +223,16 @@ func _on_enemy_killed(enemy):
 		kills += 1
 
 	# Place debris, regardless of cause of death
-	if $Area2D.overlaps_body(enemy):
-		var instance: Sprite
-		if enemy.bomb or enemy.max_health > 1:
-			instance = debris_large.instance()
-		else:
-			instance = debris_small.instance()
+	var instance: Sprite
+	if enemy.bomb or enemy.max_health > 1:
+		instance = debris_large.instance()
+	else:
+		instance = debris_small.instance()
 
-		instance.position = enemy.position
-		instance.rotation = randf() * (2 * PI)
-		instance.add_to_group("Debris")
-		add_child(instance)
+	instance.position = enemy.position
+	instance.rotation = randf() * (2 * PI)
+	instance.add_to_group("Debris")
+	add_child(instance)
 
 
 func _draw():
