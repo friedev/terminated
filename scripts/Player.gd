@@ -115,16 +115,8 @@ func cooling_down():
 func _input(event):
 	var time := OS.get_ticks_msec()
 
-	if event.is_action_pressed("zoom_in"):
-		if $ShakeCamera2D.zoom.x > 0.125:
-			$ShakeCamera2D.zoom *= 0.5
-
-	elif event.is_action_pressed("zoom_out"):
-		if $ShakeCamera2D.zoom.x < 8.0:
-			$ShakeCamera2D.zoom *= 2.0
-
 	# Detects quick taps of the shoot button
-	elif event.is_action_pressed("shoot1"):
+	if event.is_action_pressed("shoot1"):
 		shoot_pressed = true
 		shoot_pressed_time = time
 

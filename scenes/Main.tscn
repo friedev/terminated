@@ -128,12 +128,9 @@ margin_top = 250.0
 margin_right = 176.0
 margin_bottom = 304.0
 theme = ExtResource( 7 )
-text = "VERSION 1.0.0
+text = "VERSION 2.0.0-DEV
 BY AARON FRIESEN
 HTTPS://MAUGRIFT.COM"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="InstructionsLabel" type="Label" parent="MenuLayer/Control"]
 anchor_left = 0.5
@@ -143,7 +140,7 @@ anchor_bottom = 0.5
 margin_left = 220.0
 margin_top = 135.0
 margin_right = 396.0
-margin_bottom = 284.0
+margin_bottom = 265.0
 theme = ExtResource( 7 )
 text = "       [R] TO START
      [ESC] TO QUIT
@@ -151,8 +148,7 @@ text = "       [R] TO START
     [WASD] TO MOVE
 HOLD [LMB] TO SHOOT
  TAP [LMB] FOR SHOTGUN
-     [RMB] FOR LASER
-  [SCROLL] TO ZOOM"
+     [RMB] FOR LASER"
 
 [node name="SoundLabel" type="Label" parent="MenuLayer/Control"]
 anchor_left = 1.0
