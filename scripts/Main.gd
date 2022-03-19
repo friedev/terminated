@@ -3,7 +3,7 @@ extends Node2D
 class Wave:
 	var time: float # seconds
 	var enemies: Array
-	
+
 	func _init(time: float, enemies: Array):
 		self.time = time
 		self.enemies = enemies
@@ -66,23 +66,26 @@ var kills := 0
 var wave := 0
 var final_wave_delay := final_wave_initial_delay
 
+var flock_center: Vector2
+var flock_heading: Vector2
+
 func _ready():
 	randomize()
 	# OR use a seed, e.g.:
 	#seed(123)
 	#seed("CorrectHorseBatteryStaple".hash())
-	
+
 	var x_range = arena_radius / $TileMap.cell_size.x
 	var y_range = arena_radius / $TileMap.cell_size.y
 	for x in range(-x_range, x_range):
 		for y in range(-y_range, y_range):
 			$TileMap.set_cell(x, y, 0)
-	
+
 	$Player.visible = false
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
 	$Player.set_process_input(false)
-	
+
 	$MenuLayer/Control/FullscreenCheckBox.pressed = OS.get_name() != "HTML5"
 
 
@@ -92,25 +95,25 @@ func setup():
 	# from an enemy collision when respawning
 	for bullet in get_tree().get_nodes_in_group("Bullets"):
 		bullet.free()
-	
+
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		enemy.free()
-	
+
 	for debris in get_tree().get_nodes_in_group("Debris"):
 		debris.free()
-	
+
 	kills = 0
 	wave = 0
 	final_wave_delay = final_wave_initial_delay
-	
+
 	$Player.setup()
 	$Player.visible = true
 	$Player.set_process(true)
 	$Player.set_physics_process(true)
 	$Player.set_process_input(true)
-	
+
 	$MenuLayer/Control.visible = false
-	
+
 	$SpawnTimer.wait_time = waves[0].time
 	start_time = OS.get_ticks_msec()
 	$SpawnTimer.start()
@@ -144,7 +147,7 @@ func spawn_enemy(enemy_scene):
 func _process(delta: float):
 	# Needed for _draw() to work
 	update()
-	
+
 	# Update timer; stop timer after player dies
 	if $Player.alive:
 		var milliseconds := OS.get_ticks_msec() - start_time
@@ -155,8 +158,23 @@ func _process(delta: float):
 		$HUDLayer/Control/TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
 	else:
 		$MenuLayer/Control.visible = true
-	
+
 	$HUDLayer/Control/FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
+
+
+func _physics_process(delta):
+	# Calculate flock parameters here to avoid recomputing for every flockmate
+	# Reduces time complexity from O(n^2) to O(n)
+	var flock = get_tree().get_nodes_in_group("flock")
+	flock_center = Vector2()
+	flock_heading = Vector2()
+	for flockmate in flock:
+		flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
+		flock_center += flockmate.position
+
+	if len(flock) > 0:
+		flock_heading /= len(flock)
+		flock_center /= len(flock)
 
 
 # If the player leaves the arena, they die
@@ -171,17 +189,17 @@ func _input(event):
 			$Player.die()
 		elif OS.get_name() != "HTML5":
 			get_tree().quit()
-	
+
 	elif event.is_action_pressed("restart"):
 		setup()
-	
+
 	elif event.is_action_pressed("fps"):
 		$HUDLayer/Control/FPSLabel.visible = !$HUDLayer/Control/FPSLabel.visible
 
 func _on_Timer_timeout():
 	if not $Player.alive:
 		return
-	
+
 	spawn_wave(wave)
 
 	if wave < len(waves) - 1:
@@ -197,7 +215,7 @@ func _on_Timer_timeout():
 func _on_enemy_killed(enemy):
 	if $Player.alive:
 		kills += 1
-	
+
 	# Place debris, regardless of cause of death
 	if $Area2D.overlaps_body(enemy):
 		var instance: Sprite
@@ -205,7 +223,7 @@ func _on_enemy_killed(enemy):
 			instance = debris_large.instance()
 		else:
 			instance = debris_small.instance()
-		
+
 		instance.position = enemy.position
 		instance.rotation = randf() * (2 * PI)
 		instance.add_to_group("Debris")
@@ -219,7 +237,7 @@ func _draw():
 		var power: float = 1.0 - float(time - $Player.last_shot_time) / float(weapon.laser_duration)
 		if power > 0.0:
 			draw_line($Player.laser_start, $Player.laser_end, weapon.color, 4.0 * power, false)
-	
+
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:

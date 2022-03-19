@@ -17,7 +17,7 @@ class Weapon:
 	var particles: Particles2D
 	var shake_duration: float # seconds
 	var shake_amplitude: int
-	
+
 	func _init(
 			name: String,
 			damage: int,
@@ -35,6 +35,7 @@ class Weapon:
 			particles: Particles2D,
 			shake_duration: float,
 			shake_amplitude: int):
+		self.name = name
 		self.damage = damage
 		self.bullet_count = bullet_count
 		self.bullet_speed = bullet_speed
@@ -113,7 +114,7 @@ func cooling_down():
 
 func _input(event):
 	var time := OS.get_ticks_msec()
-	
+
 	if event.is_action_pressed("zoom_in"):
 		if $ShakeCamera2D.zoom.x > 0.125:
 			$ShakeCamera2D.zoom *= 0.5
@@ -154,7 +155,7 @@ func _physics_process(delta: float):
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot2") or cooling_down()):
+		if cooling_down() or (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot1")):
 			new_velocity = input_velocity.normalized()
 			magnitude = walk_speed
 			$FlyParticles.emitting = false
@@ -176,7 +177,7 @@ func _physics_process(delta: float):
 	new_rotation += PI
 	# TODO export variable for rotation weight
 	rotation = lerp_angle(rotation, new_rotation, 15 * delta)
-	
+
 	var shoot_currently_pressed := Input.is_action_pressed("shoot1")
 	if shoot_currently_pressed or shoot_pressed:
 		var time := OS.get_ticks_msec()
@@ -187,7 +188,7 @@ func _physics_process(delta: float):
 		elif not shoot_currently_pressed and not using_machine_gun:
 			shoot_pressed = false
 			shoot_weapon(SHOTGUN)
-	
+
 	# Detects holding down the shoot button
 	elif Input.is_action_pressed("shoot2"):
 		shoot_weapon(LASER)
@@ -213,7 +214,7 @@ func shoot_weapon(weapon_index: int):
 						weapon.knockback,
 						weapon.stun,
 						weapon.color)
-			
+
 		if weapon.particles != null:
 			weapon.particles.restart()
 		if weapon.sound != null:
