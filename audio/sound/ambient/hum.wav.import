@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/enemy_hum.wav-77962ec86681ce2a37f2eb0fe6cc2085.sample"
+path="res://.import/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample"
 
 [deps]
 
-source_file="res://audio/sound/enemy_hum.wav"
-dest_files=[ "res://.import/enemy_hum.wav-77962ec86681ce2a37f2eb0fe6cc2085.sample" ]
+source_file="res://audio/sound/ambient/hum.wav"
+dest_files=[ "res://.import/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample" ]
 
 [params]
 

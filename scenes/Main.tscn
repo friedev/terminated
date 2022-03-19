@@ -16,7 +16,7 @@
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 8, 8 )
+0/region = Rect2( 0, 0, 32, 32 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
@@ -41,7 +41,7 @@ script = ExtResource( 4 )
 light_mask = 3
 z_index = -1
 tile_set = SubResource( 1 )
-cell_size = Vector2( 8, 8 )
+cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
 occluder_light_mask = 3
 format = 1
@@ -313,7 +313,6 @@ pressed = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
-autoplay = true
 bus = "Music"
 
 [node name="Area2D" type="Area2D" parent="."]

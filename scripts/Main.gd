@@ -89,7 +89,6 @@ func _ready():
 	$MenuLayer/Control/FullscreenCheckBox.pressed = OS.get_name() != "HTML5"
 
 
-
 func setup():
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
@@ -144,6 +143,10 @@ func spawn_enemy(enemy_scene):
 	instance.connect("enemy_killed", self, "_on_enemy_killed")
 
 
+func rand_pitch():
+	return randf() / 4.0 + 0.875
+
+
 func _process(delta: float):
 	# Needed for _draw() to work
 	update()
@@ -196,6 +199,7 @@ func _input(event):
 	elif event.is_action_pressed("fps"):
 		$HUDLayer/Control/FPSLabel.visible = !$HUDLayer/Control/FPSLabel.visible
 
+
 func _on_Timer_timeout():
 	if not $Player.alive:
 		return
@@ -241,7 +245,7 @@ func _draw():
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:
-				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 1.0, false)
+				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 2.0, false)
 			else:
 				var time := OS.get_ticks_msec()
 				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)

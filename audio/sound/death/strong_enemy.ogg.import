@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/strong_enemy.ogg-872506364491324fb27fe888f8574e81.oggstr"
+
+[deps]
+
+source_file="res://audio/sound/death/strong_enemy.ogg"
+dest_files=[ "res://.import/strong_enemy.ogg-872506364491324fb27fe888f8574e81.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

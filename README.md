@@ -18,9 +18,9 @@ TERMINATED (including all code, art, and music) was created by [Aaron Friesen](h
 ## Assets and Tools
 
 - Font: [FixedSys Excelsior](https://github.com/kika/fixedsys)
-- Sound Effects: [jfxr](https://jfxr.frozenfractal.com) by [Thomas ten Cate](https://frozenfractal.com)
+- Sound Effects: see `SOUND_LICENSES.txt`
 
 ## License
 
 - The source code is available under the [GNU Affero General Public License v3](https://www.gnu.org/licenses/agpl-3.0.en.html) (see `LICENSE.txt`).
-- The assets (art, music, and sound effects) are available under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/) (see `ASSET_LICENSE.txt`).
+- All original assets (art, music, and original sound effects) are available under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/) (see `ASSET_LICENSE.txt`).

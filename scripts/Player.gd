@@ -66,11 +66,13 @@ enum {
 	LASER
 }
 
+# TODO remove hardcoded maximum cooldown
 const max_cooldown = 500
 
 export var walk_speed := 96
 export var fly_speed := 192
-export var inertia := 2
+export var inertia := 3
+export var fly_delay := 200 # milliseconds
 
 onready var bullet := preload("res://scenes/Bullet.tscn")
 onready var main: Node2D = get_tree().get_root().find_node("Main", true, false)
@@ -80,15 +82,16 @@ onready var iframe_modulate := Color(1, 1, 1, 0.5)
 
 var alive := false
 var velocity := Vector2()
-# TODO remove hardcoded maximum cooldown
 var last_shot_time := -max_cooldown # milliseconds
 var last_weapon: Weapon = null
 var current_shot_cooldown := 0 # milliseconds
 var laser_start := Vector2()
 var laser_end := Vector2()
 
-var shoot_pressed := false
-var shoot_pressed_time := -max_cooldown # milliseconds
+var shoot1_pressed := false
+var shoot1_pressed_time := -max_cooldown # milliseconds
+var shoot2_pressed := false
+var shoot2_pressed_time := -max_cooldown # milliseconds
 
 
 func setup():
@@ -97,14 +100,21 @@ func setup():
 	last_shot_time = -max_cooldown
 	current_shot_cooldown = 0
 	last_weapon = null
-	shoot_pressed = false
-	shoot_pressed_time = -max_cooldown
+	shoot1_pressed = false
+	shoot1_pressed_time = -max_cooldown
+	shoot2_pressed = false
+	shoot2_pressed_time = -max_cooldown
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
 	$Sprite.visible = true
 	$CollisionShape2D.disabled = false
 	$DeathParticles.emitting = false
+
+
+func fly_cooling_down():
+	var time := OS.get_ticks_msec()
+	return time - last_shot_time < current_shot_cooldown + fly_delay
 
 
 func cooling_down():
@@ -115,13 +125,15 @@ func cooling_down():
 func _input(event):
 	var time := OS.get_ticks_msec()
 
-	# Detects quick taps of the shoot button
 	if event.is_action_pressed("shoot1"):
-		shoot_pressed = true
-		shoot_pressed_time = time
+		shoot1_pressed = true
+		shoot1_pressed_time = time
 
-	elif Input.is_action_pressed("shoot2"):
-		shoot_weapon(LASER)
+	elif event.is_action_pressed("shoot2"):
+		shoot2_pressed = true
+		shoot2_pressed_time = time
+		if not shoot_weapon(LASER):
+			$ClickSound.play()
 
 
 func get_mouse_position():
@@ -147,11 +159,12 @@ func _physics_process(delta: float):
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if cooling_down() or (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot1")):
+		if fly_cooling_down() or (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot1")):
 			new_velocity = input_velocity.normalized()
 			magnitude = walk_speed
-			$FlyParticles.emitting = false
 			new_rotation = get_angle_to_mouse()
+			$FlyParticles.emitting = false
+			$FlySound.stop()
 		else:
 			if velocity.length() == 0 or is_equal_approx(abs(velocity.angle_to(input_velocity)), PI):
 				new_velocity = input_velocity.normalized()
@@ -160,63 +173,70 @@ func _physics_process(delta: float):
 			new_rotation = new_velocity.angle()
 			magnitude = fly_speed
 			$FlyParticles.emitting = true
+			if not $FlySound.playing:
+				$FlySound.play()
 		velocity = new_velocity * magnitude
 		velocity = move_and_slide(velocity)
 	else:
 		velocity = Vector2()
-		$FlyParticles.emitting = false
 		new_rotation = get_angle_to_mouse()
+		$FlyParticles.emitting = false
+		$FlySound.stop()
 	new_rotation += PI
 	# TODO export variable for rotation weight
 	rotation = lerp_angle(rotation, new_rotation, 15 * delta)
 
-	var shoot_currently_pressed := Input.is_action_pressed("shoot1")
-	if shoot_currently_pressed or shoot_pressed:
+	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
+	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
+	if shoot1_currently_pressed or shoot1_pressed:
 		var time := OS.get_ticks_msec()
-		var held_duration := time - shoot_pressed_time
+		var held_duration := time - shoot1_pressed_time
 		var using_machine_gun: bool = held_duration > weapons[MACHINE_GUN].cooldown
-		if shoot_currently_pressed and using_machine_gun:
+		if shoot1_currently_pressed and using_machine_gun:
 			shoot_weapon(MACHINE_GUN)
-		elif not shoot_currently_pressed and not using_machine_gun:
-			shoot_pressed = false
-			shoot_weapon(SHOTGUN)
+		elif not shoot1_currently_pressed and not using_machine_gun:
+			if not shoot_weapon(SHOTGUN):
+				$ClickSound.play()
+		shoot1_pressed = shoot1_currently_pressed
 
-	# Detects holding down the shoot button
-	elif Input.is_action_pressed("shoot2"):
+	elif shoot2_currently_pressed:
 		shoot_weapon(LASER)
+		shoot2_pressed = shoot2_currently_pressed
 
 
 func shoot_weapon(weapon_index: int):
 	var weapon: Weapon = weapons[weapon_index]
 	var time := OS.get_ticks_msec()
-	if not cooling_down():
-		if weapon.laser_duration > 0:
-			shoot_laser(
-				weapon.damage,
-				weapon.max_range,
-				weapon.knockback,
-				weapon.stun)
-		else:
-			for _i in weapon.bullet_count:
-				shoot_bullet(
-						weapon.damage,
-						weapon.bullet_speed,
-						weapon.max_range,
-						weapon.spread,
-						weapon.knockback,
-						weapon.stun,
-						weapon.color)
+	if cooling_down():
+		return false
 
-		if weapon.particles != null:
-			weapon.particles.restart()
-		if weapon.sound != null:
-			if weapon.random_pitch:
-				weapon.sound.pitch_scale = randf() + 0.5
-			weapon.sound.play()
-		last_shot_time = time
-		current_shot_cooldown = weapon.cooldown
-		last_weapon = weapon
-		$ShakeCamera2D.shake(weapon.shake_duration, weapon.shake_amplitude, weapon.shake_amplitude)
+	if weapon.laser_duration > 0:
+		shoot_laser(
+			weapon.damage,
+			weapon.max_range,
+			weapon.knockback,
+			weapon.stun)
+	else:
+		for _i in weapon.bullet_count:
+			shoot_bullet(
+					weapon.damage,
+					weapon.bullet_speed,
+					weapon.max_range,
+					weapon.spread,
+					weapon.knockback,
+					weapon.stun,
+					weapon.color)
+
+	if weapon.particles != null:
+		weapon.particles.restart()
+	if weapon.sound != null:
+		weapon.sound.pitch_scale = main.rand_pitch()
+		weapon.sound.play()
+	last_shot_time = time
+	current_shot_cooldown = weapon.cooldown
+	last_weapon = weapon
+	$ShakeCamera2D.shake(weapon.shake_duration, weapon.shake_amplitude, weapon.shake_amplitude)
+	return true
 
 
 func shoot_bullet(
@@ -281,4 +301,5 @@ func die():
 	$DeathSound1.play()
 	$DeathSound2.play()
 	$FlyParticles.emitting = false
+	$FlySound.stop()
 	$DeathParticles.emitting = true

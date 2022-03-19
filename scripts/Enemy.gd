@@ -32,7 +32,7 @@ const ALIGNMENT_WEIGHT = 0.5
 const COHESION_WEIGHT = 0.2
 const PLAYER_WEIGHT = 2.5
 const SEPARATION_DISTANCE = 20
-const FLOCK_RADIUS = 5000
+const FLOCK_RADIUS = 512
 
 onready var main: Node2D = get_tree().get_root().find_node("Main", true, false)
 onready var player: KinematicBody2D = get_tree().get_root().find_node("Player", true, false)
@@ -51,15 +51,12 @@ var last_shot_time := -laser_duration
 
 func _ready():
 	add_to_group("enemies")
-
 	if flocking:
 		add_to_group("flock")
-	else:
-		$AmbientSound.pitch_scale = randf() + 0.5
-		$AmbientSound.play()
-
 	if laser:
 		$CooldownTimer.start()
+	$AmbientSound.pitch_scale = main.rand_pitch()
+	$AmbientSound.play(randf() * $AmbientSound.stream.get_length())
 
 
 func _physics_process(delta: float):
@@ -114,7 +111,6 @@ func flock_separation() -> Vector2:
 	for body in $SeparationArea.get_overlapping_bodies():
 		if body == self or not body.is_in_group("enemies"):
 			continue
-
 		var distance := self.position.distance_to(body.position)
 		separation -= (body.position - self.position).normalized() * (SEPARATION_DISTANCE / distance)
 	return separation
@@ -148,14 +144,18 @@ func damage(amount: int, knockback = Vector2(), knockback_duration = 0.5):
 	# Enemies are NOT invincible while stunned
 	health -= amount
 
-	$HurtSound.pitch_scale = randf() + 0.5
-	$HurtSound.play()
-
 	if health <= 0:
 		die()
-	elif knockback_duration > 0:
+		return
+
+	if knockback_duration > 0:
 		stun_duration = knockback_duration
 		velocity = knockback
+
+	$HurtSound.pitch_scale = main.rand_pitch()
+	$HurtSound.play()
+	$DamageParticles.global_rotation = (-knockback).angle()
+	$DamageParticles.restart()
 
 
 func die():
@@ -163,13 +163,12 @@ func die():
 	set_physics_process(false)
 	$Sprite.visible = false
 	$CollisionShape2D.disabled = true
-	$DeathSound.pitch_scale = randf() + 0.5
+	$DeathSound.pitch_scale = main.rand_pitch()
 	$DeathSound.play()
+	$AmbientSound.stop()
 
 	if flocking:
 		remove_from_group("flock")
-	else:
-		$AmbientSound.stop()
 
 	if bomb:
 		for body in $BombArea.get_overlapping_bodies():
@@ -183,7 +182,6 @@ func die():
 	else:
 		$DeathParticles.emitting = true
 
-	$DeathTimer.start()
 	emit_signal("enemy_killed", self)
 
 
@@ -219,12 +217,12 @@ func _on_ChargeTimer_timeout():
 
 	$RayCast2D.clear_exceptions()
 	last_shot_time = OS.get_ticks_msec()
-	$LaserSound.pitch_scale = randf() + 0.5
+	$LaserSound.pitch_scale = main.rand_pitch()
 	$LaserSound.play()
 
 
 func split():
-	if not splitter or health <= 0 or player.health <= 0:
+	if not splitter or health <= 0 or not player.alive:
 		return
 
 	if len(get_tree().get_nodes_in_group("Enemies")) < max_enemies:
@@ -241,5 +239,5 @@ func _on_SplitTimer_timeout():
 	split()
 
 
-func _on_DeathTimer_timeout():
+func _on_DeathSound_finished():
 	queue_free()
