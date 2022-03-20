@@ -97,6 +97,16 @@ func _physics_process(delta: float):
 			elif max_health == 1 and collision.collider.max_health > 1:
 				die()
 				return
+		elif collision.collider is TileMap:
+			# TODO merge with other implementations
+			var tilemap = collision.collider
+			var cellv = tilemap.world_to_map(position) - collision.normal
+			var tile_id = tilemap.get_cellv(cellv)
+			if 0 < tile_id and tile_id < 9:
+				var new_tile_id = max(0, tile_id - 1)
+				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
 
 	if not flocking:
 		velocity = move_and_slide(velocity)
@@ -207,7 +217,7 @@ func _on_ChargeTimer_timeout():
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
 		var object_hit = $RayCast2D.get_collider()
-		if object_hit == player or "Enemy" in object_hit.name:
+		if object_hit == player or object_hit.is_in_group("enemies"):
 			object_hit.die()
 			# TODO just use normal damage when there are bosses
 			#if object_hit.health > 0:

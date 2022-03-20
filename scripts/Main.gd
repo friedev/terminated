@@ -47,8 +47,8 @@ export var final_wave_min_delay := 4
 onready var sound_bus_index = AudioServer.get_bus_index("Sound")
 onready var music_bus_index = AudioServer.get_bus_index("Music")
 
+export var map_radius := 1024
 export var arena_radius := 256
-export var spawn_radius := 256
 
 onready var debris_small := preload("res://scenes/Debris.tscn")
 onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
@@ -61,6 +61,8 @@ onready var enemies := [
 	preload("res://scenes/BombEnemy.tscn"),
 ]
 
+const TILE_HEALTH := 8
+
 var start_time: int
 var kills := 0
 var wave := 0
@@ -71,23 +73,6 @@ var flock_heading: Vector2
 
 func _ready():
 	randomize()
-	# OR use a seed, e.g.:
-	#seed(123)
-	#seed("CorrectHorseBatteryStaple".hash())
-
-	var x_range = arena_radius * 2 / $TileMap.cell_size.x
-	var y_range = arena_radius * 2 / $TileMap.cell_size.y
-	for x in range(-x_range, x_range):
-		for y in range(-y_range, y_range):
-			var flip_x := randi() % 2 == 0
-			var flip_y := randi() % 2 == 0
-			$TileMap.set_cell(x, y, 1, flip_x, flip_y)
-
-	x_range = arena_radius / $TileMap.cell_size.x
-	y_range = arena_radius / $TileMap.cell_size.y
-	for x in range(-x_range, x_range):
-		for y in range(-y_range, y_range):
-			$TileMap.set_cell(x, y, 0)
 
 	$Player.visible = false
 	$Player.set_process(false)
@@ -98,6 +83,19 @@ func _ready():
 
 
 func setup():
+	var map_tiles = map_radius / $TileMap.cell_size.x
+	var arena_tiles = arena_radius / $TileMap.cell_size.x
+	for x in range(-map_tiles, map_tiles + 1):
+		for y in range(-map_tiles, map_tiles + 1):
+			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
+				$TileMap.set_cell(x, y, 0)
+			elif abs(x) == map_tiles or abs(y) == map_tiles:
+				$TileMap.set_cell(x, y, TILE_HEALTH + 1)
+			else:
+				var flip_x := randi() % 2 == 0
+				var flip_y := randi() % 2 == 0
+				$TileMap.set_cell(x, y, TILE_HEALTH, flip_x, flip_y)
+
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
 	for bullet in get_tree().get_nodes_in_group("Bullets"):
@@ -135,8 +133,8 @@ func spawn_wave(index: int):
 func spawn_enemy(enemy_scene):
 	# Make sure to update splitter spawn code too (Enemy.gd)
 	var instance = enemy_scene.instance()
-	var pos_range = (randf() * 2 - 1) * spawn_radius
-	var pos_binary = (randi() % 2 * 2 - 1) * spawn_radius
+	var pos_range = (randf() * 2 - 1) * arena_radius
+	var pos_binary = (randi() % 2 * 2 - 1) * arena_radius
 	var x
 	var y
 	if randi() % 2 == 0:
