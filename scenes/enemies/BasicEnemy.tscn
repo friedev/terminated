@@ -1,19 +1,19 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://audio/sound/death/enemy.ogg" type="AudioStream" id=1]
+[ext_resource path="res://scenes/DeathParticles.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://audio/sound/death/enemy.ogg" type="AudioStream" id=3]
 [ext_resource path="res://audio/sound/hurt/enemy.wav" type="AudioStream" id=4]
-[ext_resource path="res://audio/sound/ambient/basic_enemy.ogg" type="AudioStream" id=5]
-[ext_resource path="res://sprites/enemy1.png" type="Texture" id=6]
-[ext_resource path="res://scenes/DeathParticles.tscn" type="PackedScene" id=7]
-[ext_resource path="res://sprites/enemy2.png" type="Texture" id=8]
+[ext_resource path="res://sprites/enemy1.png" type="Texture" id=5]
+[ext_resource path="res://audio/sound/ambient/basic_enemy.ogg" type="AudioStream" id=6]
+[ext_resource path="res://sprites/enemy2.png" type="Texture" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 3.0
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "default",
 "speed": 8.0
@@ -46,18 +46,18 @@ stream = ExtResource( 4 )
 bus = "Sound"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 1 )
+stream = ExtResource( 3 )
 volume_db = 1.0
 bus = "Sound"
 
 [node name="AmbientSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 5 )
+stream = ExtResource( 6 )
 volume_db = 1.0
 max_distance = 256.0
 attenuation = 2.0
 bus = "Sound"
 
-[node name="DeathParticles" parent="." instance=ExtResource( 7 )]
+[node name="DeathParticles" parent="." instance=ExtResource( 1 )]
 
 [node name="SeparationArea" type="Area2D" parent="."]
 monitorable = false

@@ -54,11 +54,11 @@ onready var debris_small := preload("res://scenes/Debris.tscn")
 onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
 
 onready var enemies := [
-	preload("res://scenes/BasicEnemy.tscn"),
-	preload("res://scenes/StrongEnemy.tscn"),
-	preload("res://scenes/LaserEnemy.tscn"),
-	preload("res://scenes/SplitterEnemy.tscn"),
-	preload("res://scenes/BombEnemy.tscn"),
+	preload("res://scenes/enemies/BasicEnemy.tscn"),
+	preload("res://scenes/enemies/StrongEnemy.tscn"),
+	preload("res://scenes/enemies/LaserEnemy.tscn"),
+	preload("res://scenes/enemies/SplitterEnemy.tscn"),
+	preload("res://scenes/enemies/BombEnemy.tscn"),
 ]
 
 const TILE_HEALTH := 8
