@@ -219,9 +219,18 @@ func _on_ChargeTimer_timeout():
 		var object_hit = $RayCast2D.get_collider()
 		if object_hit == player or object_hit.is_in_group("enemies"):
 			object_hit.die()
-			# TODO just use normal damage when there are bosses
-			#if object_hit.health > 0:
-			#	break
+		elif object_hit is TileMap:
+			# TODO merge with other implementations
+			var tilemap = object_hit
+			var position_hit = collision_point + Vector2(object_hit.cell_size.x / 2, 0).rotated($RayCast2D.global_rotation)
+			var cellv = object_hit.world_to_map(position_hit)
+			var tile_id = tilemap.get_cellv(cellv)
+			if 0 < tile_id and tile_id < 9:
+				var new_tile_id = max(0, tile_id - 1)
+				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
+			break
 		$RayCast2D.add_exception(object_hit)
 		$RayCast2D.force_raycast_update()
 
