@@ -343,7 +343,7 @@ margin_bottom = 304.0
 theme = ExtResource( 7 )
 text = "VERSION 2.0.0-DEV
 BY AARON FRIESEN
-HTTPS://MAUGRIFT.COM"
+HTTPS://FRIE.DEV"
 
 [node name="InstructionsLabel" type="Label" parent="MenuLayer/Control"]
 anchor_left = 0.5

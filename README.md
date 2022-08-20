@@ -1,8 +1,8 @@
 # TERMINATED
 
-Slay robots in this top-down arena shooter inspired by [Devil Daggers](https://devildaggers.com/) by Sorath and [2DDD](https://www.youtube.com/watch?v=AdUhOtKY0ko) by Bintr. You can play it online on [itch](https://maugrift.itch.io/terminated).
+Slay robots in this top-down arena shooter inspired by [Devil Daggers](https://devildaggers.com/) by Sorath and [2DDD](https://www.youtube.com/watch?v=AdUhOtKY0ko) by Bintr.
 
-TERMINATED (including all code, art, and music) was created by [Aaron Friesen](https://maugrift.com). Contributions via GitHub pull requests are welcome! Some ideas for new content and changes can be found in `TODO.md`.
+TERMINATED (including all code, art, and music) was created by [Aaron Friesen](https://frie.dev).
 
 ## Instructions
 
