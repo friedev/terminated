@@ -526,6 +526,7 @@ pressed = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
+autoplay = true
 bus = "Music"
 
 [node name="SpawnTimer" type="Timer" parent="."]
