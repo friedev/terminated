@@ -22,7 +22,7 @@ export var bomb: bool
 export var velocity_threshold := 10.0
 
 # Can't preload this scene, since that causes Enemy.gd to be loaded, ergo a cyclic reference
-const splitter_enemy_path = "res://scenes/SplitterEnemy.tscn"
+const splitter_enemy_path = "res://scenes/enemies/SplitterEnemy.tscn"
 const max_enemies = 100
 
 # Flock parameters
