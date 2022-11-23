@@ -39,6 +39,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="AnimatedSprite" parent="."]
 rotation = 1.5708
 frames = SubResource( 3 )
+frame = 1
 playing = true
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]

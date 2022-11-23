@@ -1,14 +1,12 @@
 # TODO
 
 - Spawners appear in the walls
-- Walls block basic enemy movement
 - Draw explosion radius around exploders
 - Update explosion effect to match new visual style
 - Enlarge laser turrets and give them more health
 - Crushers block lasers and leave debris walls upon death
 - Explosions destroy walls
 - Wall damage/destruction sound
-- Damaged wall sprites
 - Debris floor tile left behind when debris walls are destroyed
 
 Enemy ideas:

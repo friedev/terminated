@@ -285,7 +285,9 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 			var cellv = object_hit.world_to_map(position_hit)
 			var tile_id = tilemap.get_cellv(cellv)
 			if 0 < tile_id and tile_id < 9:
-				var new_tile_id = max(0, tile_id - 1)
+				var new_tile_id = tile_id - 9
+				if new_tile_id <= 0:
+					new_tile_id = -1
 				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
 				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
 				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)

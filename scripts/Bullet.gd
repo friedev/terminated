@@ -29,7 +29,9 @@ func _physics_process(delta: float):
 			var cellv = tilemap.world_to_map(position) - collision.normal
 			var tile_id = tilemap.get_cellv(cellv)
 			if 0 < tile_id and tile_id < 9:
-				var new_tile_id = max(0, tile_id - 1)
+				var new_tile_id = tile_id - 1
+				if new_tile_id <= 0:
+					new_tile_id = -1
 				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
 				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
 				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)

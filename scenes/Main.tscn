@@ -259,6 +259,15 @@ collision_layer = 17
 collision_mask = 17
 format = 1
 
+[node name="FloorTileMap" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 32, 32 )
+cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
+centered_textures = true
+collision_layer = 17
+collision_mask = 17
+format = 1
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]

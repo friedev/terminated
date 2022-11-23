@@ -87,8 +87,9 @@ func setup():
 	var arena_tiles = arena_radius / $TileMap.cell_size.x
 	for x in range(-map_tiles, map_tiles + 1):
 		for y in range(-map_tiles, map_tiles + 1):
+			$FloorTileMap.set_cell(x, y, 0)
 			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
-				$TileMap.set_cell(x, y, 0)
+				$TileMap.set_cell(x, y, -1)
 			elif abs(x) == map_tiles or abs(y) == map_tiles:
 				$TileMap.set_cell(x, y, TILE_HEALTH + 1)
 			else:
@@ -133,8 +134,9 @@ func spawn_wave(index: int):
 func spawn_enemy(enemy_scene):
 	# Make sure to update splitter spawn code too (Enemy.gd)
 	var instance = enemy_scene.instance()
-	var pos_range = (randf() * 2 - 1) * arena_radius
-	var pos_binary = (randi() % 2 * 2 - 1) * arena_radius
+	var padding := 4
+	var pos_range = (randf() * 2 - 1) * (arena_radius - padding)
+	var pos_binary = (randi() % 2 * 2 - 1) * (arena_radius - padding)
 	var x
 	var y
 	if randi() % 2 == 0:

@@ -89,28 +89,45 @@ func _physics_process(delta: float):
 		collision = move_and_collide(velocity * delta, true, true, true)
 
 	if collision:
-		if collision.collider == player:
-			player.die()
-		elif collision.collider.is_in_group("enemies"):
-			if max_health > 1 and collision.collider.max_health == 1:
-				collision.collider.die()
-			elif max_health == 1 and collision.collider.max_health > 1:
-				die()
-				return
-		elif collision.collider is TileMap:
-			# TODO merge with other implementations
-			var tilemap = collision.collider
-			var cellv = tilemap.world_to_map(position) - collision.normal
-			var tile_id = tilemap.get_cellv(cellv)
-			if 0 < tile_id and tile_id < 9:
-				var new_tile_id = max(0, tile_id - 1)
-				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
+		self.handle_collision(collision)
 
 	if not flocking:
 		velocity = move_and_slide(velocity)
+		for slide_idx in range(get_slide_count()):
+			self.handle_collision(get_slide_collision(slide_idx))
 
+
+func handle_collision(collision: KinematicCollision2D) -> void:
+	if collision.collider == player:
+		player.die()
+	elif collision.collider.is_in_group("enemies"):
+		if max_health > 1 and collision.collider.max_health == 1:
+			collision.collider.die()
+		elif max_health == 1 and collision.collider.max_health > 1:
+			die()
+			return
+	elif collision.collider is TileMap:
+		print(OS.get_ticks_msec())
+		# TODO merge with other implementations
+		var tilemap: TileMap = collision.collider
+		var cellv = tilemap.world_to_map(collision.position + collision.travel)
+		var tile_id = tilemap.get_cellv(cellv)
+		if 0 < tile_id and tile_id < 9:
+			var damage: int
+			if max_health == 1:
+				damage = 1
+			else:
+				damage = 9
+			var new_tile_id = tile_id - damage
+			if new_tile_id <= 0:
+				new_tile_id = -1
+			var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+			var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+			tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
+			tilemap.update_dirty_quadrants()
+		if max_health == 1:
+			die()
+			return
 
 func direction_to_player() -> Vector2:
 	return -Vector2(1, 0).rotated(position.angle_to_point(player.position))
