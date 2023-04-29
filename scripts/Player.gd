@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 class Weapon:
 	var name: String
@@ -14,7 +14,7 @@ class Weapon:
 	var sound: AudioStreamPlayer
 	var random_pitch: bool
 	var color: Color
-	var particles: Particles2D
+	var particles: GPUParticles2D
 	var shake_duration: float # seconds
 	var shake_amplitude: int
 
@@ -32,7 +32,7 @@ class Weapon:
 			sound: AudioStreamPlayer,
 			random_pitch: bool,
 			color: Color,
-			particles: Particles2D,
+			particles: GPUParticles2D,
 			shake_duration: float,
 			shake_amplitude: int):
 		self.name = name
@@ -53,7 +53,7 @@ class Weapon:
 		self.shake_amplitude = shake_amplitude
 
 
-onready var weapons := [
+@onready var weapons := [
 	#          Name          DMG CT Speed   Range   CLD  SPRD  KnockB Stun  Laser Sound            Rand   Color           Particles        SDur Amp
 	Weapon.new("Machine Gun", 1, 1, 1500.0, 1536.0, 100, 0.0,  48.0,  0.25, 0,   $MachineGunSound, false, Color(1, 1, 1), $ShootParticles, 0.2, 8),
 	Weapon.new("Shotgun",     1, 8, 1500.0, 1536.0, 500, 45.0, 192.0, 0.25, 0,   $ShotgunSound,    true,  Color(1, 1, 1), $ShootParticles, 0.4, 10),
@@ -69,19 +69,18 @@ enum {
 # TODO remove hardcoded maximum cooldown
 const max_cooldown = 500
 
-export var walk_speed := 96
-export var fly_speed := 192
-export var inertia := 3
-export var fly_delay := 200 # milliseconds
+@export var walk_speed := 96
+@export var fly_speed := 192
+@export var inertia := 3
+@export var fly_delay := 200 # milliseconds
 
-onready var bullet := preload("res://scenes/Bullet.tscn")
-onready var main: Node2D = get_tree().get_root().find_node("Main", true, false)
-onready var base_modulate: Color = $Sprite.modulate
-onready var damage_modulate := Color(2, 2, 2, 1)
-onready var iframe_modulate := Color(1, 1, 1, 0.5)
+@onready var bullet := preload("res://scenes/Bullet.tscn")
+@onready var main: Node2D = get_tree().get_root().find_child("Main", true, false)
+@onready var base_modulate: Color = $Sprite2D.modulate
+@onready var damage_modulate := Color(2, 2, 2, 1)
+@onready var iframe_modulate := Color(1, 1, 1, 0.5)
 
 var alive := false
-var velocity := Vector2()
 var last_shot_time := -max_cooldown # milliseconds
 var last_weapon: Weapon = null
 var current_shot_cooldown := 0 # milliseconds
@@ -107,23 +106,23 @@ func setup():
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
-	$Sprite.visible = true
+	$Sprite2D.visible = true
 	$CollisionShape2D.disabled = false
 	$DeathParticles.emitting = false
 
 
 func fly_cooling_down():
-	var time := OS.get_ticks_msec()
+	var time := Time.get_ticks_msec()
 	return time - last_shot_time < current_shot_cooldown + fly_delay
 
 
 func cooling_down():
-	var time := OS.get_ticks_msec()
+	var time := Time.get_ticks_msec()
 	return time - last_shot_time < current_shot_cooldown
 
 
 func _input(event):
-	var time := OS.get_ticks_msec()
+	var time := Time.get_ticks_msec()
 
 	if event.is_action_pressed("shoot1"):
 		shoot1_pressed = true
@@ -141,7 +140,7 @@ func get_mouse_position():
 
 
 func get_angle_to_mouse():
-	return global_position.angle_to_point(get_mouse_position())
+	return global_position.angle_to_point(get_mouse_position()) + PI
 
 
 func _physics_process(delta: float):
@@ -176,7 +175,9 @@ func _physics_process(delta: float):
 			if not $FlySound.playing:
 				$FlySound.play()
 		velocity = new_velocity * magnitude
-		velocity = move_and_slide(velocity)
+		set_velocity(velocity)
+		move_and_slide()
+		velocity = velocity
 	else:
 		velocity = Vector2()
 		new_rotation = get_angle_to_mouse()
@@ -184,12 +185,12 @@ func _physics_process(delta: float):
 		$FlySound.stop()
 	new_rotation += PI
 	# TODO export variable for rotation weight
-	rotation = lerp_angle(rotation, new_rotation, 15 * delta)
+	rotation = lerp_angle(rotation, new_rotation, 24 * delta)
 
 	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
 	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
 	if shoot1_currently_pressed or shoot1_pressed:
-		var time := OS.get_ticks_msec()
+		var time := Time.get_ticks_msec()
 		var held_duration := time - shoot1_pressed_time
 		var using_machine_gun: bool = held_duration > weapons[MACHINE_GUN].cooldown
 		if shoot1_currently_pressed and using_machine_gun:
@@ -206,7 +207,7 @@ func _physics_process(delta: float):
 
 func shoot_weapon(weapon_index: int):
 	var weapon: Weapon = weapons[weapon_index]
-	var time := OS.get_ticks_msec()
+	var time := Time.get_ticks_msec()
 	if cooling_down():
 		return false
 
@@ -247,7 +248,7 @@ func shoot_bullet(
 		knockback: float,
 		stun: float,
 		color: Color):
-	var instance = bullet.instance()
+	var instance = bullet.instantiate()
 	instance.position = position
 	instance.initial_position = instance.position
 	instance.initial_velocity = velocity
@@ -261,36 +262,37 @@ func shoot_bullet(
 	main.add_child(instance)
 	# look_at() must be called after the instance has entered the tree
 	instance.look_at(get_mouse_position())
-	instance.rotation += (randf() * spread) - (spread * 0.5)
 	# TODO export variable for distance to stop bullet appearing behind player
-	instance.position += Vector2(16, 0).rotated(instance.rotation)
+	instance.position += Vector2(8, 0).rotated(instance.rotation)
+	instance.rotation += (randf() * spread) - (spread * 0.5)
 
 
 func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 	$RayCast2D.look_at(get_mouse_position())
-	$RayCast2D.cast_to = Vector2(max_range, 0)
+	$RayCast2D.target_position = Vector2(max_range, 0)
 	$RayCast2D.force_raycast_update()
 	var collision_point: Vector2
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
 		var object_hit = $RayCast2D.get_collider()
 		if object_hit.is_in_group("enemies"):
-			object_hit.damage(damage, (object_hit.position - self.position).normalized() * knockback, stun)
+			object_hit.damage_by(damage, (object_hit.position - self.position).normalized() * knockback, stun)
 			if object_hit.health > 0:
 				break
 		elif object_hit is TileMap:
 			# TODO merge with other implementations
 			var tilemap = object_hit
-			var position_hit = collision_point + Vector2(object_hit.cell_size.x / 2, 0).rotated($RayCast2D.global_rotation)
-			var cellv = object_hit.world_to_map(position_hit)
-			var tile_id = tilemap.get_cellv(cellv)
+			var position_hit = collision_point + Vector2(object_hit.tile_set.tile_size.x / 2, 0).rotated($RayCast2D.global_rotation)
+			var cellv = object_hit.local_to_map(position_hit)
+			var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
 			if 0 < tile_id and tile_id < 9:
 				var new_tile_id = tile_id - 9
 				if new_tile_id <= 0:
 					new_tile_id = -1
-				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
+				# TODOO flip tiles
+				#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+				tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
 			break
 		$RayCast2D.add_exception(object_hit)
 		$RayCast2D.force_raycast_update()
@@ -300,7 +302,7 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 	if $RayCast2D.is_colliding():
 		laser_end = collision_point
 	else:
-		laser_end = $RayCast2D.cast_to.rotated($RayCast2D.global_rotation) + position
+		laser_end = $RayCast2D.target_position.rotated($RayCast2D.global_rotation) + position
 
 
 func die():
@@ -308,7 +310,7 @@ func die():
 	set_process(false)
 	set_physics_process(false)
 	set_process_input(false)
-	$Sprite.visible = false
+	$Sprite2D.visible = false
 	# Directly setting disabled leads to a seemingly harmless debugger error
 	# that recommends using call_deferred, so may as well
 	$CollisionShape2D.call_deferred("set_disabled", true)

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample"
+type="AudioStreamWAV"
+uid="uid://blrh40ileupur"
+path="res://.godot/imported/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample"
 
 [deps]
 
 source_file="res://audio/sound/ambient/hum.wav"
-dest_files=[ "res://.import/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample" ]
+dest_files=["res://.godot/imported/hum.wav-d7e6c210c0641c0a116a7bb4556cc9d6.sample"]
 
 [params]
 

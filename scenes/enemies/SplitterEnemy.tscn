@@ -5,12 +5,12 @@
 [ext_resource path="res://audio/sound/death/enemy.ogg" type="AudioStream" id=3]
 [ext_resource path="res://audio/sound/hurt/enemy.wav" type="AudioStream" id=4]
 [ext_resource path="res://audio/sound/ambient/basic_enemy.ogg" type="AudioStream" id=5]
-[ext_resource path="res://sprites/splitter_enemy.png" type="Texture" id=6]
+[ext_resource path="res://sprites/splitter_enemy.png" type="Texture2D" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.0
 
-[node name="SplitterEnemy" type="KinematicBody2D"]
+[node name="SplitterEnemy" type="CharacterBody2D"]
 collision_layer = 5
 collision_mask = 5
 script = ExtResource( 2 )
@@ -24,7 +24,7 @@ splitter = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
 texture = ExtResource( 6 )
 centered = false

@@ -1,368 +1,191 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=15 format=3 uid="uid://nkchromsigtb"]
 
-[ext_resource path="res://ui/themes/theme_hud_title.tres" type="Theme" id=1]
-[ext_resource path="res://audio/music/terminated_loop.mp3" type="AudioStream" id=2]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/Main.gd" type="Script" id=4]
-[ext_resource path="res://ui/themes/theme_hud.tres" type="Theme" id=7]
-[ext_resource path="res://sprites/check.png" type="Texture" id=8]
-[ext_resource path="res://ui/styles/stylebox_button_pressed.tres" type="StyleBox" id=9]
-[ext_resource path="res://ui/styles/stylebox_button_hover.tres" type="StyleBox" id=10]
-[ext_resource path="res://ui/styles/stylebox_button.tres" type="StyleBox" id=11]
-[ext_resource path="res://sprites/tileset.png" type="Texture" id=12]
+[ext_resource type="Theme" uid="uid://da474bp0h3mo0" path="res://ui/themes/theme_hud_title.tres" id="1"]
+[ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
+[ext_resource type="PackedScene" uid="uid://bhsrj2uu8y4ay" path="res://scenes/Player.tscn" id="3"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
+[ext_resource type="Theme" uid="uid://bxdnwo7vo2bnr" path="res://ui/themes/theme_hud.tres" id="7"]
+[ext_resource type="Texture2D" uid="uid://c6auno7vgvnpi" path="res://sprites/check.png" id="8"]
+[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_pressed.tres" id="9"]
+[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_hover.tres" id="10"]
+[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button.tres" id="11"]
+[ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="12"]
 
-[sub_resource type="ConvexPolygonShape2D" id=4]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
+texture = ExtResource("12")
+texture_region_size = Vector2i(48, 48)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:0/0 = 0
+4:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:0/0/physics_layer_0/angular_velocity = 0.0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+5:0/0 = 0
+5:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+5:0/0/physics_layer_0/angular_velocity = 0.0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:0/0 = 0
+6:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:0/0/physics_layer_0/angular_velocity = 0.0
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+7:0/0 = 0
+7:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+7:0/0/physics_layer_0/angular_velocity = 0.0
+7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+8:0/0 = 0
+8:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+8:0/0/physics_layer_0/angular_velocity = 0.0
+8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+9:0/0 = 0
+9:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+9:0/0/physics_layer_0/angular_velocity = 0.0
+9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
-[sub_resource type="ConvexPolygonShape2D" id=5]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
+[sub_resource type="TileSet" id="1"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 31
+physics_layer_0/collision_mask = 31
+sources/0 = SubResource("TileSetAtlasSource_tpcbk")
 
-[sub_resource type="ConvexPolygonShape2D" id=6]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
+[sub_resource type="ImageTexture" id="3"]
 
-[sub_resource type="ConvexPolygonShape2D" id=7]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
-
-[sub_resource type="ConvexPolygonShape2D" id=8]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
-
-[sub_resource type="ConvexPolygonShape2D" id=9]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
-
-[sub_resource type="ConvexPolygonShape2D" id=10]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
-
-[sub_resource type="ConvexPolygonShape2D" id=11]
-points = PoolVector2Array( 40, 40, 8, 40, 8, 8, 40, 8 )
-
-[sub_resource type="ConvexPolygonShape2D" id=12]
-points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[sub_resource type="TileSet" id=1]
-0/name = "tileset.png 0"
-0/texture = ExtResource( 12 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 8, 8, 32, 32 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape_one_way = false
-0/shape_one_way_margin = 0.0
-0/shapes = [  ]
-0/z_index = -1
-1/name = "tileset.png 1"
-1/texture = ExtResource( 12 )
-1/tex_offset = Vector2( 0, 0 )
-1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 48, 0, 48, 48 )
-1/tile_mode = 0
-1/occluder_offset = Vector2( 0, 0 )
-1/navigation_offset = Vector2( 0, 0 )
-1/shape_offset = Vector2( 0, 0 )
-1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape = SubResource( 4 )
-1/shape_one_way = false
-1/shape_one_way_margin = 1.0
-1/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 4 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-1/z_index = 1
-2/name = "tileset.png 2"
-2/texture = ExtResource( 12 )
-2/tex_offset = Vector2( 0, 0 )
-2/modulate = Color( 1, 1, 1, 1 )
-2/region = Rect2( 96, 0, 48, 48 )
-2/tile_mode = 0
-2/occluder_offset = Vector2( 0, 0 )
-2/navigation_offset = Vector2( 0, 0 )
-2/shape_offset = Vector2( 0, 0 )
-2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-2/shape = SubResource( 5 )
-2/shape_one_way = false
-2/shape_one_way_margin = 1.0
-2/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 5 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-2/z_index = 1
-3/name = "tileset.png 3"
-3/texture = ExtResource( 12 )
-3/tex_offset = Vector2( 0, 0 )
-3/modulate = Color( 1, 1, 1, 1 )
-3/region = Rect2( 144, 0, 48, 48 )
-3/tile_mode = 0
-3/occluder_offset = Vector2( 0, 0 )
-3/navigation_offset = Vector2( 0, 0 )
-3/shape_offset = Vector2( 0, 0 )
-3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-3/shape = SubResource( 6 )
-3/shape_one_way = false
-3/shape_one_way_margin = 1.0
-3/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 6 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-3/z_index = 1
-4/name = "tileset.png 4"
-4/texture = ExtResource( 12 )
-4/tex_offset = Vector2( 0, 0 )
-4/modulate = Color( 1, 1, 1, 1 )
-4/region = Rect2( 192, 0, 48, 48 )
-4/tile_mode = 0
-4/occluder_offset = Vector2( 0, 0 )
-4/navigation_offset = Vector2( 0, 0 )
-4/shape_offset = Vector2( 0, 0 )
-4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-4/shape = SubResource( 7 )
-4/shape_one_way = false
-4/shape_one_way_margin = 1.0
-4/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 7 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-4/z_index = 1
-5/name = "tileset.png 5"
-5/texture = ExtResource( 12 )
-5/tex_offset = Vector2( 0, 0 )
-5/modulate = Color( 1, 1, 1, 1 )
-5/region = Rect2( 240, 0, 48, 48 )
-5/tile_mode = 0
-5/occluder_offset = Vector2( 0, 0 )
-5/navigation_offset = Vector2( 0, 0 )
-5/shape_offset = Vector2( 0, 0 )
-5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-5/shape = SubResource( 8 )
-5/shape_one_way = false
-5/shape_one_way_margin = 1.0
-5/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 8 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-5/z_index = 1
-6/name = "tileset.png 6"
-6/texture = ExtResource( 12 )
-6/tex_offset = Vector2( 0, 0 )
-6/modulate = Color( 1, 1, 1, 1 )
-6/region = Rect2( 288, 0, 48, 48 )
-6/tile_mode = 0
-6/occluder_offset = Vector2( 0, 0 )
-6/navigation_offset = Vector2( 0, 0 )
-6/shape_offset = Vector2( 0, 0 )
-6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-6/shape = SubResource( 9 )
-6/shape_one_way = false
-6/shape_one_way_margin = 1.0
-6/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 9 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-6/z_index = 1
-7/name = "tileset.png 7"
-7/texture = ExtResource( 12 )
-7/tex_offset = Vector2( 0, 0 )
-7/modulate = Color( 1, 1, 1, 1 )
-7/region = Rect2( 336, 0, 48, 48 )
-7/tile_mode = 0
-7/occluder_offset = Vector2( 0, 0 )
-7/navigation_offset = Vector2( 0, 0 )
-7/shape_offset = Vector2( 0, 0 )
-7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-7/shape = SubResource( 10 )
-7/shape_one_way = false
-7/shape_one_way_margin = 1.0
-7/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 10 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-7/z_index = 1
-8/name = "tileset.png 8"
-8/texture = ExtResource( 12 )
-8/tex_offset = Vector2( 0, 0 )
-8/modulate = Color( 1, 1, 1, 1 )
-8/region = Rect2( 384, 0, 48, 48 )
-8/tile_mode = 0
-8/occluder_offset = Vector2( 0, 0 )
-8/navigation_offset = Vector2( 0, 0 )
-8/shape_offset = Vector2( 0, 0 )
-8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-8/shape = SubResource( 11 )
-8/shape_one_way = false
-8/shape_one_way_margin = 1.0
-8/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 11 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-8/z_index = 1
-9/name = "tileset.png 9"
-9/texture = ExtResource( 12 )
-9/tex_offset = Vector2( 0, 0 )
-9/modulate = Color( 1, 1, 1, 1 )
-9/region = Rect2( 440, 8, 32, 32 )
-9/tile_mode = 0
-9/occluder_offset = Vector2( 0, 0 )
-9/navigation_offset = Vector2( 0, 0 )
-9/shape_offset = Vector2( 0, 0 )
-9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-9/shape = SubResource( 12 )
-9/shape_one_way = false
-9/shape_one_way_margin = 1.0
-9/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 12 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-9/z_index = 1
-
-[sub_resource type="ImageTexture" id=2]
-
-[sub_resource type="ImageTexture" id=3]
+[sub_resource type="ImageTexture" id="2"]
 
 [node name="Main" type="Node2D"]
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
-cell_size = Vector2( 32, 32 )
-cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
-centered_textures = true
-collision_layer = 17
-collision_mask = 17
-format = 1
+z_index = 1
+tile_set = SubResource("1")
+format = 2
 
 [node name="FloorTileMap" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
-cell_size = Vector2( 32, 32 )
-cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
-centered_textures = true
-collision_layer = 17
-collision_mask = 17
-format = 1
+z_index = -5
+tile_set = SubResource("1")
+format = 2
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
+[node name="Player" parent="." instance=ExtResource("3")]
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="HUDLayer"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_scale = Vector2( 2, 2 )
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(2, 2)
 
 [node name="TimerLabel" type="Label" parent="HUDLayer/Control"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 280.0
-margin_top = 16.0
-margin_right = 252.0
-margin_bottom = 32.0
-theme = ExtResource( 7 )
+offset_left = 280.0
+offset_top = 16.0
+offset_right = 252.0
+offset_bottom = 32.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "00:00.00"
-align = 1
 
 [node name="KillsLabel" type="Label" parent="HUDLayer/Control"]
 visible = false
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 292.0
-margin_top = 16.0
-margin_right = 424.0
-margin_bottom = 32.0
-theme = ExtResource( 7 )
+offset_left = 292.0
+offset_top = 16.0
+offset_right = 424.0
+offset_bottom = 32.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "KILLS: 0"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="FPSLabel" type="Label" parent="HUDLayer/Control"]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 280.0
-margin_top = 288.0
-margin_right = 272.0
-margin_bottom = 304.0
-theme = ExtResource( 7 )
+offset_left = 280.0
+offset_top = 288.0
+offset_right = 272.0
+offset_bottom = 304.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "FPS: 60"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="MenuLayer"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_scale = Vector2( 2, 2 )
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(2, 2)
 
 [node name="TitleLabel" type="Label" parent="MenuLayer/Control"]
-modulate = Color( 1, 0, 0, 1 )
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 160.0
-margin_top = 80.0
-margin_right = 464.0
-margin_bottom = 112.0
-theme = ExtResource( 1 )
+offset_left = 160.0
+offset_top = 80.0
+offset_right = 464.0
+offset_bottom = 112.0
+theme = ExtResource("1")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 32
 text = "T E R M I N A T E D"
-align = 1
+horizontal_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = 250.0
-margin_right = 176.0
-margin_bottom = 304.0
-theme = ExtResource( 7 )
+offset_left = 16.0
+offset_top = 250.0
+offset_right = 176.0
+offset_bottom = 304.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "VERSION 2.0.0-DEV
 BY AARON FRIESEN
 HTTPS://FRIE.DEV"
 
 [node name="InstructionsLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 220.0
-margin_top = 135.0
-margin_right = 396.0
-margin_bottom = 265.0
-theme = ExtResource( 7 )
+offset_left = 220.0
+offset_top = 135.0
+offset_right = 396.0
+offset_bottom = 265.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "       [R] TO START
      [ESC] TO QUIT
 	
@@ -372,170 +195,161 @@ HOLD [LMB] TO SHOOT
      [RMB] FOR LASER"
 
 [node name="SoundLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 504.0
-margin_top = 168.0
-margin_right = 544.0
-margin_bottom = 184.0
-theme = ExtResource( 7 )
+offset_left = 504.0
+offset_top = 168.0
+offset_right = 544.0
+offset_bottom = 184.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "SOUND"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 2
 
 [node name="MusicLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 504.0
-margin_top = 208.0
-margin_right = 544.0
-margin_bottom = 224.0
-theme = ExtResource( 7 )
+offset_left = 504.0
+offset_top = 208.0
+offset_right = 544.0
+offset_bottom = 224.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "MUSIC"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 2
 
 [node name="FullscreenLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 441.0
-margin_top = 248.0
-margin_right = 544.0
-margin_bottom = 264.0
-theme = ExtResource( 7 )
+offset_left = 441.0
+offset_top = 248.0
+offset_right = 544.0
+offset_bottom = 264.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "FULLSCREEN"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 2
 
 [node name="ScreenShakeLabel" type="Label" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 441.0
-margin_top = 288.0
-margin_right = 544.0
-margin_bottom = 304.0
-theme = ExtResource( 7 )
+offset_left = 441.0
+offset_top = 288.0
+offset_right = 544.0
+offset_bottom = 304.0
+theme = ExtResource("7")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 text = "SCREEN SHAKE"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 2
 
 [node name="SoundCheckBox" type="CheckBox" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 560.0
-margin_top = 160.0
-margin_right = 584.0
-margin_bottom = 184.0
-theme = ExtResource( 7 )
-custom_icons/radio_checked = ExtResource( 8 )
-custom_icons/checked = ExtResource( 8 )
-custom_icons/radio_unchecked = SubResource( 2 )
-custom_icons/unchecked = SubResource( 3 )
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 11 )
-custom_styles/disabled = ExtResource( 9 )
-custom_styles/hover_pressed = ExtResource( 11 )
-custom_styles/normal = ExtResource( 11 )
-pressed = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 560.0
+offset_top = 160.0
+offset_right = 584.0
+offset_bottom = 184.0
+theme = ExtResource("7")
+theme_override_icons/checked = ExtResource("8")
+theme_override_icons/unchecked = SubResource("3")
+theme_override_icons/radio_checked = ExtResource("8")
+theme_override_icons/radio_unchecked = SubResource("2")
+theme_override_styles/normal = ExtResource("11")
+theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/disabled = ExtResource("9")
+theme_override_styles/hover = ExtResource("10")
+theme_override_styles/hover_pressed = ExtResource("11")
+theme_override_styles/focus = ExtResource("11")
 
 [node name="MusicCheckBox" type="CheckBox" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 560.0
-margin_top = 200.0
-margin_right = 584.0
-margin_bottom = 224.0
-theme = ExtResource( 7 )
-custom_icons/radio_checked = ExtResource( 8 )
-custom_icons/checked = ExtResource( 8 )
-custom_icons/radio_unchecked = SubResource( 2 )
-custom_icons/unchecked = SubResource( 3 )
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 11 )
-custom_styles/disabled = ExtResource( 9 )
-custom_styles/hover_pressed = ExtResource( 11 )
-custom_styles/normal = ExtResource( 11 )
-pressed = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 560.0
+offset_top = 200.0
+offset_right = 584.0
+offset_bottom = 224.0
+theme = ExtResource("7")
+theme_override_icons/checked = ExtResource("8")
+theme_override_icons/unchecked = SubResource("3")
+theme_override_icons/radio_checked = ExtResource("8")
+theme_override_icons/radio_unchecked = SubResource("2")
+theme_override_styles/normal = ExtResource("11")
+theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/disabled = ExtResource("9")
+theme_override_styles/hover = ExtResource("10")
+theme_override_styles/hover_pressed = ExtResource("11")
+theme_override_styles/focus = ExtResource("11")
 
 [node name="FullscreenCheckBox" type="CheckBox" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 560.0
-margin_top = 240.0
-margin_right = 584.0
-margin_bottom = 264.0
-theme = ExtResource( 7 )
-custom_icons/radio_checked = ExtResource( 8 )
-custom_icons/checked = ExtResource( 8 )
-custom_icons/radio_unchecked = SubResource( 2 )
-custom_icons/unchecked = SubResource( 3 )
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 11 )
-custom_styles/disabled = ExtResource( 9 )
-custom_styles/hover_pressed = ExtResource( 11 )
-custom_styles/normal = ExtResource( 11 )
-pressed = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 560.0
+offset_top = 240.0
+offset_right = 584.0
+offset_bottom = 264.0
+theme = ExtResource("7")
+theme_override_icons/checked = ExtResource("8")
+theme_override_icons/unchecked = SubResource("3")
+theme_override_icons/radio_checked = ExtResource("8")
+theme_override_icons/radio_unchecked = SubResource("2")
+theme_override_styles/normal = ExtResource("11")
+theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/disabled = ExtResource("9")
+theme_override_styles/hover = ExtResource("10")
+theme_override_styles/hover_pressed = ExtResource("11")
+theme_override_styles/focus = ExtResource("11")
 
 [node name="ScreenShakeCheckbox" type="CheckBox" parent="MenuLayer/Control"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 560.0
-margin_top = 280.0
-margin_right = 584.0
-margin_bottom = 304.0
-theme = ExtResource( 7 )
-custom_icons/radio_checked = ExtResource( 8 )
-custom_icons/checked = ExtResource( 8 )
-custom_icons/radio_unchecked = SubResource( 2 )
-custom_icons/unchecked = SubResource( 3 )
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 11 )
-custom_styles/disabled = ExtResource( 9 )
-custom_styles/hover_pressed = ExtResource( 11 )
-custom_styles/normal = ExtResource( 11 )
-pressed = true
+offset_left = 560.0
+offset_top = 280.0
+offset_right = 584.0
+offset_bottom = 304.0
+theme = ExtResource("7")
+theme_override_icons/checked = ExtResource("8")
+theme_override_icons/unchecked = SubResource("3")
+theme_override_icons/radio_checked = ExtResource("8")
+theme_override_icons/radio_unchecked = SubResource("2")
+theme_override_styles/normal = ExtResource("11")
+theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/disabled = ExtResource("9")
+theme_override_styles/hover = ExtResource("10")
+theme_override_styles/hover_pressed = ExtResource("11")
+theme_override_styles/focus = ExtResource("11")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
+stream = ExtResource("2")
 autoplay = true
-bus = "Music"
+bus = &"Music"
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 4.0

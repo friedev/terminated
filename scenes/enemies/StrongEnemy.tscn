@@ -1,52 +1,57 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=14 format=3 uid="uid://cxewjd2bwbqeb"]
 
-[ext_resource path="res://scenes/DeathParticles.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/Enemy.gd" type="Script" id=2]
-[ext_resource path="res://sprites/strong_enemy3.png" type="Texture" id=3]
-[ext_resource path="res://audio/sound/death/strong_enemy.ogg" type="AudioStream" id=4]
-[ext_resource path="res://sprites/strong_enemy1.png" type="Texture" id=5]
-[ext_resource path="res://audio/sound/ambient/strong_enemy.ogg" type="AudioStream" id=6]
-[ext_resource path="res://sprites/strong_enemy2.png" type="Texture" id=7]
-[ext_resource path="res://audio/sound/hurt/enemy.ogg" type="AudioStream" id=8]
+[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/strong_enemy3.png" id="3"]
+[ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="4"]
+[ext_resource type="Texture2D" uid="uid://c0aa6d8mmhfbv" path="res://sprites/strong_enemy1.png" id="5"]
+[ext_resource type="AudioStream" uid="uid://vetmfm2xmluv" path="res://audio/sound/ambient/strong_enemy.ogg" id="6"]
+[ext_resource type="Texture2D" uid="uid://l2gpo6duqw5s" path="res://sprites/strong_enemy2.png" id="7"]
+[ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="8"]
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 8, 8 )
+[sub_resource type="RectangleShape2D" id="6"]
+size = Vector2(12, 12)
 
-[sub_resource type="SpriteFrames" id=7]
-animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 3 ), ExtResource( 5 ) ],
+[sub_resource type="SpriteFrames" id="7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}],
 "loop": true,
-"name": "default",
+"name": &"default",
 "speed": 8.0
-} ]
+}]
 
-[sub_resource type="Curve" id=8]
-_data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
+[sub_resource type="Curve" id="8"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 8 )
+[sub_resource type="CurveTexture" id="9"]
+curve = SubResource("8")
 
-[sub_resource type="ParticlesMaterial" id=10]
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 200.0
-initial_velocity_random = 0.5
-angular_velocity = 50.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = -200.0
-scale = 2.0
-scale_random = 0.5
-scale_curve = SubResource( 9 )
-color = Color( 0.12549, 0.12549, 0.12549, 1 )
+[sub_resource type="ParticleProcessMaterial" id="10"]
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 92.0
+initial_velocity_max = 128.0
+damping_min = 256.0
+damping_max = 256.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("9")
+color = Color(0.12549, 0.12549, 0.12549, 1)
 
-[node name="StrongEnemy" type="KinematicBody2D"]
-scale = Vector2( 2, 2 )
+[node name="StrongEnemy" type="CharacterBody2D"]
+scale = Vector2(2, 2)
 collision_layer = 5
 collision_mask = 5
-script = ExtResource( 2 )
+script = ExtResource("2")
 acceleration = 2.0
 max_speed = 128.0
 max_health = 8
@@ -54,37 +59,37 @@ damage = 1
 attack_knockback = 256.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 6 )
+shape = SubResource("6")
 
-[node name="Sprite" type="AnimatedSprite" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 1.5708
-frames = SubResource( 7 )
+sprite_frames = SubResource("7")
 frame = 1
-playing = true
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 8 )
-bus = "Sound"
+stream = ExtResource("8")
+bus = &"Sound"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
-bus = "Sound"
+stream = ExtResource("4")
+bus = &"Sound"
 
 [node name="AmbientSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource("6")
 volume_db = 1.0
 max_distance = 512.0
 attenuation = 2.0
-bus = "Sound"
+bus = &"Sound"
 
-[node name="DeathParticles" parent="." instance=ExtResource( 1 )]
+[node name="DeathParticles" parent="." instance=ExtResource("1")]
 
-[node name="DamageParticles" type="Particles2D" parent="."]
+[node name="DamageParticles" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 12
-lifetime = 0.25
+process_material = SubResource("10")
+lifetime = 0.15
 one_shot = true
+preprocess = 0.05
 explosiveness = 1.0
-process_material = SubResource( 10 )
 
 [connection signal="finished" from="DeathSound" to="." method="_on_DeathSound_finished"]

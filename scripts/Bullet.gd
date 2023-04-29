@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var player: KinematicBody2D = get_tree().get_root().find_node("Player", true, false)
+@onready var player: CharacterBody2D = get_tree().get_root().find_child("Player", true, false)
 
 var damage: int
 var speed: float
@@ -19,23 +19,24 @@ func _ready():
 func _physics_process(delta: float):
 	var velocity := initial_velocity + Vector2(cos(self.rotation), sin(self.rotation)) * speed
 	var collision := move_and_collide(velocity * delta)
-	if collision and collision.collider != player:
-		if collision.collider.is_in_group("enemies"):
-			var enemy = collision.collider
-			enemy.damage(damage, (enemy.position - self.position).normalized() * knockback, stun)
-		elif collision.collider is TileMap:
+	if collision and collision.get_collider() != player:
+		if collision.get_collider().is_in_group("enemies"):
+			var enemy = collision.get_collider()
+			enemy.damage_by(damage, (enemy.position - self.position).normalized() * knockback, stun)
+		elif collision.get_collider() is TileMap:
 			# TODO merge with other implementations
-			var tilemap = collision.collider
-			var cellv = tilemap.world_to_map(position) - collision.normal
-			var tile_id = tilemap.get_cellv(cellv)
+			var tilemap = collision.get_collider()
+			var cellv = Vector2i(Vector2(tilemap.local_to_map(position)) - collision.get_normal())
+			var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
 			if 0 < tile_id and tile_id < 9:
 				var new_tile_id = tile_id - 1
 				if new_tile_id <= 0:
 					new_tile_id = -1
-				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
-		if not collision.collider.is_in_group("bullets"):
+				# TODO flip tiles
+				#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+				tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
+		if not collision.get_collider().is_in_group("bullets"):
 			queue_free()
 	elif initial_position.distance_to(position) > max_range:
 		queue_free()

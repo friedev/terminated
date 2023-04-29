@@ -40,20 +40,20 @@ var waves := [
 	Wave.new(140, [16, 2, 1, 1, 2]),
 ]
 
-export var final_wave_initial_delay := 10
-export var final_wave_delay_decrement := 1
-export var final_wave_min_delay := 4
+@export var final_wave_initial_delay := 10
+@export var final_wave_delay_decrement := 1
+@export var final_wave_min_delay := 4
 
-onready var sound_bus_index = AudioServer.get_bus_index("Sound")
-onready var music_bus_index = AudioServer.get_bus_index("Music")
+@onready var sound_bus_index = AudioServer.get_bus_index("Sound")
+@onready var music_bus_index = AudioServer.get_bus_index("Music")
 
-export var map_radius := 1024
-export var arena_radius := 256
+@export var map_radius := 1024
+@export var arena_radius := 256
 
-onready var debris_small := preload("res://scenes/Debris.tscn")
-onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
+@onready var debris_small := preload("res://scenes/Debris.tscn")
+@onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
 
-onready var enemies := [
+@onready var enemies := [
 	preload("res://scenes/enemies/BasicEnemy.tscn"),
 	preload("res://scenes/enemies/StrongEnemy.tscn"),
 	preload("res://scenes/enemies/LaserEnemy.tscn"),
@@ -79,23 +79,24 @@ func _ready():
 	$Player.set_physics_process(false)
 	$Player.set_process_input(false)
 
-	$MenuLayer/Control/FullscreenCheckBox.pressed = OS.get_name() != "HTML5"
+	$MenuLayer/Control/FullscreenCheckBox.button_pressed = OS.get_name() != "HTML5"
 
 
 func setup():
-	var map_tiles = map_radius / $TileMap.cell_size.x
-	var arena_tiles = arena_radius / $TileMap.cell_size.x
+	var map_tiles = map_radius / $TileMap.tile_set.tile_size.x
+	var arena_tiles = arena_radius / $TileMap.tile_set.tile_size.x
 	for x in range(-map_tiles, map_tiles + 1):
 		for y in range(-map_tiles, map_tiles + 1):
-			$FloorTileMap.set_cell(x, y, 0)
+			$FloorTileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
-				$TileMap.set_cell(x, y, -1)
+				$TileMap.set_cell(0, Vector2i(x, y))
 			elif abs(x) == map_tiles or abs(y) == map_tiles:
-				$TileMap.set_cell(x, y, TILE_HEALTH + 1)
+				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 1, 0))
 			else:
-				var flip_x := randi() % 2 == 0
-				var flip_y := randi() % 2 == 0
-				$TileMap.set_cell(x, y, TILE_HEALTH, flip_x, flip_y)
+				# TODO use alternative tiles to flip walls for variety
+#				var flip_x := randi() % 2 == 0
+#				var flip_y := randi() % 2 == 0
+				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH, 0))
 
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
@@ -121,7 +122,7 @@ func setup():
 	$MenuLayer/Control.visible = false
 
 	$SpawnTimer.wait_time = waves[0].time
-	start_time = OS.get_ticks_msec()
+	start_time = Time.get_ticks_msec()
 	$SpawnTimer.start()
 
 
@@ -133,7 +134,7 @@ func spawn_wave(index: int):
 
 func spawn_enemy(enemy_scene):
 	# Make sure to update splitter spawn code too (Enemy.gd)
-	var instance = enemy_scene.instance()
+	var instance = enemy_scene.instantiate()
 	var padding := 4
 	var pos_range = (randf() * 2 - 1) * (arena_radius - padding)
 	var pos_binary = (randi() % 2 * 2 - 1) * (arena_radius - padding)
@@ -148,7 +149,7 @@ func spawn_enemy(enemy_scene):
 	instance.position = Vector2(x, y)
 	instance.add_to_group("Enemies")
 	add_child(instance)
-	instance.connect("enemy_killed", self, "_on_enemy_killed")
+	instance.connect("enemy_killed", Callable(self, "_on_enemy_killed"))
 
 
 func rand_pitch():
@@ -156,12 +157,12 @@ func rand_pitch():
 
 
 func _process(delta: float):
-	# Needed for _draw() to work
-	update()
+	# Call _draw() dynamically
+	queue_redraw()
 
 	# Update timer; stop timer after player dies
 	if $Player.alive:
-		var milliseconds := OS.get_ticks_msec() - start_time
+		var milliseconds := Time.get_ticks_msec() - start_time
 		var seconds := milliseconds / 1000
 		var minutes := seconds / 60
 		milliseconds %= 1000
@@ -223,11 +224,11 @@ func _on_enemy_killed(enemy):
 		kills += 1
 
 	# Place debris, regardless of cause of death
-	var instance: Sprite
+	var instance: Sprite2D
 	if enemy.bomb or enemy.max_health > 1:
-		instance = debris_large.instance()
+		instance = debris_large.instantiate()
 	else:
-		instance = debris_small.instance()
+		instance = debris_small.instantiate()
 
 	instance.position = enemy.position
 	instance.rotation = randf() * (2 * PI)
@@ -238,20 +239,20 @@ func _on_enemy_killed(enemy):
 func _draw():
 	var weapon = $Player.last_weapon
 	if weapon != null and weapon.laser_duration > 0:
-		var time := OS.get_ticks_msec()
+		var time := Time.get_ticks_msec()
 		var power: float = 1.0 - float(time - $Player.last_shot_time) / float(weapon.laser_duration)
 		if power > 0.0:
-			draw_line($Player.laser_start, $Player.laser_end, weapon.color, 4.0 * power, false)
+			draw_line($Player.laser_start, $Player.laser_end, weapon.color, 4.0 * power)
 
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:
-				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 2.0, false)
+				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 2.0)
 			else:
-				var time := OS.get_ticks_msec()
+				var time := Time.get_ticks_msec()
 				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)
 				if power > 0.0:
-					draw_line(enemy.position, enemy.laser_target, enemy.laser_shot_color, 4.0 * power, false)
+					draw_line(enemy.position, enemy.laser_target, enemy.laser_shot_color, 4.0 * power)
 
 
 func _on_SoundCheckBox_toggled(button_pressed):
@@ -263,7 +264,7 @@ func _on_MusicCheckBox_toggled(button_pressed):
 
 
 func _on_FullscreenCheckBox_toggled(button_pressed):
-	OS.window_fullscreen = button_pressed
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (button_pressed) else Window.MODE_WINDOWED
 
 
 func _on_ScreenShakeCheckbox_toggled(button_pressed):

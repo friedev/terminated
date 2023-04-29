@@ -1,25 +1,25 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 signal enemy_killed(enemy)
 
-export var acceleration: float
-export var max_speed: float
-export var max_health: int
-export var damage: int
-export var attack_knockback: float
+@export var acceleration: float
+@export var max_speed: float
+@export var max_health: int
+@export var damage: int
+@export var attack_knockback: float
 
-export var laser: bool
-export var laser_range := 1536.0
-export var laser_duration := 250
-export var laser_shot_color := Color(1, 0, 0, 1)
-export var laser_charge_color := Color(1, 0, 0, 0.5)
+@export var laser: bool
+@export var laser_range := 1536.0
+@export var laser_duration := 250
+@export var laser_shot_color := Color(1, 0, 0, 1)
+@export var laser_charge_color := Color(1, 0, 0, 0.5)
 
-export var flocking: bool
-export var splitter: bool
-export var bomb: bool
+@export var flocking: bool
+@export var splitter: bool
+@export var bomb: bool
 
 # If velocity is below this threshold, face the player instead of facing the velocity
-export var velocity_threshold := 10.0
+@export var velocity_threshold := 10.0
 
 # Can't preload this scene, since that causes Enemy.gd to be loaded, ergo a cyclic reference
 const splitter_enemy_path = "res://scenes/enemies/SplitterEnemy.tscn"
@@ -34,14 +34,13 @@ const PLAYER_WEIGHT = 2.5
 const SEPARATION_DISTANCE = 20
 const FLOCK_RADIUS = 512
 
-onready var main: Node2D = get_tree().get_root().find_node("Main", true, false)
-onready var player: KinematicBody2D = get_tree().get_root().find_node("Player", true, false)
+@onready var main: Node2D = get_tree().get_root().find_child("Main", true, false)
+@onready var player: CharacterBody2D = get_tree().get_root().find_child("Player", true, false)
 
-onready var base_modulate: Color = $Sprite.modulate
-onready var damage_modulate := Color(2, 2, 2, 1)
+@onready var base_modulate: Color = $Sprite2D.modulate
+@onready var damage_modulate := Color(2, 2, 2, 1)
 
-onready var health := max_health
-var velocity := Vector2()
+@onready var health := max_health
 var stun_duration := 0.0
 
 var charging := false
@@ -68,7 +67,9 @@ func _physics_process(delta: float):
 	if stun_duration > 0:
 		velocity -= (delta / stun_duration) * velocity
 		stun_duration -= delta
-		velocity = move_and_slide(velocity)
+		set_velocity(velocity)
+		move_and_slide()
+		velocity = velocity
 		return
 
 	var target_direction: Vector2
@@ -77,7 +78,7 @@ func _physics_process(delta: float):
 	else:
 		target_direction = direction_to_player()
 	velocity += target_direction * acceleration
-	velocity = velocity.clamped(max_speed)
+	velocity = velocity.limit_length(max_speed)
 
 	if velocity.length() > velocity_threshold:
 		rotation = velocity.angle()
@@ -92,26 +93,27 @@ func _physics_process(delta: float):
 		self.handle_collision(collision)
 
 	if not flocking:
-		velocity = move_and_slide(velocity)
-		for slide_idx in range(get_slide_count()):
+		set_velocity(velocity)
+		move_and_slide()
+		velocity = velocity
+		for slide_idx in range(get_slide_collision_count()):
 			self.handle_collision(get_slide_collision(slide_idx))
 
 
 func handle_collision(collision: KinematicCollision2D) -> void:
-	if collision.collider == player:
+	if collision.get_collider() == player:
 		player.die()
-	elif collision.collider.is_in_group("enemies"):
-		if max_health > 1 and collision.collider.max_health == 1:
-			collision.collider.die()
-		elif max_health == 1 and collision.collider.max_health > 1:
+	elif collision.get_collider().is_in_group("enemies"):
+		if max_health > 1 and collision.get_collider().max_health == 1:
+			collision.get_collider().die()
+		elif max_health == 1 and collision.get_collider().max_health > 1:
 			die()
 			return
-	elif collision.collider is TileMap:
-		print(OS.get_ticks_msec())
+	elif collision.get_collider() is TileMap:
 		# TODO merge with other implementations
-		var tilemap: TileMap = collision.collider
-		var cellv = tilemap.world_to_map(collision.position + collision.travel)
-		var tile_id = tilemap.get_cellv(cellv)
+		var tilemap: TileMap = collision.get_collider()
+		var cellv = tilemap.local_to_map(collision.get_position() + collision.get_travel())
+		var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
 		if 0 < tile_id and tile_id < 9:
 			var damage: int
 			if max_health == 1:
@@ -121,16 +123,17 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 			var new_tile_id = tile_id - damage
 			if new_tile_id <= 0:
 				new_tile_id = -1
-			var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-			var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-			tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
-			tilemap.update_dirty_quadrants()
+			# TODO flip tiles
+			#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+			#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+			tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
+			#tilemap.update_dirty_quadrants()
 		if max_health == 1:
 			die()
 			return
 
 func direction_to_player() -> Vector2:
-	return -Vector2(1, 0).rotated(position.angle_to_point(player.position))
+	return Vector2(1, 0).rotated(position.angle_to_point(player.position))
 
 
 func flock_separation() -> Vector2:
@@ -167,7 +170,7 @@ func flock_direction() -> Vector2:
 	return flock_direction.normalized()
 
 
-func damage(amount: int, knockback = Vector2(), knockback_duration = 0.5):
+func damage_by(amount: int, knockback = Vector2(), knockback_duration = 0.5):
 	# Enemies are NOT invincible while stunned
 	health -= amount
 
@@ -188,7 +191,7 @@ func damage(amount: int, knockback = Vector2(), knockback_duration = 0.5):
 func die():
 	health = 0
 	set_physics_process(false)
-	$Sprite.visible = false
+	$Sprite2D.visible = false
 	$CollisionShape2D.disabled = true
 	$DeathSound.pitch_scale = main.rand_pitch()
 	$DeathSound.play()
@@ -218,8 +221,8 @@ func _on_CooldownTimer_timeout():
 
 	$ChargeTimer.start()
 	charging = true
-	$RayCast2D.cast_to = Vector2(laser_range, 0)
-	laser_target = $RayCast2D.cast_to.rotated(rotation) + position
+	$RayCast2D.target_position = Vector2(laser_range, 0)
+	laser_target = $RayCast2D.target_position.rotated(rotation) + position
 
 
 func _on_ChargeTimer_timeout():
@@ -239,20 +242,21 @@ func _on_ChargeTimer_timeout():
 		elif object_hit is TileMap:
 			# TODO merge with other implementations
 			var tilemap = object_hit
-			var position_hit = collision_point + Vector2(object_hit.cell_size.x / 2, 0).rotated($RayCast2D.global_rotation)
-			var cellv = object_hit.world_to_map(position_hit)
-			var tile_id = tilemap.get_cellv(cellv)
+			var position_hit = collision_point + Vector2(object_hit.tile_set.tile_size.x / 2, 0).rotated($RayCast2D.global_rotation)
+			var cellv = object_hit.local_to_map(position_hit)
+			var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
 			if 0 < tile_id and tile_id < 9:
 				var new_tile_id = max(0, tile_id - 1)
-				var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-				var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-				tilemap.set_cellv(cellv, new_tile_id, flip_x, flip_y)
+				# TODO flip tiles
+				#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
+				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
+				tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
 			break
 		$RayCast2D.add_exception(object_hit)
 		$RayCast2D.force_raycast_update()
 
 	$RayCast2D.clear_exceptions()
-	last_shot_time = OS.get_ticks_msec()
+	last_shot_time = Time.get_ticks_msec()
 	$LaserSound.pitch_scale = main.rand_pitch()
 	$LaserSound.play()
 
@@ -262,13 +266,13 @@ func split():
 		return
 
 	if len(get_tree().get_nodes_in_group("Enemies")) < max_enemies:
-		var instance = load(splitter_enemy_path).instance()
+		var instance = load(splitter_enemy_path).instantiate()
 		instance.position = position + Vector2(8, 0).rotated(randf() * (2 * PI))
 		instance.rotation = rotation
 		instance.velocity = velocity
 		instance.add_to_group("Enemies")
 		main.add_child(instance)
-		instance.connect("enemy_killed", main, "_on_enemy_killed")
+		instance.connect("enemy_killed", Callable(main, "_on_enemy_killed"))
 
 
 func _on_SplitTimer_timeout():

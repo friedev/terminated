@@ -1,76 +1,73 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://8srlqpio0fvn"]
 
-[ext_resource path="res://scripts/Enemy.gd" type="Script" id=1]
-[ext_resource path="res://audio/sound/hurt/enemy.wav" type="AudioStream" id=2]
-[ext_resource path="res://audio/sound/death/strong_enemy.ogg" type="AudioStream" id=3]
-[ext_resource path="res://audio/sound/ambient/hum.wav" type="AudioStream" id=4]
-[ext_resource path="res://sprites/circle_white_small.png" type="Texture" id=5]
-[ext_resource path="res://sprites/bomb_enemy.png" type="Texture" id=6]
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://bcw7niniwp55n" path="res://audio/sound/hurt/enemy.wav" id="2"]
+[ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="3"]
+[ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="4"]
+[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/circle_white_small.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://by25s3ui25civ" path="res://sprites/bomb_enemy.png" id="6"]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id="1"]
 radius = 4.0
 
-[sub_resource type="Gradient" id=3]
-colors = PoolColorArray( 0.12549, 0.12549, 0.12549, 0.501961, 0, 0, 0, 0 )
+[sub_resource type="Gradient" id="3"]
+colors = PackedColorArray(0.12549, 0.12549, 0.12549, 0.501961, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture2D" id="4"]
+gradient = SubResource("3")
 
-[sub_resource type="Curve" id=5]
-_data = [ Vector2( 0, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Curve" id="5"]
+_data = [Vector2(0, 0), 0.0, 3.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id="6"]
+curve = SubResource("5")
 
-[sub_resource type="ParticlesMaterial" id=7]
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
+[sub_resource type="ParticleProcessMaterial" id="7"]
+direction = Vector3(0, 0, 0)
 spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 250.0
-initial_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = -250.0
-scale = 4.0
-scale_random = 0.5
-scale_curve = SubResource( 6 )
-color_ramp = SubResource( 4 )
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 64.0
+initial_velocity_max = 92.0
+damping_min = 64.0
+damping_max = 64.0
+scale_max = 1.5
+scale_curve = SubResource("6")
+color_ramp = SubResource("4")
 
-[sub_resource type="Gradient" id=8]
-colors = PoolColorArray( 1, 1, 0, 1, 1, 0, 0, 1 )
+[sub_resource type="Gradient" id="Gradient_k6o0u"]
+colors = PackedColorArray(1, 0.831373, 0, 1, 0.756863, 0.0980392, 0, 1)
 
-[sub_resource type="GradientTexture" id=9]
-gradient = SubResource( 8 )
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j4g1q"]
+gradient = SubResource("Gradient_k6o0u")
 
-[sub_resource type="Curve" id=10]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Curve" id="10"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id="11"]
+curve = SubResource("10")
 
-[sub_resource type="ParticlesMaterial" id=12]
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
+[sub_resource type="ParticleProcessMaterial" id="12"]
+direction = Vector3(0, 0, 0)
 spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 250.0
-initial_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = -250.0
-scale = 16.0
-scale_random = 0.5
-scale_curve = SubResource( 11 )
-color_ramp = SubResource( 9 )
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 92.0
+initial_velocity_max = 196.0
+damping_min = 196.0
+damping_max = 196.0
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("11")
+color_ramp = SubResource("GradientTexture1D_j4g1q")
 
-[sub_resource type="CircleShape2D" id=13]
+[sub_resource type="CircleShape2D" id="13"]
 radius = 64.0
 
-[node name="BombEnemy" type="KinematicBody2D"]
+[node name="BombEnemy" type="CharacterBody2D"]
 collision_layer = 5
 collision_mask = 5
-script = ExtResource( 1 )
+script = ExtResource("1")
 acceleration = 2.0
 max_speed = 128.0
 max_health = 1
@@ -79,47 +76,47 @@ attack_knockback = 256.0
 bomb = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
-texture = ExtResource( 6 )
+texture = ExtResource("6")
 
 [node name="HurtSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
-bus = "Sound"
+stream = ExtResource("2")
+bus = &"Sound"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
-bus = "Sound"
+stream = ExtResource("3")
+bus = &"Sound"
 
 [node name="AmbientSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource("4")
 volume_db = 1.0
 max_distance = 200.0
 attenuation = 2.0
-bus = "Sound"
+bus = &"Sound"
 
-[node name="BombParticles1" type="Particles2D" parent="."]
+[node name="BombParticles1" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 16
+process_material = SubResource("7")
+texture = ExtResource("5")
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5
-process_material = SubResource( 7 )
-texture = ExtResource( 5 )
 
-[node name="BombParticles2" type="Particles2D" parent="."]
+[node name="BombParticles2" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 32
+process_material = SubResource("12")
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5
-process_material = SubResource( 12 )
 
 [node name="BombArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea"]
-shape = SubResource( 13 )
+shape = SubResource("13")
 
 [connection signal="finished" from="DeathSound" to="." method="_on_DeathSound_finished"]
