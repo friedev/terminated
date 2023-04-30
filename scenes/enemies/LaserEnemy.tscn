@@ -14,8 +14,8 @@
 radius = 8.0
 
 [node name="LaserEnemy" type="CharacterBody2D" groups=["enemies"]]
-collision_layer = 5
-collision_mask = 5
+collision_layer = 4
+collision_mask = 15
 script = ExtResource("2")
 max_health = 8
 damage = 8
@@ -57,6 +57,7 @@ bus = &"Sound"
 [node name="LaserParticles" parent="." instance=ExtResource("9_pe8gd")]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 7
 
 [node name="ChargeTimer" type="Timer" parent="."]
 one_shot = true

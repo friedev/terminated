@@ -8,8 +8,8 @@ radius = 2.0
 
 [node name="Bullet" type="CharacterBody2D" groups=["bullets"]]
 z_index = -1
-collision_layer = 28
-collision_mask = 28
+collision_layer = 8
+collision_mask = 5
 script = ExtResource("2")
 damage = 1
 speed = 1500.0

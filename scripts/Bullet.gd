@@ -26,6 +26,5 @@ func _physics_process(delta: float) -> void:
 				#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
 				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
 				tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
-		# TODO update collision layers/masks to make this impossible
-		if not collision.get_collider().is_in_group(&"bullets"):
-			self.queue_free()
+		# Always destroyed in a collision
+		self.queue_free()
