@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyk5eat0qjxsn"]
+
+[ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_7e46r"]
+[ext_resource type="Script" path="res://scripts/shotgun.gd" id="2_ylbqb"]
+[ext_resource type="AudioStream" uid="uid://cqt7esja8in2t" path="res://audio/sound/weapons/shotgun.ogg" id="3_3imvm"]
+
+[sub_resource type="Curve" id="Curve_d124w"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jphku"]
+curve = SubResource("Curve_d124w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q0viq"]
+spread = 60.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 96.0
+initial_velocity_max = 128.0
+damping_min = 128.0
+damping_max = 128.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_jphku")
+
+[node name="Shotgun" instance=ExtResource("1_7e46r")]
+script = ExtResource("2_ylbqb")
+bullet_count = 8
+spread_degrees = 45.0
+cooldown = 1.0
+
+[node name="GPUParticles2D" parent="." index="0"]
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_q0viq")
+lifetime = 0.5
+
+[node name="AudioStreamPlayer2D" parent="." index="1"]
+stream = ExtResource("3_3imvm")
+volume_db = -2.0
+bus = &"Sound"

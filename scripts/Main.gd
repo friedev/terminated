@@ -255,21 +255,21 @@ func _on_enemy_killed(enemy: Enemy) -> void:
 
 
 func _draw() -> void:
-	var weapon = self.player.last_weapon
-	if weapon != null and weapon.laser_duration > 0:
-		var time := Time.get_ticks_msec()
-		var power: float = (
-			1.0
-			- float(time - self.player.last_shot_time)
-			/ float(weapon.laser_duration)
-		)
-		if power > 0.0:
-			self.draw_line(
-				self.player.laser_start,
-				self.player.laser_end,
-				weapon.color,
-				4.0 * power
-			)
+#	var weapon = self.player.last_weapon
+#	if weapon != null and weapon.laser_duration > 0:
+#		var time := Time.get_ticks_msec()
+#		var power: float = (
+#			1.0
+#			- float(time - self.player.last_shot_time)
+#			/ float(weapon.laser_duration)
+#		)
+#		if power > 0.0:
+#			self.draw_line(
+#				self.player.laser_start,
+#				self.player.laser_end,
+#				weapon.color,
+#				4.0 * power
+#			)
 
 	for enemy in get_tree().get_nodes_in_group(&"enemies"):
 		if enemy.laser and enemy.health > 0:

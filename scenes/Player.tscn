@@ -1,16 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://bhsrj2uu8y4ay"]
+[gd_scene load_steps=16 format=3 uid="uid://laor2614br0y"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ddinid1m88hqu" path="res://sprites/player.png" id="2"]
 [ext_resource type="AudioStream" uid="uid://c1gc3ugmnf154" path="res://audio/sound/hurt/player.wav" id="4"]
-[ext_resource type="AudioStream" uid="uid://cky5k4b2xrcsu" path="res://audio/sound/weapons/machine_gun.ogg" id="5"]
 [ext_resource type="AudioStream" uid="uid://da0k3ysbw5su0" path="res://audio/sound/death/player.wav" id="6"]
-[ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="8"]
-[ext_resource type="AudioStream" uid="uid://cqt7esja8in2t" path="res://audio/sound/weapons/shotgun.ogg" id="9"]
+[ext_resource type="PackedScene" uid="uid://bkm4hy2o1fw70" path="res://scenes/machine_gun.tscn" id="9_puqt2"]
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://cyk5eat0qjxsn" path="res://scenes/shotgun.tscn" id="10_e00kg"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="11"]
+[ext_resource type="PackedScene" uid="uid://dj7vvyf4vacw4" path="res://scenes/laser.tscn" id="11_aq6cc"]
 [ext_resource type="AudioStream" uid="uid://ch10el6h52nhk" path="res://audio/sound/ambient/player_fly.ogg" id="12"]
-[ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/laser_particles.tscn" id="12_mc4kl"]
 [ext_resource type="AudioStream" uid="uid://cnv01jp3r4t0f" path="res://audio/sound/weapons/click.ogg" id="13"]
 
 [sub_resource type="CircleShape2D" id="1"]
@@ -31,24 +30,6 @@ scale_max = 4.0
 scale_curve = SubResource("CurveTexture_bmt0r")
 color = Color(0, 1, 1, 1)
 
-[sub_resource type="Curve" id="9"]
-_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="10"]
-curve = SubResource("9")
-
-[sub_resource type="ParticleProcessMaterial" id="5"]
-spread = 60.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 128.0
-initial_velocity_max = 256.0
-damping_min = 128.0
-damping_max = 128.0
-scale_min = 4.0
-scale_max = 8.0
-scale_curve = SubResource("10")
-
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
@@ -58,17 +39,45 @@ script = ExtResource("1")
 unique_name_in_owner = true
 shape = SubResource("1")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+rotation = 1.5708
+texture = ExtResource("2")
+offset = Vector2(0, -1)
+
+[node name="MachineGun" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("9_puqt2")]
+unique_name_in_owner = true
+wielder = NodePath("..")
+
+[node name="Shotgun" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("10_e00kg")]
+unique_name_in_owner = true
+wielder = NodePath("..")
+cooldown = 0.5
+
+[node name="Laser" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("11_aq6cc")]
+unique_name_in_owner = true
+damage = 8
+stun = 0.25
+color = Color(0, 1, 1, 1)
+wielder = NodePath("..")
+
+[node name="WeaponCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="FlyCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
 [node name="FlyParticles" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(3, 0)
 amount = 32
 process_material = SubResource("13")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="DeathParticles" parent="." instance=ExtResource("10")]
 unique_name_in_owner = true
-rotation = 1.5708
-texture = ExtResource("2")
-offset = Vector2(0, -1)
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
@@ -85,23 +94,6 @@ unique_name_in_owner = true
 stream = ExtResource("11")
 bus = &"Sound"
 
-[node name="MachineGunSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("5")
-volume_db = -5.0
-bus = &"Sound"
-
-[node name="ShotgunSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("9")
-volume_db = -2.0
-bus = &"Sound"
-
-[node name="LaserSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("8")
-bus = &"Sound"
-
 [node name="FlySound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("12")
@@ -112,24 +104,3 @@ bus = &"Sound"
 unique_name_in_owner = true
 stream = ExtResource("13")
 bus = &"Sound"
-
-[node name="ShootParticles" type="GPUParticles2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(2, 0)
-emitting = false
-amount = 4
-process_material = SubResource("5")
-lifetime = 0.1
-one_shot = true
-explosiveness = 1.0
-
-[node name="LaserParticles" parent="." instance=ExtResource("12_mc4kl")]
-unique_name_in_owner = true
-
-[node name="DeathParticles" parent="." instance=ExtResource("10")]
-unique_name_in_owner = true
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-target_position = Vector2(0, 0)
-collision_mask = 5

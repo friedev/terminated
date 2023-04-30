@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d16ltbk1ci7xa"]
+
+[ext_resource type="Script" path="res://scripts/laser_beam.gd" id="1_h6mvo"]
+
+[node name="LaserBeam" type="Line2D"]
+width = 4.0
+script = ExtResource("1_h6mvo")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
