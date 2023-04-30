@@ -170,11 +170,11 @@ func _process(delta: float):
 		var minutes := seconds / 60
 		milliseconds %= 1000
 		seconds %= 60
-		$HUDLayer/Control/TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
+		%TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
 	else:
 		$MenuLayer/MainMenu.visible = true
 
-	$HUDLayer/Control/FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
+	%FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
 
 
 func _physics_process(delta):
@@ -203,7 +203,7 @@ func _input(event):
 		setup()
 
 	elif event.is_action_pressed("fps"):
-		$HUDLayer/Control/FPSLabel.visible = !$HUDLayer/Control/FPSLabel.visible
+		%FPSLabel.visible = !%FPSLabel.visible
 
 
 func _on_Timer_timeout():

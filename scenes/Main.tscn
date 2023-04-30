@@ -1,11 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://nkchromsigtb"]
+[gd_scene load_steps=13 format=3 uid="uid://nkchromsigtb"]
 
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
 [ext_resource type="PackedScene" uid="uid://bhsrj2uu8y4ay" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_fqm3k"]
+[ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_n7ewb"]
+[ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_1aqey"]
 [ext_resource type="PackedScene" uid="uid://dlmspohhn3xfo" path="res://scenes/main_menu.tscn" id="6_6f4i6"]
-[ext_resource type="Theme" uid="uid://bxdnwo7vo2bnr" path="res://ui/themes/theme_hud.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="12"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
@@ -62,6 +63,51 @@ physics_layer_0/collision_layer = 31
 physics_layer_0/collision_mask = 31
 sources/0 = SubResource("TileSetAtlasSource_tpcbk")
 
+[sub_resource type="FontFile" id="FontFile_uerxt"]
+fallbacks = Array[Font]([ExtResource("6_1aqey")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/glyphs/0/advance = Vector2(0, 0)
+cache/0/16/0/glyphs/0/offset = Vector2(0, 0)
+cache/0/16/0/glyphs/0/size = Vector2(0, 0)
+cache/0/16/0/glyphs/0/uv_rect = Rect2(0, 0, 0, 0)
+cache/0/16/0/glyphs/0/texture_idx = -1
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/8 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/24/0 = Vector2(0, 0)
+cache/0/16/8/glyphs/0/offset = Vector2(0, 0)
+cache/0/16/8/glyphs/0/size = Vector2(0, 0)
+cache/0/16/8/glyphs/0/uv_rect = Rect2(0, 0, 0, 0)
+cache/0/16/8/glyphs/0/texture_idx = -1
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/16/8 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/24/0 = Vector2(0, 0)
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/24/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/24/0/kerning_overrides/16/8 = Vector2(0, 0)
+cache/0/24/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
+
+[sub_resource type="Theme" id="Theme_dake5"]
+default_font = SubResource("FontFile_uerxt")
+
 [node name="Main" type="Node2D"]
 script = ExtResource("4")
 
@@ -83,54 +129,33 @@ script = ExtResource("4_fqm3k")
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="HUDLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(2, 2)
+[node name="HUD" type="MarginContainer" parent="HUDLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_n7ewb")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="TimerLabel" type="Label" parent="HUDLayer/Control"]
-layout_mode = 0
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 280.0
-offset_top = 16.0
-offset_right = 252.0
-offset_bottom = 32.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
+[node name="TimerLabel" type="Label" parent="HUDLayer/HUD"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = SubResource("Theme_dake5")
 text = "00:00.00"
 
-[node name="KillsLabel" type="Label" parent="HUDLayer/Control"]
+[node name="FPSLabel" type="Label" parent="HUDLayer/HUD"]
+unique_name_in_owner = true
 visible = false
-layout_mode = 0
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 292.0
-offset_top = 16.0
-offset_right = 424.0
-offset_bottom = 32.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "KILLS: 0"
-
-[node name="FPSLabel" type="Label" parent="HUDLayer/Control"]
-visible = false
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 280.0
-offset_top = 288.0
-offset_right = 272.0
-offset_bottom = 304.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_dake5")
 text = "FPS: 60"
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
