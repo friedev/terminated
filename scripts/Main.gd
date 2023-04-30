@@ -169,10 +169,6 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 	instance.enemy_killed.connect(self._on_enemy_killed)
 
 
-func rand_pitch() -> float:
-	return randf() / 4.0 + 0.875
-
-
 func _process(delta: float) -> void:
 	# Call _draw() dynamically
 	self.queue_redraw()

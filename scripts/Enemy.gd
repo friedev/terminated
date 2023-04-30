@@ -52,7 +52,7 @@ var last_shot_time := -laser_duration
 func _ready():
 	if laser:
 		$CooldownTimer.start()
-	$AmbientSound.pitch_scale = main.rand_pitch()
+	$AmbientSound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	$AmbientSound.play(randf() * $AmbientSound.stream.get_length())
 
 func _process(delta: float) -> void:
@@ -184,7 +184,7 @@ func damage_by(amount: int, knockback = Vector2(), knockback_duration = 0.5):
 		stun_duration = knockback_duration
 		velocity = knockback
 
-	$HurtSound.pitch_scale = main.rand_pitch()
+	$HurtSound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	$HurtSound.play()
 	$DamageParticles.global_rotation = (-knockback).angle()
 	$DamageParticles.restart()
@@ -195,7 +195,7 @@ func die():
 	set_physics_process(false)
 	$Sprite2D.visible = false
 	$CollisionShape2D.disabled = true
-	$DeathSound.pitch_scale = main.rand_pitch()
+	$DeathSound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	$DeathSound.play()
 	$AmbientSound.stop()
 
@@ -267,7 +267,7 @@ func _on_ChargeTimer_timeout():
 
 	$RayCast2D.clear_exceptions()
 	last_shot_time = Time.get_ticks_msec()
-	$LaserSound.pitch_scale = main.rand_pitch()
+	$LaserSound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	$LaserSound.play()
 	$LaserParticles.restart()
 
@@ -281,7 +281,7 @@ func split():
 		instance.position = position + Vector2(8, 0).rotated(randf() * (2 * PI))
 		instance.rotation = rotation
 		instance.velocity = velocity
-		main.add_child(instance)
+		self.get_parent().add_child(instance)
 		instance.connect("enemy_killed", Callable(main, "_on_enemy_killed"))
 
 

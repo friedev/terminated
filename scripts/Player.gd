@@ -76,7 +76,6 @@ const max_cooldown = 500
 @export var fly_delay := 200 # milliseconds
 
 @onready var bullet := preload("res://scenes/Bullet.tscn")
-@onready var main: Node2D = get_tree().get_root().find_child("Main", true, false)
 @onready var base_modulate: Color = $Sprite2D.modulate
 @onready var damage_modulate := Color(2, 2, 2, 1)
 @onready var iframe_modulate := Color(1, 1, 1, 0.5)
@@ -225,7 +224,7 @@ func shoot_weapon(weapon_index: int):
 	if weapon.particles != null:
 		weapon.particles.restart()
 	if weapon.sound != null:
-		weapon.sound.pitch_scale = main.rand_pitch()
+		weapon.sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 		weapon.sound.play()
 	last_shot_time = time
 	current_shot_cooldown = weapon.cooldown
