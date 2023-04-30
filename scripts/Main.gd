@@ -81,23 +81,22 @@ func _ready():
 
 
 func setup_tilemap():
-	# TODO use tilemap layers
 	var map_tiles = map_radius / $TileMap.tile_set.tile_size.x
 	var arena_tiles = arena_radius / $TileMap.tile_set.tile_size.x
 	for x in range(-map_tiles, map_tiles + 1):
 		for y in range(-map_tiles, map_tiles + 1):
 			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
-				$FloorTileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 				$TileMap.set_cell(0, Vector2i(x, y))
+				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(0, 0))
 			elif abs(x) == map_tiles or abs(y) == map_tiles:
-				$FloorTileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 1, 0))
+				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(0, 0))
 			else:
 				# TODO use alternative tiles to flip walls for variety
 #				var flip_x := randi() % 2 == 0
 #				var flip_y := randi() % 2 == 0
-				$FloorTileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 2, 0))
 				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH, 0))
+				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 2, 0))
 
 
 func setup():
