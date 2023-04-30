@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-@onready var player: CharacterBody2D = get_tree().get_root().find_child("Player", true, false)
-
 var damage: int
 var speed: float
 var max_range: float
@@ -19,7 +17,7 @@ func _ready():
 func _physics_process(delta: float):
 	var velocity := initial_velocity + Vector2(cos(self.rotation), sin(self.rotation)) * speed
 	var collision := move_and_collide(velocity * delta)
-	if collision and collision.get_collider() != player:
+	if collision:
 		if collision.get_collider().is_in_group("enemies"):
 			var enemy = collision.get_collider()
 			enemy.damage_by(damage, (enemy.position - self.position).normalized() * knockback, stun)
