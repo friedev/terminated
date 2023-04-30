@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://nkchromsigtb"]
 
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b70f17iru82aq" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_fqm3k"]
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_n7ewb"]

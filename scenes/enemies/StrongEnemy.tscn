@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxewjd2bwbqeb"]
+[gd_scene load_steps=12 format=3]
 
-[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/DeathParticles.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/strong_enemy3.png" id="3"]
 [ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="4"]
@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://vetmfm2xmluv" path="res://audio/sound/ambient/strong_enemy.ogg" id="6"]
 [ext_resource type="Texture2D" uid="uid://l2gpo6duqw5s" path="res://sprites/strong_enemy2.png" id="7"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="8"]
-[ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/damage_particles.tscn" id="9_78jqi"]
+[ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/particles/damage_particles.tscn" id="9_78jqi"]
 
 [sub_resource type="RectangleShape2D" id="6"]
 size = Vector2(12, 12)

@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://bkm4hy2o1fw70"]
 
-[ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_h0ava"]
-[ext_resource type="Script" path="res://scripts/machine_gun.gd" id="2_2jmb5"]
-[ext_resource type="AudioStream" uid="uid://cky5k4b2xrcsu" path="res://audio/sound/weapons/machine_gun.ogg" id="4_quli4"]
+[ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_7h8ef"]
+[ext_resource type="Script" path="res://scripts/machine_gun.gd" id="2_dyeiy"]
+[ext_resource type="AudioStream" uid="uid://cky5k4b2xrcsu" path="res://audio/sound/weapons/machine_gun.ogg" id="3_l3kuq"]
 
 [sub_resource type="Curve" id="Curve_7cgbu"]
 _data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
@@ -22,8 +22,8 @@ scale_min = 4.0
 scale_max = 8.0
 scale_curve = SubResource("CurveTexture_y1i40")
 
-[node name="MachineGun" instance=ExtResource("1_h0ava")]
-script = ExtResource("2_2jmb5")
+[node name="MachineGun" instance=ExtResource("1_7h8ef")]
+script = ExtResource("2_dyeiy")
 cooldown = 0.1
 
 [node name="GPUParticles2D" parent="." index="0"]
@@ -32,6 +32,6 @@ process_material = SubResource("ParticleProcessMaterial_ysbmu")
 lifetime = 0.1
 
 [node name="AudioStreamPlayer2D" parent="." index="1"]
-stream = ExtResource("4_quli4")
+stream = ExtResource("3_l3kuq")
 volume_db = -5.0
 bus = &"Sound"

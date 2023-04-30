@@ -47,9 +47,9 @@ var waves := [
 @export var map_radius: int
 @export var arena_radius: int
 
-const debris_small := preload("res://scenes/Debris.tscn")
-const debris_large := preload("res://scenes/DebrisLarge.tscn")
-const crater := preload("res://scenes/Crater.tscn")
+const debris_small := preload("res://scenes/debris/Debris.tscn")
+const debris_large := preload("res://scenes/debris/DebrisLarge.tscn")
+const crater := preload("res://scenes/debris/Crater.tscn")
 
 const enemies: Array[PackedScene] = [
 	preload("res://scenes/enemies/BasicEnemy.tscn"),

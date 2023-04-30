@@ -1,14 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://3w7fv0se2whx"]
+[gd_scene load_steps=11 format=3]
 
-[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/DeathParticles.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="3"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="3_sn67u"]
 [ext_resource type="Texture2D" uid="uid://c1ehxfamu0fwu" path="res://sprites/laser_enemy.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="7"]
-[ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/damage_particles.tscn" id="8_m0sus"]
-[ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/laser_particles.tscn" id="9_pe8gd"]
+[ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/particles/damage_particles.tscn" id="8_m0sus"]
+[ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/particles/laser_particles.tscn" id="9_pe8gd"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 8.0
