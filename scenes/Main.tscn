@@ -279,6 +279,7 @@ theme_override_styles/disabled = ExtResource("9")
 theme_override_styles/hover = ExtResource("10")
 theme_override_styles/hover_pressed = ExtResource("11")
 theme_override_styles/focus = ExtResource("11")
+button_pressed = true
 
 [node name="MusicCheckBox" type="CheckBox" parent="MenuLayer/Control"]
 layout_mode = 0
@@ -301,6 +302,7 @@ theme_override_styles/disabled = ExtResource("9")
 theme_override_styles/hover = ExtResource("10")
 theme_override_styles/hover_pressed = ExtResource("11")
 theme_override_styles/focus = ExtResource("11")
+button_pressed = true
 
 [node name="FullscreenCheckBox" type="CheckBox" parent="MenuLayer/Control"]
 layout_mode = 0
@@ -345,6 +347,7 @@ theme_override_styles/disabled = ExtResource("9")
 theme_override_styles/hover = ExtResource("10")
 theme_override_styles/hover_pressed = ExtResource("11")
 theme_override_styles/focus = ExtResource("11")
+button_pressed = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2")
