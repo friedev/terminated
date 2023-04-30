@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://yit7tlqkarj1"]
+
+[sub_resource type="Curve" id="8"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="9"]
+curve = SubResource("8")
+
+[sub_resource type="ParticleProcessMaterial" id="10"]
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 92.0
+initial_velocity_max = 128.0
+damping_min = 256.0
+damping_max = 256.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("9")
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="DamageParticles" type="GPUParticles2D"]
+emitting = false
+amount = 12
+process_material = SubResource("10")
+lifetime = 0.15
+one_shot = true
+preprocess = 0.05
+explosiveness = 1.0

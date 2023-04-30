@@ -1,35 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://3w7fv0se2whx"]
+[gd_scene load_steps=10 format=3 uid="uid://3w7fv0se2whx"]
 
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="3"]
-[ext_resource type="AudioStream" uid="uid://bcw7niniwp55n" path="res://audio/sound/hurt/enemy.wav" id="4"]
+[ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="3_sn67u"]
 [ext_resource type="Texture2D" uid="uid://c1ehxfamu0fwu" path="res://sprites/laser_enemy.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="7"]
+[ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/damage_particles.tscn" id="8_m0sus"]
 
 [sub_resource type="CircleShape2D" id="1"]
-radius = 4.0
+radius = 8.0
 
 [node name="LaserEnemy" type="CharacterBody2D"]
 collision_layer = 5
 collision_mask = 5
 script = ExtResource("2")
-max_health = 1
+max_health = 8
 damage = 1
 attack_knockback = 256.0
 laser = true
+laser_charge_color = Color(1, 0, 0, 0.333333)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 1)
 rotation = 1.5708
 texture = ExtResource("5")
 
 [node name="HurtSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4")
+stream = ExtResource("3_sn67u")
 bus = &"Sound"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
@@ -48,6 +50,8 @@ attenuation = 2.0
 bus = &"Sound"
 
 [node name="DeathParticles" parent="." instance=ExtResource("1")]
+
+[node name="DamageParticles" parent="." instance=ExtResource("8_m0sus")]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 

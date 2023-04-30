@@ -247,7 +247,7 @@ func _draw():
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:
-				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 2.0)
+				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 4.0)
 			else:
 				var time := Time.get_ticks_msec()
 				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)

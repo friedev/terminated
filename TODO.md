@@ -1,7 +1,6 @@
 # TODO
 
 - Spawners appear in the walls
-- Enlarge laser turrets and give them more health
 - Crushers block lasers and leave debris walls upon death
 - Explosions destroy walls
 - Wall damage/destruction sound
