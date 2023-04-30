@@ -27,7 +27,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 8.0
+"speed": 12.0
 }]
 
 [node name="StrongEnemy" type="CharacterBody2D"]
@@ -48,7 +48,7 @@ shape = SubResource("6")
 rotation = 1.5708
 sprite_frames = SubResource("7")
 autoplay = "default"
-frame_progress = 0.483697
+frame_progress = 0.245471
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8")
