@@ -12,11 +12,17 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		if collision.get_collider() is Enemy:
 			var enemy: Enemy = collision.get_collider()
-			enemy.damage_by(damage, (enemy.position - self.position).normalized() * knockback, stun)
+			enemy.damage_by(
+				damage,
+				(enemy.position - self.position).normalized() * knockback,
+				stun
+			)
 		elif collision.get_collider() is TileMap:
 			# TODO merge with other implementations
 			var tilemap: TileMap = collision.get_collider()
-			var cellv := Vector2i(Vector2(tilemap.local_to_map(position)) - collision.get_normal())
+			var cellv := Vector2i(
+				Vector2(tilemap.local_to_map(position)) - collision.get_normal()
+			)
 			var tile_id := tilemap.get_cell_atlas_coords(0, cellv).x
 			if 0 < tile_id and tile_id < 9:
 				var new_tile_id := tile_id - 1
