@@ -75,15 +75,18 @@ var flock_heading: Vector2
 func _ready():
 	randomize()
 
+	$MenuLayer/Control/FullscreenCheckBox.button_pressed = OS.get_name() != "HTML5"
+
 	$Player.visible = false
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
 	$Player.set_process_input(false)
 
-	$MenuLayer/Control/FullscreenCheckBox.button_pressed = OS.get_name() != "HTML5"
+	setup_tilemap()
 
 
-func setup():
+
+func setup_tilemap():
 	# TODO use tilemap layers
 	var map_tiles = map_radius / $TileMap.tile_set.tile_size.x
 	var arena_tiles = arena_radius / $TileMap.tile_set.tile_size.x
@@ -102,6 +105,8 @@ func setup():
 				$FloorTileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 2, 0))
 				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH, 0))
 
+
+func setup():
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
 	for bullet in get_tree().get_nodes_in_group("Bullets"):
