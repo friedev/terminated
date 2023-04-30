@@ -1,10 +1,11 @@
 # TODO
 
 - Spawners appear in the walls
-- Crushers leave debris walls upon death
+- Crushers leave colliding debris upon death
 - Explosions destroy walls
 - Wall damage/destruction sound
-- Debris floor tile left behind when debris walls are destroyed
+- Bomb enemy leaves crater/scorch marks instead of debris
+- Additional crusher death particles (smoke)
 
 Enemy ideas:
 
