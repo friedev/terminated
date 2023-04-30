@@ -1,15 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://nkchromsigtb"]
+[gd_scene load_steps=10 format=3 uid="uid://nkchromsigtb"]
 
-[ext_resource type="Theme" uid="uid://da474bp0h3mo0" path="res://ui/themes/theme_hud_title.tres" id="1"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
 [ext_resource type="PackedScene" uid="uid://bhsrj2uu8y4ay" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_fqm3k"]
+[ext_resource type="PackedScene" uid="uid://dlmspohhn3xfo" path="res://scenes/main_menu.tscn" id="6_6f4i6"]
 [ext_resource type="Theme" uid="uid://bxdnwo7vo2bnr" path="res://ui/themes/theme_hud.tres" id="7"]
-[ext_resource type="Texture2D" uid="uid://c6auno7vgvnpi" path="res://sprites/check.png" id="8"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_pressed.tres" id="9"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_hover.tres" id="10"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button.tres" id="11"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="12"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
@@ -65,10 +61,6 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 31
 physics_layer_0/collision_mask = 31
 sources/0 = SubResource("TileSetAtlasSource_tpcbk")
-
-[sub_resource type="ImageTexture" id="3"]
-
-[sub_resource type="ImageTexture" id="2"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("4")
@@ -143,221 +135,7 @@ text = "FPS: 60"
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="MenuLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(2, 2)
-
-[node name="TitleLabel" type="Label" parent="MenuLayer/Control"]
-modulate = Color(1, 0, 0, 1)
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 160.0
-offset_top = 80.0
-offset_right = 464.0
-offset_bottom = 112.0
-theme = ExtResource("1")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 16
-theme_override_font_sizes/font_size = 32
-text = "T E R M I N A T E D"
-horizontal_alignment = 1
-
-[node name="AuthorLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 250.0
-offset_right = 176.0
-offset_bottom = 304.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "VERSION 2.0.0-DEV
-BY AARON FRIESEN
-HTTPS://FRIE.DEV"
-
-[node name="InstructionsLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 220.0
-offset_top = 135.0
-offset_right = 396.0
-offset_bottom = 265.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "       [R] TO START
-     [ESC] TO QUIT
-	
-    [WASD] TO MOVE
-HOLD [LMB] TO SHOOT
- TAP [LMB] FOR SHOTGUN
-     [RMB] FOR LASER"
-
-[node name="SoundLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 504.0
-offset_top = 168.0
-offset_right = 544.0
-offset_bottom = 184.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "SOUND"
-horizontal_alignment = 2
-
-[node name="MusicLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 504.0
-offset_top = 208.0
-offset_right = 544.0
-offset_bottom = 224.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "MUSIC"
-horizontal_alignment = 2
-
-[node name="FullscreenLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 441.0
-offset_top = 248.0
-offset_right = 544.0
-offset_bottom = 264.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "FULLSCREEN"
-horizontal_alignment = 2
-
-[node name="ScreenShakeLabel" type="Label" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 441.0
-offset_top = 288.0
-offset_right = 544.0
-offset_bottom = 304.0
-theme = ExtResource("7")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-text = "SCREEN SHAKE"
-horizontal_alignment = 2
-
-[node name="SoundCheckBox" type="CheckBox" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 560.0
-offset_top = 160.0
-offset_right = 584.0
-offset_bottom = 184.0
-theme = ExtResource("7")
-theme_override_icons/checked = ExtResource("8")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("8")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("11")
-theme_override_styles/pressed = ExtResource("9")
-theme_override_styles/disabled = ExtResource("9")
-theme_override_styles/hover = ExtResource("10")
-theme_override_styles/hover_pressed = ExtResource("11")
-theme_override_styles/focus = ExtResource("11")
-button_pressed = true
-
-[node name="MusicCheckBox" type="CheckBox" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 560.0
-offset_top = 200.0
-offset_right = 584.0
-offset_bottom = 224.0
-theme = ExtResource("7")
-theme_override_icons/checked = ExtResource("8")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("8")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("11")
-theme_override_styles/pressed = ExtResource("9")
-theme_override_styles/disabled = ExtResource("9")
-theme_override_styles/hover = ExtResource("10")
-theme_override_styles/hover_pressed = ExtResource("11")
-theme_override_styles/focus = ExtResource("11")
-button_pressed = true
-
-[node name="FullscreenCheckBox" type="CheckBox" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 560.0
-offset_top = 240.0
-offset_right = 584.0
-offset_bottom = 264.0
-theme = ExtResource("7")
-theme_override_icons/checked = ExtResource("8")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("8")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("11")
-theme_override_styles/pressed = ExtResource("9")
-theme_override_styles/disabled = ExtResource("9")
-theme_override_styles/hover = ExtResource("10")
-theme_override_styles/hover_pressed = ExtResource("11")
-theme_override_styles/focus = ExtResource("11")
-
-[node name="ScreenShakeCheckbox" type="CheckBox" parent="MenuLayer/Control"]
-layout_mode = 0
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 560.0
-offset_top = 280.0
-offset_right = 584.0
-offset_bottom = 304.0
-theme = ExtResource("7")
-theme_override_icons/checked = ExtResource("8")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("8")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("11")
-theme_override_styles/pressed = ExtResource("9")
-theme_override_styles/disabled = ExtResource("9")
-theme_override_styles/hover = ExtResource("10")
-theme_override_styles/hover_pressed = ExtResource("11")
-theme_override_styles/focus = ExtResource("11")
-button_pressed = true
+[node name="MainMenu" parent="MenuLayer" instance=ExtResource("6_6f4i6")]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2")
@@ -368,8 +146,5 @@ bus = &"Music"
 wait_time = 4.0
 one_shot = true
 
-[connection signal="toggled" from="MenuLayer/Control/SoundCheckBox" to="." method="_on_SoundCheckBox_toggled"]
-[connection signal="toggled" from="MenuLayer/Control/MusicCheckBox" to="." method="_on_MusicCheckBox_toggled"]
-[connection signal="toggled" from="MenuLayer/Control/FullscreenCheckBox" to="." method="_on_FullscreenCheckBox_toggled"]
-[connection signal="toggled" from="MenuLayer/Control/ScreenShakeCheckbox" to="." method="_on_ScreenShakeCheckbox_toggled"]
+[connection signal="screen_shake_toggled" from="MenuLayer/MainMenu" to="Player/ShakeCamera2D" method="_on_main_menu_screen_shake_toggled"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_Timer_timeout"]

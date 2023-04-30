@@ -44,9 +44,6 @@ var waves := [
 @export var final_wave_delay_decrement := 1
 @export var final_wave_min_delay := 4
 
-@onready var sound_bus_index = AudioServer.get_bus_index("Sound")
-@onready var music_bus_index = AudioServer.get_bus_index("Music")
-
 @export var map_radius := 1024
 @export var arena_radius := 256
 
@@ -75,15 +72,12 @@ var flock_heading: Vector2
 func _ready():
 	randomize()
 
-	$MenuLayer/Control/FullscreenCheckBox.button_pressed = OS.get_name() != "HTML5"
-
 	$Player.visible = false
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
 	$Player.set_process_input(false)
 
 	setup_tilemap()
-
 
 
 func setup_tilemap():
@@ -128,7 +122,7 @@ func setup():
 	$Player.set_physics_process(true)
 	$Player.set_process_input(true)
 
-	$MenuLayer/Control.visible = false
+	$MenuLayer/MainMenu.visible = false
 
 	$SpawnTimer.wait_time = waves[0].time
 	start_time = Time.get_ticks_msec()
@@ -178,7 +172,7 @@ func _process(delta: float):
 		seconds %= 60
 		$HUDLayer/Control/TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
 	else:
-		$MenuLayer/Control.visible = true
+		$MenuLayer/MainMenu.visible = true
 
 	$HUDLayer/Control/FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
 
@@ -264,19 +258,3 @@ func _draw():
 				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)
 				if power > 0.0:
 					draw_line(enemy.position, enemy.laser_target, enemy.laser_shot_color, 4.0 * power)
-
-
-func _on_SoundCheckBox_toggled(button_pressed):
-	AudioServer.set_bus_mute(sound_bus_index, not button_pressed)
-
-
-func _on_MusicCheckBox_toggled(button_pressed):
-	AudioServer.set_bus_mute(music_bus_index, not button_pressed)
-
-
-func _on_FullscreenCheckBox_toggled(button_pressed):
-	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (button_pressed) else Window.MODE_WINDOWED
-
-
-func _on_ScreenShakeCheckbox_toggled(button_pressed):
-	$Player/ShakeCamera2D.shake_enabled = button_pressed

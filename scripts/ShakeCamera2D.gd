@@ -71,3 +71,7 @@ func shake(duration, frequency, amplitude):
 	set_offset(get_offset() - _last_offset)
 	_last_offset = Vector2(0, 0)
 	set_process(true)
+
+
+func _on_main_menu_screen_shake_toggled(enabled: bool) -> void:
+	self.shake_enabled = enabled
