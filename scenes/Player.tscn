@@ -100,9 +100,11 @@ bus = &"Sound"
 [node name="FlySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12")
 volume_db = -8.0
+bus = &"Sound"
 
 [node name="ClickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13")
+bus = &"Sound"
 
 [node name="ShootParticles" type="GPUParticles2D" parent="."]
 position = Vector2(2, 0)

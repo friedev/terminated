@@ -43,7 +43,7 @@ bus = &"Sound"
 [node name="AmbientSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6")
 volume_db = 1.0
-max_distance = 200.0
+max_distance = 512.0
 attenuation = 2.0
 bus = &"Sound"
 
