@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyk5eat0qjxsn"]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_7e46r"]
-[ext_resource type="Script" path="res://scripts/shotgun.gd" id="2_ylbqb"]
+[ext_resource type="Script" path="res://scenes/weapons/shotgun.gd" id="2_ylbqb"]
 [ext_resource type="AudioStream" uid="uid://cqt7esja8in2t" path="res://audio/sound/weapons/shotgun.ogg" id="3_3imvm"]
 
 [sub_resource type="Curve" id="Curve_d124w"]

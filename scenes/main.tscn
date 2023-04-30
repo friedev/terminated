@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://8vie3hsu5g4o"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_4x7jh"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
 [ext_resource type="PackedScene" uid="uid://bmqqmmpjuvqd" path="res://scenes/player.tscn" id="3_5sen2"]
-[ext_resource type="Script" path="res://scripts/shake_camera_2d.gd" id="4_irtsn"]
+[ext_resource type="Script" path="res://scenes/shake_camera_2d.gd" id="4_8sdy8"]
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_o078d"]
 [ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_0fveq"]
-[ext_resource type="PackedScene" uid="uid://dlmspohhn3xfo" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
+[ext_resource type="PackedScene" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
@@ -109,7 +109,7 @@ cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
 default_font = SubResource("FontFile_uerxt")
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_4x7jh")
+script = ExtResource("1_m7l1v")
 final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
@@ -135,7 +135,7 @@ unique_name_in_owner = true
 
 [node name="ShakeCamera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
-script = ExtResource("4_irtsn")
+script = ExtResource("4_8sdy8")
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
