@@ -271,6 +271,7 @@ func _on_ChargeTimer_timeout():
 	last_shot_time = Time.get_ticks_msec()
 	$LaserSound.pitch_scale = main.rand_pitch()
 	$LaserSound.play()
+	$LaserParticles.restart()
 
 
 func split():

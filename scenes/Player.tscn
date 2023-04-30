@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bhsrj2uu8y4ay"]
+[gd_scene load_steps=21 format=3 uid="uid://bhsrj2uu8y4ay"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ddinid1m88hqu" path="res://sprites/player.png" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="10"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="11"]
 [ext_resource type="AudioStream" uid="uid://ch10el6h52nhk" path="res://audio/sound/ambient/player_fly.ogg" id="12"]
+[ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/laser_particles.tscn" id="12_mc4kl"]
 [ext_resource type="AudioStream" uid="uid://cnv01jp3r4t0f" path="res://audio/sound/weapons/click.ogg" id="13"]
 
 [sub_resource type="CircleShape2D" id="1"]
@@ -114,6 +115,8 @@ process_material = SubResource("5")
 lifetime = 0.1
 one_shot = true
 explosiveness = 1.0
+
+[node name="LaserParticles" parent="." instance=ExtResource("12_mc4kl")]
 
 [node name="DeathParticles" parent="." instance=ExtResource("10")]
 

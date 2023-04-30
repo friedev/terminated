@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cugri1b6ktfy1"]
+
+[sub_resource type="Curve" id="Curve_8c167"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2avos"]
+curve = SubResource("Curve_8c167")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84qgf"]
+spread = 60.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 64.0
+initial_velocity_max = 92.0
+damping_min = 128.0
+damping_max = 128.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_2avos")
+color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
+[node name="LaserParticles" type="GPUParticles2D"]
+position = Vector2(2, 0)
+emitting = false
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_84qgf")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0

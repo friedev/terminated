@@ -57,7 +57,7 @@ class Weapon:
 	#          Name          DMG CT Speed   Range   CLD  SPRD  KnockB Stun  Laser Sound            Rand   Color           Particles        SDur Amp
 	Weapon.new("Machine Gun", 1, 1, 1500.0, 1536.0, 100, 0.0,  48.0,  0.25, 0,   $MachineGunSound, false, Color(1, 1, 1), $ShootParticles, 0.2, 8),
 	Weapon.new("Shotgun",     1, 8, 1500.0, 1536.0, 500, 45.0, 192.0, 0.25, 0,   $ShotgunSound,    true,  Color(1, 1, 1), $ShootParticles, 0.4, 10),
-	Weapon.new("Laser",       8, 0, 0.0,    1536.0, 500, 0.0,  0.0,   0.25, 250, $LaserSound,      true,  Color(0, 1, 1), null,            0.3, 10),
+	Weapon.new("Laser",       8, 0, 0.0,    1536.0, 500, 0.0,  0.0,   0.25, 250, $LaserSound,      true,  Color(0, 1, 1), $LaserParticles, .3, 10),
 ]
 
 enum {

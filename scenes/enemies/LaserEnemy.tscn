@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3w7fv0se2whx"]
+[gd_scene load_steps=11 format=3 uid="uid://3w7fv0se2whx"]
 
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/DeathParticles.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="7"]
 [ext_resource type="PackedScene" uid="uid://yit7tlqkarj1" path="res://scenes/damage_particles.tscn" id="8_m0sus"]
+[ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/laser_particles.tscn" id="9_pe8gd"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 8.0
@@ -52,6 +53,8 @@ bus = &"Sound"
 [node name="DeathParticles" parent="." instance=ExtResource("1")]
 
 [node name="DamageParticles" parent="." instance=ExtResource("8_m0sus")]
+
+[node name="LaserParticles" parent="." instance=ExtResource("9_pe8gd")]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
