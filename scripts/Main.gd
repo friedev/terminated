@@ -203,14 +203,14 @@ func _physics_process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("quit"):
+	if event.is_action_pressed(&"quit"):
 		if self.player.alive:
 			self.player.die()
 		elif OS.get_name() != "HTML5":
 			self.get_tree().quit()
-	elif event.is_action_pressed("restart"):
+	elif event.is_action_pressed(&"restart"):
 		self.setup()
-	elif event.is_action_pressed("fps"):
+	elif event.is_action_pressed(&"fps"):
 		%FPSLabel.visible = !%FPSLabel.visible
 
 

@@ -141,11 +141,11 @@ func cooling_down() -> bool:
 func _input(event: InputEvent) -> void:
 	var time := Time.get_ticks_msec()
 
-	if event.is_action_pressed("shoot1"):
+	if event.is_action_pressed(&"shoot1"):
 		self.shoot1_pressed = true
 		self.shoot1_pressed_time = time
 
-	elif event.is_action_pressed("shoot2"):
+	elif event.is_action_pressed(&"shoot2"):
 		self.shoot2_pressed = true
 		self.shoot2_pressed_time = time
 		if not self.shoot_weapon(self.LASER):
@@ -160,20 +160,20 @@ func get_angle_to_mouse() -> float:
 
 func _physics_process(delta: float) -> void:
 	var input_velocity := Vector2()
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed(&"right"):
 		input_velocity.x += 1
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed(&"left"):
 		input_velocity.x -= 1
-	if Input.is_action_pressed("down"):
+	if Input.is_action_pressed(&"down"):
 		input_velocity.y += 1
-	if Input.is_action_pressed("up"):
+	if Input.is_action_pressed(&"up"):
 		input_velocity.y -= 1
 
 	var new_rotation: float
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if self.fly_cooling_down() or Input.is_action_pressed("shoot1"):
+		if self.fly_cooling_down() or Input.is_action_pressed(&"shoot1"):
 			new_velocity = input_velocity.normalized()
 			magnitude = self.walk_speed
 			new_rotation = self.get_angle_to_mouse()
@@ -209,8 +209,8 @@ func _physics_process(delta: float) -> void:
 	# TODO export variable for rotation weight
 	self.rotation = lerp_angle(self.rotation, new_rotation, 24 * delta)
 
-	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
-	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
+	var shoot1_currently_pressed := Input.is_action_pressed(&"shoot1")
+	var shoot2_currently_pressed := Input.is_action_pressed(&"shoot2")
 	if shoot1_currently_pressed or shoot1_pressed:
 		var time := Time.get_ticks_msec()
 		var held_duration := time - shoot1_pressed_time
