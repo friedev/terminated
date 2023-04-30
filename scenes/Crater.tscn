@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c57x7ungqnnyn"]
+
+[ext_resource type="Texture2D" uid="uid://bukty7wxmcmdo" path="res://sprites/crater.png" id="1_wjuit"]
+
+[node name="Crater" type="Sprite2D"]
+light_mask = 3
+z_index = -3
+texture = ExtResource("1_wjuit")

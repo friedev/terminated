@@ -52,6 +52,7 @@ var waves := [
 
 @onready var debris_small := preload("res://scenes/Debris.tscn")
 @onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
+@onready var crater := preload("res://scenes/Crater.tscn")
 
 @onready var enemies := [
 	preload("res://scenes/enemies/BasicEnemy.tscn"),
@@ -228,7 +229,9 @@ func _on_enemy_killed(enemy):
 
 	# Place debris, regardless of cause of death
 	var instance: Sprite2D
-	if enemy.bomb or enemy.max_health > 1:
+	if enemy.bomb:
+		instance = crater.instantiate()
+	elif enemy.max_health > 1:
 		instance = debris_large.instantiate()
 	else:
 		instance = debris_small.instantiate()
