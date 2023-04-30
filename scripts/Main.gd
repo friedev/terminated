@@ -100,6 +100,8 @@ func setup_tilemap():
 
 
 func setup():
+	setup_tilemap()
+
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
 	for bullet in get_tree().get_nodes_in_group("Bullets"):
