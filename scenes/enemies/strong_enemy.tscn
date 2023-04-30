@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3]
 
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/death_particles.tscn" id="1"]
-[ext_resource type="Script" path="res://scripts/Enemy.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/strong_enemy3.png" id="3"]
 [ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="4"]
 [ext_resource type="Texture2D" uid="uid://c0aa6d8mmhfbv" path="res://sprites/strong_enemy1.png" id="5"]

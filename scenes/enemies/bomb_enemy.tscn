@@ -1,6 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://8srlqpio0fvn"]
+[gd_scene load_steps=20 format=3]
 
-[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://bcw7niniwp55n" path="res://audio/sound/hurt/enemy.wav" id="2"]
 [ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="3"]
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="4"]

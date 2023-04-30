@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bmqqmmpjuvqd"]
 
-[ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_8fc5a"]
 [ext_resource type="Texture2D" uid="uid://ddinid1m88hqu" path="res://sprites/player.png" id="2"]
 [ext_resource type="AudioStream" uid="uid://c1gc3ugmnf154" path="res://audio/sound/hurt/player.wav" id="4"]
 [ext_resource type="AudioStream" uid="uid://da0k3ysbw5su0" path="res://audio/sound/death/player.wav" id="6"]
@@ -33,7 +33,7 @@ color = Color(0, 1, 1, 1)
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
-script = ExtResource("1")
+script = ExtResource("1_8fc5a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
