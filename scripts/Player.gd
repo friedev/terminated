@@ -12,7 +12,7 @@ class Weapon:
 	var knockback: float
 	var stun: float # seconds
 	var laser_duration: int # milliseconds
-	var sound: AudioStreamPlayer
+	var sound: AudioStreamPlayer2D
 	var random_pitch: bool
 	var color: Color
 	var particles: GPUParticles2D
@@ -30,7 +30,7 @@ class Weapon:
 			knockback: float,
 			stun: float,
 			laser_duration: int,
-			sound: AudioStreamPlayer,
+			sound: AudioStreamPlayer2D,
 			random_pitch: bool,
 			color: Color,
 			particles: GPUParticles2D,
@@ -54,13 +54,6 @@ class Weapon:
 		self.shake_amplitude = shake_amplitude
 
 
-@onready var weapons := [
-	#          Name          DMG CT Speed   Range   CLD  SPRD  KnockB Stun  Laser Sound            Rand   Color           Particles        SDur Amp
-	Weapon.new("Machine Gun", 1, 1, 1500.0, 1536.0, 100, 0.0,  48.0,  0.25, 0,   $MachineGunSound, false, Color(1, 1, 1), $ShootParticles, 0.2, 8),
-	Weapon.new("Shotgun",     1, 8, 1500.0, 1536.0, 500, 45.0, 192.0, 0.25, 0,   $ShotgunSound,    true,  Color(1, 1, 1), $ShootParticles, 0.4, 10),
-	Weapon.new("Laser",       8, 0, 0.0,    1536.0, 500, 0.0,  0.0,   0.25, 250, $LaserSound,      true,  Color(0, 1, 1), $LaserParticles, .3, 10),
-]
-
 enum {
 	MACHINE_GUN,
 	SHOTGUN,
@@ -68,82 +61,104 @@ enum {
 }
 
 # TODO remove hardcoded maximum cooldown
-const max_cooldown = 500
+const max_cooldown := 500
 
 @export var walk_speed := 96
 @export var fly_speed := 192
 @export var inertia := 3
 @export var fly_delay := 200 # milliseconds
 
-@onready var bullet := preload("res://scenes/Bullet.tscn")
-@onready var base_modulate: Color = $Sprite2D.modulate
-@onready var damage_modulate := Color(2, 2, 2, 1)
-@onready var iframe_modulate := Color(1, 1, 1, 0.5)
-
 var alive := false
-var last_shot_time := -max_cooldown # milliseconds
+var last_shot_time := -self.max_cooldown # milliseconds
 var last_weapon: Weapon = null
 var current_shot_cooldown := 0 # milliseconds
 var laser_start := Vector2()
 var laser_end := Vector2()
 
 var shoot1_pressed := false
-var shoot1_pressed_time := -max_cooldown # milliseconds
+var shoot1_pressed_time := -self.max_cooldown # milliseconds
 var shoot2_pressed := false
-var shoot2_pressed_time := -max_cooldown # milliseconds
+var shoot2_pressed_time := -self.max_cooldown # milliseconds
+
+@onready var sprite: Sprite2D = %Sprite2D
+@onready var collision_shape: CollisionShape2D = %CollisionShape2D
+@onready var raycast: RayCast2D = %RayCast2D
+
+@onready var fly_particles: GPUParticles2D = %FlyParticles
+@onready var shoot_particles: GPUParticles2D = %ShootParticles
+@onready var laser_particles: GPUParticles2D = %LaserParticles
+@onready var death_particles: GPUParticles2D = %DeathParticles
+
+@onready var hurt_sound: AudioStreamPlayer2D = %HurtSound
+@onready var death_sound1: AudioStreamPlayer2D = %DeathSound1
+@onready var death_sound2: AudioStreamPlayer2D = %DeathSound2
+@onready var machine_gun_sound: AudioStreamPlayer2D = %MachineGunSound
+@onready var shotgun_sound: AudioStreamPlayer2D = %ShotgunSound
+@onready var laser_sound: AudioStreamPlayer2D = %LaserSound
+@onready var fly_sound: AudioStreamPlayer2D = %FlySound
+@onready var reloading_sound: AudioStreamPlayer2D = %ReloadingSound
+
+@onready var bullet := preload("res://scenes/Bullet.tscn")
+@onready var base_modulate: Color = self.sprite.modulate
+@onready var damage_modulate := Color(2, 2, 2, 1)
+@onready var iframe_modulate := Color(1, 1, 1, 0.5)
+
+@onready var weapons := [
+	#          Name          DMG CT Speed   Range   CLD  SPRD  KnockB Stun  Laser Sound                  Rand   Color           Particles             SDur Amp
+	Weapon.new("Machine Gun", 1, 1, 1500.0, 1536.0, 100, 0.0,  48.0,  0.25, 0,   self.machine_gun_sound, false, Color(1, 1, 1), self.shoot_particles, 0.2, 8),
+	Weapon.new("Shotgun",     1, 8, 1500.0, 1536.0, 500, 45.0, 192.0, 0.25, 0,   self.shotgun_sound,     true,  Color(1, 1, 1), self.shoot_particles, 0.4, 10),
+	Weapon.new("Laser",       8, 0, 0.0,    1536.0, 500, 0.0,  0.0,   0.25, 250, self.laser_sound,       true,  Color(0, 1, 1), self.laser_particles, .3, 10),
+]
+
+func setup() -> void:
+	self.alive = true
+	self.position = Vector2()
+	self.last_shot_time = -self.max_cooldown
+	self.current_shot_cooldown = 0
+	self.last_weapon = null
+	self.shoot1_pressed = false
+	self.shoot1_pressed_time = -self.max_cooldown
+	self.shoot2_pressed = false
+	self.shoot2_pressed_time = -self.max_cooldown
+	self.set_process(true)
+	self.set_physics_process(true)
+	self.set_process_input(true)
+	self.sprite.show()
+	self.collision_shape.disabled = false
+	self.death_particles.emitting = false
 
 
-func setup():
-	alive = true
-	position = Vector2()
-	last_shot_time = -max_cooldown
-	current_shot_cooldown = 0
-	last_weapon = null
-	shoot1_pressed = false
-	shoot1_pressed_time = -max_cooldown
-	shoot2_pressed = false
-	shoot2_pressed_time = -max_cooldown
-	set_process(true)
-	set_physics_process(true)
-	set_process_input(true)
-	$Sprite2D.visible = true
-	$CollisionShape2D.disabled = false
-	$DeathParticles.emitting = false
-
-
-func fly_cooling_down():
+func fly_cooling_down() -> bool:
 	var time := Time.get_ticks_msec()
-	return time - last_shot_time < current_shot_cooldown + fly_delay
+	return time - self.last_shot_time < self.current_shot_cooldown + self.fly_delay
 
 
-func cooling_down():
+func cooling_down() -> bool:
 	var time := Time.get_ticks_msec()
 	return time - last_shot_time < current_shot_cooldown
 
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	var time := Time.get_ticks_msec()
 
 	if event.is_action_pressed("shoot1"):
-		shoot1_pressed = true
-		shoot1_pressed_time = time
+		self.shoot1_pressed = true
+		self.shoot1_pressed_time = time
 
 	elif event.is_action_pressed("shoot2"):
-		shoot2_pressed = true
-		shoot2_pressed_time = time
-		if not shoot_weapon(LASER):
-			$ClickSound.play()
+		self.shoot2_pressed = true
+		self.shoot2_pressed_time = time
+		if not self.shoot_weapon(self.LASER):
+			self.reloading_sound.play()
 
 
-func get_mouse_position():
-	return get_global_mouse_position() - $ShakeCamera2D.position
+func get_angle_to_mouse() -> float:
+	return self.global_position.angle_to_point(
+		self.get_global_mouse_position()
+	) + PI
 
 
-func get_angle_to_mouse():
-	return global_position.angle_to_point(get_mouse_position()) + PI
-
-
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	var input_velocity := Vector2()
 	if Input.is_action_pressed("right"):
 		input_velocity.x += 1
@@ -158,34 +173,41 @@ func _physics_process(delta: float):
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if fly_cooling_down() or (Input.is_action_pressed("shoot1") or Input.is_action_pressed("shoot1")):
+		if self.fly_cooling_down() or Input.is_action_pressed("shoot1"):
 			new_velocity = input_velocity.normalized()
-			magnitude = walk_speed
-			new_rotation = get_angle_to_mouse()
-			$FlyParticles.emitting = false
-			$FlySound.stop()
+			magnitude = self.walk_speed
+			new_rotation = self.get_angle_to_mouse()
+			self.fly_particles.emitting = false
+			self.fly_sound.stop()
 		else:
-			if velocity.length() == 0 or is_equal_approx(abs(velocity.angle_to(input_velocity)), PI):
+			if (
+				self.velocity.length() == 0
+				or is_equal_approx(
+					abs(self.velocity.angle_to(input_velocity)), PI
+				)
+			):
 				new_velocity = input_velocity.normalized()
 			else:
-				new_velocity = (velocity.normalized() * inertia + input_velocity.normalized()).normalized()
+				new_velocity = (
+					self.velocity.normalized()
+					* inertia
+					+ input_velocity.normalized()
+				).normalized()
 			new_rotation = new_velocity.angle()
-			magnitude = fly_speed
-			$FlyParticles.emitting = true
-			if not $FlySound.playing:
-				$FlySound.play()
-		velocity = new_velocity * magnitude
-		set_velocity(velocity)
-		move_and_slide()
-		velocity = velocity
+			magnitude = self.fly_speed
+			self.fly_particles.emitting = true
+			if not self.fly_sound.playing:
+				self.fly_sound.play()
+		self.velocity = new_velocity * magnitude
+		self.move_and_slide()
 	else:
-		velocity = Vector2()
+		self.velocity = Vector2()
 		new_rotation = get_angle_to_mouse()
-		$FlyParticles.emitting = false
-		$FlySound.stop()
+		self.fly_particles.emitting = false
+		self.fly_sound.stop()
 	new_rotation += PI
 	# TODO export variable for rotation weight
-	rotation = lerp_angle(rotation, new_rotation, 24 * delta)
+	self.rotation = lerp_angle(self.rotation, new_rotation, 24 * delta)
 
 	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
 	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
@@ -194,32 +216,32 @@ func _physics_process(delta: float):
 		var held_duration := time - shoot1_pressed_time
 		var using_machine_gun: bool = held_duration > weapons[MACHINE_GUN].cooldown
 		if shoot1_currently_pressed and using_machine_gun:
-			shoot_weapon(MACHINE_GUN)
+			self.shoot_weapon(MACHINE_GUN)
 		elif not shoot1_currently_pressed and not using_machine_gun:
 			if not shoot_weapon(SHOTGUN):
-				$ClickSound.play()
+				self.reloading_sound.play()
 		shoot1_pressed = shoot1_currently_pressed
 
 	elif shoot2_currently_pressed:
-		shoot_weapon(LASER)
+		self.shoot_weapon(LASER)
 		shoot2_pressed = shoot2_currently_pressed
 
 
-func shoot_weapon(weapon_index: int):
+func shoot_weapon(weapon_index: int) -> bool:
 	var weapon: Weapon = weapons[weapon_index]
 	var time := Time.get_ticks_msec()
-	if cooling_down():
+	if self.cooling_down():
 		return false
 
 	if weapon.laser_duration > 0:
-		shoot_laser(
+		self.shoot_laser(
 			weapon.damage,
 			weapon.max_range,
 			weapon.knockback,
 			weapon.stun)
 	else:
 		for _i in weapon.bullet_count:
-			shoot_bullet(weapon.spread)
+			self.shoot_bullet(weapon.spread)
 
 	if weapon.particles != null:
 		weapon.particles.restart()
@@ -229,16 +251,20 @@ func shoot_weapon(weapon_index: int):
 	last_shot_time = time
 	current_shot_cooldown = weapon.cooldown
 	last_weapon = weapon
-	$ShakeCamera2D.shake(weapon.shake_duration, weapon.shake_amplitude, weapon.shake_amplitude)
+	$ShakeCamera2D.shake(
+		weapon.shake_duration,
+		weapon.shake_amplitude,
+		weapon.shake_amplitude
+	)
 	return true
 
 
-func shoot_bullet(spread: float):
+func shoot_bullet(spread: float) -> void:
 	var instance: Bullet = bullet.instantiate()
 	instance.position = self.position
 	self.get_parent().add_child(instance)
 	# look_at() must be called after the instance has entered the tree
-	instance.look_at(get_mouse_position())
+	instance.look_at(self.get_global_mouse_position())
 	# TODO export variable for distance to stop bullet appearing behind player
 	instance.position += Vector2(8, 0).rotated(instance.rotation)
 	instance.rotation += (randf() * spread) - (spread * 0.5)
@@ -249,24 +275,32 @@ func shoot_bullet(spread: float):
 	)
 
 
-func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
+func shoot_laser(damage: int, max_range: float, knockback: float, stun: float) -> void:
 	# TODO merge with player laser implementation
-	$RayCast2D.look_at(get_mouse_position())
-	$RayCast2D.target_position = Vector2(max_range, 0)
-	$RayCast2D.force_raycast_update()
+	self.raycast.look_at(self.get_global_mouse_position())
+	self.raycast.target_position = Vector2(max_range, 0)
+	self.raycast.force_raycast_update()
 	var collision_point: Vector2
-	while $RayCast2D.is_colliding():
-		collision_point = $RayCast2D.get_collision_point()
-		var object_hit = $RayCast2D.get_collider()
+	while self.raycast.is_colliding():
+		collision_point = self.raycast.get_collision_point()
+		var object_hit = self.raycast.get_collider()
 		if object_hit.is_in_group(&"enemies"):
-			object_hit.damage_by(damage, (object_hit.position - self.position).normalized() * knockback, stun)
+			object_hit.damage_by(
+				damage,
+				(object_hit.position - self.position).normalized() * knockback,
+				stun
+			)
 			# Don't penetrate large enemies
 			if object_hit.max_health > 1:
 				break
 		elif object_hit is TileMap:
 			# TODO merge with other implementations
 			var tilemap = object_hit
-			var position_hit = collision_point + Vector2(object_hit.tile_set.tile_size.x / 2, 0).rotated($RayCast2D.global_rotation)
+			var position_hit = (
+				collision_point
+				+ Vector2(object_hit.tile_set.tile_size.x / 2, 0)
+				.rotated(self.raycast.global_rotation)
+			)
 			var cellv = object_hit.local_to_map(position_hit)
 			var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
 			if 0 < tile_id and tile_id < 9:
@@ -278,28 +312,31 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
 				tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
 			break
-		$RayCast2D.add_exception(object_hit)
-		$RayCast2D.force_raycast_update()
+		self.raycast.add_exception(object_hit)
+		self.raycast.force_raycast_update()
 
-	$RayCast2D.clear_exceptions()
-	laser_start = position
-	if $RayCast2D.is_colliding():
+	self.raycast.clear_exceptions()
+	laser_start = self.position
+	if self.raycast.is_colliding():
 		laser_end = collision_point
 	else:
-		laser_end = $RayCast2D.target_position.rotated($RayCast2D.global_rotation) + position
+		laser_end = (
+			self.raycast.target_position.rotated(self.raycast.global_rotation)
+			+ self.position
+		)
 
 
-func die():
-	alive = false
-	set_process(false)
-	set_physics_process(false)
-	set_process_input(false)
-	$Sprite2D.visible = false
+func die() -> void:
+	self.alive = false
+	self.set_process(false)
+	self.set_physics_process(false)
+	self.set_process_input(false)
+	self.sprite.hide()
 	# Directly setting disabled leads to a seemingly harmless debugger error
 	# that recommends using call_deferred, so may as well
-	$CollisionShape2D.call_deferred("set_disabled", true)
-	$DeathSound1.play()
-	$DeathSound2.play()
-	$FlyParticles.emitting = false
-	$FlySound.stop()
-	$DeathParticles.emitting = true
+	self.collision_shape.call_deferred("set_disabled", true)
+	self.death_sound1.play()
+	self.death_sound2.play()
+	self.fly_particles.emitting = false
+	self.fly_sound.stop()
+	self.death_particles.emitting = true
