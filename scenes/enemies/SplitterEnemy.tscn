@@ -27,8 +27,6 @@ shape = SubResource("1")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
 texture = ExtResource("6")
-centered = false
-offset = Vector2(-8, -8)
 
 [node name="HurtSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4")
