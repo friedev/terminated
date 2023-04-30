@@ -237,13 +237,20 @@ func _on_ChargeTimer_timeout():
 	$CooldownTimer.start()
 	charging = false
 
+	# TODO merge with player laser implementation
 	$RayCast2D.force_raycast_update()
 	var collision_point: Vector2
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
+		laser_target = collision_point
 		var object_hit = $RayCast2D.get_collider()
-		if object_hit == player or object_hit.is_in_group("enemies"):
+		if object_hit == player:
 			object_hit.die()
+		elif object_hit.is_in_group("enemies"):
+			object_hit.damage_by(damage)
+			# Don't penetrate large enemies
+			if object_hit.max_health > 1:
+				break
 		elif object_hit is TileMap:
 			# TODO merge with other implementations
 			var tilemap = object_hit

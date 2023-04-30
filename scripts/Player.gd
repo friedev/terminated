@@ -268,6 +268,7 @@ func shoot_bullet(
 
 
 func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
+	# TODO merge with player laser implementation
 	$RayCast2D.look_at(get_mouse_position())
 	$RayCast2D.target_position = Vector2(max_range, 0)
 	$RayCast2D.force_raycast_update()
@@ -277,7 +278,8 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 		var object_hit = $RayCast2D.get_collider()
 		if object_hit.is_in_group("enemies"):
 			object_hit.damage_by(damage, (object_hit.position - self.position).normalized() * knockback, stun)
-			if object_hit.health > 0:
+			# Don't penetrate large enemies
+			if object_hit.max_health > 1:
 				break
 		elif object_hit is TileMap:
 			# TODO merge with other implementations

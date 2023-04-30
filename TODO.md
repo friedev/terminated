@@ -1,7 +1,7 @@
 # TODO
 
 - Spawners appear in the walls
-- Crushers block lasers and leave debris walls upon death
+- Crushers leave debris walls upon death
 - Explosions destroy walls
 - Wall damage/destruction sound
 - Debris floor tile left behind when debris walls are destroyed
