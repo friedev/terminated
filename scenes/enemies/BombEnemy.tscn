@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://8srlqpio0fvn"]
+[gd_scene load_steps=20 format=3 uid="uid://8srlqpio0fvn"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://bcw7niniwp55n" path="res://audio/sound/hurt/enemy.wav" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="4"]
 [ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/circle_white_small.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://by25s3ui25civ" path="res://sprites/bomb_enemy.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://b5olx4i15p01w" path="res://sprites/bomb_area.png" id="7_507ma"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 4.0
@@ -27,8 +28,8 @@ curve = SubResource("5")
 direction = Vector3(0, 0, 0)
 spread = 180.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 64.0
-initial_velocity_max = 92.0
+initial_velocity_min = 96.0
+initial_velocity_max = 160.0
 damping_min = 64.0
 damping_max = 64.0
 scale_max = 1.5
@@ -53,7 +54,7 @@ direction = Vector3(0, 0, 0)
 spread = 180.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 92.0
-initial_velocity_max = 196.0
+initial_velocity_max = 256.0
 damping_min = 196.0
 damping_max = 196.0
 scale_min = 2.0
@@ -62,7 +63,7 @@ scale_curve = SubResource("11")
 color_ramp = SubResource("GradientTexture1D_j4g1q")
 
 [sub_resource type="CircleShape2D" id="13"]
-radius = 64.0
+radius = 92.0
 
 [node name="BombEnemy" type="CharacterBody2D"]
 collision_layer = 5
@@ -99,7 +100,7 @@ bus = &"Sound"
 
 [node name="BombParticles1" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 16
+amount = 24
 process_material = SubResource("7")
 texture = ExtResource("5")
 one_shot = true
@@ -118,5 +119,10 @@ randomness = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea"]
 shape = SubResource("13")
+
+[node name="Sprite2D" type="Sprite2D" parent="BombArea"]
+z_index = -2
+scale = Vector2(1.438, 1.438)
+texture = ExtResource("7_507ma")
 
 [connection signal="finished" from="DeathSound" to="." method="_on_DeathSound_finished"]

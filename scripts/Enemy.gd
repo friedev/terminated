@@ -57,6 +57,10 @@ func _ready():
 	$AmbientSound.pitch_scale = main.rand_pitch()
 	$AmbientSound.play(randf() * $AmbientSound.stream.get_length())
 
+func _process(delta: float) -> void:
+	if bomb:
+		$BombArea.global_rotation = 0
+
 
 func _physics_process(delta: float):
 	if acceleration == 0 and max_speed == 0:
@@ -207,6 +211,7 @@ func die():
 					and body != self
 					and body.health > 0)):
 				body.die()
+		$BombArea.hide()
 		$BombParticles1.emitting = true
 		$BombParticles2.emitting = true
 	else:

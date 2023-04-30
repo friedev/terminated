@@ -1,8 +1,6 @@
 # TODO
 
 - Spawners appear in the walls
-- Draw explosion radius around exploders
-- Update explosion effect to match new visual style
 - Enlarge laser turrets and give them more health
 - Crushers block lasers and leave debris walls upon death
 - Explosions destroy walls

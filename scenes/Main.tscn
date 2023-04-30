@@ -73,7 +73,7 @@ tile_set = SubResource("1")
 format = 2
 
 [node name="FloorTileMap" type="TileMap" parent="."]
-z_index = -5
+z_index = -4
 tile_set = SubResource("1")
 format = 2
 
