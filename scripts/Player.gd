@@ -135,7 +135,7 @@ func fly_cooling_down() -> bool:
 
 func cooling_down() -> bool:
 	var time := Time.get_ticks_msec()
-	return time - last_shot_time < current_shot_cooldown
+	return time - last_shot_time < self.current_shot_cooldown
 
 
 func _input(event: InputEvent) -> void:
@@ -248,9 +248,9 @@ func shoot_weapon(weapon_index: int) -> bool:
 	if weapon.sound != null:
 		weapon.sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 		weapon.sound.play()
-	last_shot_time = time
-	current_shot_cooldown = weapon.cooldown
-	last_weapon = weapon
+	self.last_shot_time = time
+	self.current_shot_cooldown = weapon.cooldown
+	self.last_weapon = weapon
 	$ShakeCamera2D.shake(
 		weapon.shake_duration,
 		weapon.shake_amplitude,
@@ -316,11 +316,11 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float) -
 		self.raycast.force_raycast_update()
 
 	self.raycast.clear_exceptions()
-	laser_start = self.position
+	self.laser_start = self.position
 	if self.raycast.is_colliding():
-		laser_end = collision_point
+		self.laser_end = collision_point
 	else:
-		laser_end = (
+		self.laser_end = (
 			self.raycast.target_position.rotated(self.raycast.global_rotation)
 			+ self.position
 		)
@@ -332,9 +332,7 @@ func die() -> void:
 	self.set_physics_process(false)
 	self.set_process_input(false)
 	self.sprite.hide()
-	# Directly setting disabled leads to a seemingly harmless debugger error
-	# that recommends using call_deferred, so may as well
-	self.collision_shape.call_deferred("set_disabled", true)
+	self.collision_shape.set_deferred(&"disabled", true)
 	self.death_sound1.play()
 	self.death_sound2.play()
 	self.fly_particles.emitting = false
