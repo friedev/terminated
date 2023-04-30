@@ -64,7 +64,8 @@ shape = SubResource("6")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 1.5708
 sprite_frames = SubResource("7")
-frame = 1
+autoplay = "default"
+frame_progress = 0.71265
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8")
