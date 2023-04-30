@@ -235,16 +235,19 @@ func shoot_weapon(weapon_index: int):
 
 
 func shoot_bullet(spread: float):
-	var instance = bullet.instantiate()
-	instance.position = position
-	instance.initial_position = instance.position
-	instance.initial_velocity = velocity
-	main.add_child(instance)
+	var instance: Bullet = bullet.instantiate()
+	instance.position = self.position
+	self.get_parent().add_child(instance)
 	# look_at() must be called after the instance has entered the tree
 	instance.look_at(get_mouse_position())
 	# TODO export variable for distance to stop bullet appearing behind player
 	instance.position += Vector2(8, 0).rotated(instance.rotation)
 	instance.rotation += (randf() * spread) - (spread * 0.5)
+	instance.velocity = (
+		self.velocity
+		+ Vector2(cos(instance.rotation), sin(instance.rotation))
+		* instance.speed
+	)
 
 
 func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
