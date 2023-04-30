@@ -30,7 +30,7 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="StrongEnemy" type="CharacterBody2D"]
+[node name="StrongEnemy" type="CharacterBody2D" groups=["enemies"]]
 scale = Vector2(2, 2)
 collision_layer = 5
 collision_mask = 5

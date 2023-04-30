@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="1"]
 radius = 2.0
 
-[node name="Bullet" type="CharacterBody2D"]
+[node name="Bullet" type="CharacterBody2D" groups=["bullets"]]
 z_index = -1
 collision_layer = 28
 collision_mask = 28

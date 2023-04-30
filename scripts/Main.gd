@@ -118,13 +118,13 @@ func setup() -> void:
 
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
-	for bullet in self.get_tree().get_nodes_in_group(&"Bullets"):
+	for bullet in self.get_tree().get_nodes_in_group(&"bullets"):
 		bullet.free()
 
-	for enemy in self.get_tree().get_nodes_in_group(&"Enemies"):
+	for enemy in self.get_tree().get_nodes_in_group(&"enemies"):
 		enemy.free()
 
-	for debris in self.get_tree().get_nodes_in_group(&"Debris"):
+	for debris in self.get_tree().get_nodes_in_group(&"debris"):
 		debris.free()
 
 	self.kills = 0
@@ -165,7 +165,6 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 		x = pos_binary
 		y = pos_range
 	instance.position = Vector2(x, y)
-	instance.add_to_group("Enemies")
 	self.add_child(instance)
 	instance.enemy_killed.connect(self._on_enemy_killed)
 
@@ -195,7 +194,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	# Calculate flock parameters here to avoid recomputing for every flockmate
 	# Reduces time complexity from O(n^2) to O(n)
-	var flock = get_tree().get_nodes_in_group("flock")
+	var flock = get_tree().get_nodes_in_group(&"flock")
 	self.flock_center = Vector2()
 	self.flock_heading = Vector2()
 	for flockmate in flock:
@@ -256,7 +255,6 @@ func _on_enemy_killed(enemy: Enemy) -> void:
 
 	instance.position = enemy.position
 	instance.rotation = randf() * (2 * PI)
-	instance.add_to_group("Debris")
 	self.add_child(instance)
 
 
@@ -277,7 +275,7 @@ func _draw() -> void:
 				4.0 * power
 			)
 
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
+	for enemy in get_tree().get_nodes_in_group(&"enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:
 				self.draw_line(

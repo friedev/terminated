@@ -259,7 +259,6 @@ func shoot_bullet(
 	instance.knockback = knockback
 	instance.stun = stun
 	instance.modulate = color
-	instance.add_to_group("Bullets")
 	main.add_child(instance)
 	# look_at() must be called after the instance has entered the tree
 	instance.look_at(get_mouse_position())
@@ -277,7 +276,7 @@ func shoot_laser(damage: int, max_range: float, knockback: float, stun: float):
 	while $RayCast2D.is_colliding():
 		collision_point = $RayCast2D.get_collision_point()
 		var object_hit = $RayCast2D.get_collider()
-		if object_hit.is_in_group("enemies"):
+		if object_hit.is_in_group(&"enemies"):
 			object_hit.damage_by(damage, (object_hit.position - self.position).normalized() * knockback, stun)
 			# Don't penetrate large enemies
 			if object_hit.max_health > 1:

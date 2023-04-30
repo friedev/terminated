@@ -50,9 +50,6 @@ var last_shot_time := -laser_duration
 
 
 func _ready():
-	add_to_group("enemies")
-	if flocking:
-		add_to_group("flock")
 	if laser:
 		$CooldownTimer.start()
 	$AmbientSound.pitch_scale = main.rand_pitch()
@@ -108,7 +105,7 @@ func _physics_process(delta: float):
 func handle_collision(collision: KinematicCollision2D) -> void:
 	if collision.get_collider() == player:
 		player.die()
-	elif collision.get_collider().is_in_group("enemies"):
+	elif collision.get_collider().is_in_group(&"enemies"):
 		if max_health > 1 and collision.get_collider().max_health == 1:
 			collision.get_collider().die()
 		elif max_health == 1 and collision.get_collider().max_health > 1:
@@ -144,7 +141,7 @@ func direction_to_player() -> Vector2:
 func flock_separation() -> Vector2:
 	var separation := Vector2()
 	for body in $SeparationArea.get_overlapping_bodies():
-		if body == self or not body.is_in_group("enemies"):
+		if body == self or not body.is_in_group(&"enemies"):
 			continue
 		var distance := self.position.distance_to(body.position)
 		separation -= (body.position - self.position).normalized() * (SEPARATION_DISTANCE / distance)
@@ -203,7 +200,7 @@ func die():
 	$AmbientSound.stop()
 
 	if flocking:
-		remove_from_group("flock")
+		remove_from_group(&"flock")
 
 	if bomb:
 		for body in $BombArea.get_overlapping_bodies():
@@ -247,7 +244,7 @@ func _on_ChargeTimer_timeout():
 		var object_hit = $RayCast2D.get_collider()
 		if object_hit == player:
 			object_hit.die()
-		elif object_hit.is_in_group("enemies"):
+		elif object_hit.is_in_group(&"enemies"):
 			object_hit.damage_by(damage)
 			# Don't penetrate large enemies
 			if object_hit.max_health > 1:
@@ -279,12 +276,11 @@ func split():
 	if not splitter or health <= 0 or not player.alive:
 		return
 
-	if len(get_tree().get_nodes_in_group("Enemies")) < max_enemies:
+	if len(get_tree().get_nodes_in_group(&"enemies")) < max_enemies:
 		var instance = load(splitter_enemy_path).instantiate()
 		instance.position = position + Vector2(8, 0).rotated(randf() * (2 * PI))
 		instance.rotation = rotation
 		instance.velocity = velocity
-		instance.add_to_group("Enemies")
 		main.add_child(instance)
 		instance.connect("enemy_killed", Callable(main, "_on_enemy_killed"))
 
