@@ -220,14 +220,7 @@ func shoot_weapon(weapon_index: int):
 			weapon.stun)
 	else:
 		for _i in weapon.bullet_count:
-			shoot_bullet(
-					weapon.damage,
-					weapon.bullet_speed,
-					weapon.max_range,
-					weapon.spread,
-					weapon.knockback,
-					weapon.stun,
-					weapon.color)
+			shoot_bullet(weapon.spread)
 
 	if weapon.particles != null:
 		weapon.particles.restart()
@@ -241,24 +234,11 @@ func shoot_weapon(weapon_index: int):
 	return true
 
 
-func shoot_bullet(
-		damage: int,
-		speed: float,
-		max_range: float,
-		spread: float,
-		knockback: float,
-		stun: float,
-		color: Color):
+func shoot_bullet(spread: float):
 	var instance = bullet.instantiate()
 	instance.position = position
 	instance.initial_position = instance.position
 	instance.initial_velocity = velocity
-	instance.damage = damage
-	instance.speed = speed
-	instance.max_range = max_range
-	instance.knockback = knockback
-	instance.stun = stun
-	instance.modulate = color
 	main.add_child(instance)
 	# look_at() must be called after the instance has entered the tree
 	instance.look_at(get_mouse_position())

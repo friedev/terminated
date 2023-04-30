@@ -1,16 +1,17 @@
 extends CharacterBody2D
+class_name Bullet
 
-var damage: int
-var speed: float
-var max_range: float
-var knockback: float
-var stun: float
+@export var damage: int
+@export var speed: float
+@export var max_range: float
+@export var knockback: float
+@export var stun: float
 
 var initial_position := Vector2()
 var initial_velocity := Vector2()
 
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	var velocity := initial_velocity + Vector2(cos(self.rotation), sin(self.rotation)) * speed
 	var collision := move_and_collide(velocity * delta)
 	if collision:
