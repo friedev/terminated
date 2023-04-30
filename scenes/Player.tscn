@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://bhsrj2uu8y4ay"]
+[gd_scene load_steps=20 format=3 uid="uid://bhsrj2uu8y4ay"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ddinid1m88hqu" path="res://sprites/player.png" id="2"]
-[ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="3"]
 [ext_resource type="AudioStream" uid="uid://c1gc3ugmnf154" path="res://audio/sound/hurt/player.wav" id="4"]
 [ext_resource type="AudioStream" uid="uid://cky5k4b2xrcsu" path="res://audio/sound/weapons/machine_gun.ogg" id="5"]
 [ext_resource type="AudioStream" uid="uid://da0k3ysbw5su0" path="res://audio/sound/death/player.wav" id="6"]
@@ -57,10 +56,6 @@ script = ExtResource("1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
-
-[node name="ShakeCamera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
-script = ExtResource("3")
 
 [node name="FlyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(3, 0)

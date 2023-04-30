@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://nkchromsigtb"]
+[gd_scene load_steps=16 format=3 uid="uid://nkchromsigtb"]
 
 [ext_resource type="Theme" uid="uid://da474bp0h3mo0" path="res://ui/themes/theme_hud_title.tres" id="1"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
 [ext_resource type="PackedScene" uid="uid://bhsrj2uu8y4ay" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_fqm3k"]
 [ext_resource type="Theme" uid="uid://bxdnwo7vo2bnr" path="res://ui/themes/theme_hud.tres" id="7"]
 [ext_resource type="Texture2D" uid="uid://c6auno7vgvnpi" path="res://sprites/check.png" id="8"]
 [ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_pressed.tres" id="9"]
@@ -83,6 +84,10 @@ tile_set = SubResource("1")
 format = 2
 
 [node name="Player" parent="." instance=ExtResource("3")]
+
+[node name="ShakeCamera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+script = ExtResource("4_fqm3k")
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
