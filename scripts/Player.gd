@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 class Weapon:
 	var name: String

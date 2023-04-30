@@ -1,4 +1,5 @@
 extends Control
+class_name MainMenu
 
 signal screen_shake_toggled(enabled: bool)
 

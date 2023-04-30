@@ -110,8 +110,14 @@ default_font = SubResource("FontFile_uerxt")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("4")
+final_wave_initial_delay = 10.0
+final_wave_delay_decrement = 1.0
+final_wave_min_delay = 4.0
+map_radius = 1024
+arena_radius = 256
 
 [node name="TileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
 tile_set = SubResource("1")
 format = 2
 layer_0/name = "walls"
@@ -125,6 +131,7 @@ layer_1/z_index = -4
 layer_1/tile_data = PackedInt32Array()
 
 [node name="Player" parent="." instance=ExtResource("3")]
+unique_name_in_owner = true
 
 [node name="ShakeCamera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
@@ -164,6 +171,7 @@ text = "FPS: 60"
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" parent="MenuLayer" instance=ExtResource("6_6f4i6")]
+unique_name_in_owner = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2")
@@ -171,8 +179,9 @@ autoplay = true
 bus = &"Music"
 
 [node name="SpawnTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 4.0
 one_shot = true
 
 [connection signal="screen_shake_toggled" from="MenuLayer/MainMenu" to="Player/ShakeCamera2D" method="_on_main_menu_screen_shake_toggled"]
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

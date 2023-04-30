@@ -40,18 +40,18 @@ var waves := [
 	Wave.new(140, [16, 2, 1, 1, 2]),
 ]
 
-@export var final_wave_initial_delay := 10
-@export var final_wave_delay_decrement := 1
-@export var final_wave_min_delay := 4
+@export var final_wave_initial_delay: float
+@export var final_wave_delay_decrement: float
+@export var final_wave_min_delay: float
 
-@export var map_radius := 1024
-@export var arena_radius := 256
+@export var map_radius: int
+@export var arena_radius: int
 
-@onready var debris_small := preload("res://scenes/Debris.tscn")
-@onready var debris_large := preload("res://scenes/DebrisLarge.tscn")
-@onready var crater := preload("res://scenes/Crater.tscn")
+const debris_small := preload("res://scenes/Debris.tscn")
+const debris_large := preload("res://scenes/DebrisLarge.tscn")
+const crater := preload("res://scenes/Crater.tscn")
 
-@onready var enemies := [
+const enemies: Array[PackedScene] = [
 	preload("res://scenes/enemies/BasicEnemy.tscn"),
 	preload("res://scenes/enemies/StrongEnemy.tscn"),
 	preload("res://scenes/enemies/LaserEnemy.tscn"),
@@ -61,6 +61,11 @@ var waves := [
 
 const TILE_HEALTH := 8
 
+const FLOOR_COORDS := Vector2i(0, 0)
+const DEBRIS_FLOOR_COORDS := Vector2i(self.TILE_HEALTH + 2, 0)
+const WALL_COORDS := Vector2i(self.TILE_HEALTH, 0)
+const BORDER_COORDS := Vector2i(self.TILE_HEALTH + 1, 0)
+
 var start_time: int
 var kills := 0
 var wave := 0
@@ -69,74 +74,83 @@ var final_wave_delay := final_wave_initial_delay
 var flock_center: Vector2
 var flock_heading: Vector2
 
-func _ready():
+@onready var player: Player = %Player
+@onready var tile_map: TileMap = %TileMap
+@onready var main_menu: MainMenu = %MainMenu
+@onready var spawn_timer: Timer = %SpawnTimer
+
+func _ready() -> void:
 	randomize()
 
-	$Player.visible = false
-	$Player.set_process(false)
-	$Player.set_physics_process(false)
-	$Player.set_process_input(false)
+	self.player.visible = false
+	self.player.set_process(false)
+	self.player.set_physics_process(false)
+	self.player.set_process_input(false)
 
-	setup_tilemap()
+	self.setup_tilemap()
 
 
-func setup_tilemap():
-	var map_tiles = map_radius / $TileMap.tile_set.tile_size.x
-	var arena_tiles = arena_radius / $TileMap.tile_set.tile_size.x
+func setup_tilemap() -> void:
+	var map_tiles = self.map_radius / self.tile_map.tile_set.tile_size.x
+	var arena_tiles = self.arena_radius / self.tile_map.tile_set.tile_size.x
 	for x in range(-map_tiles, map_tiles + 1):
 		for y in range(-map_tiles, map_tiles + 1):
+			var v := Vector2i(x, y)
+			# Arena center
 			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
-				$TileMap.set_cell(0, Vector2i(x, y))
-				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(0, 0))
+				self.tile_map.set_cell(0, v)
+				self.tile_map.set_cell(1, v, 0, self.FLOOR_COORDS)
+			# Arena border
 			elif abs(x) == map_tiles or abs(y) == map_tiles:
-				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 1, 0))
-				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(0, 0))
+				self.tile_map.set_cell(0, v, 0, self.BORDER_COORDS)
+				self.tile_map.set_cell(1, v, 0, self.FLOOR_COORDS)
+			# Wall area
 			else:
 				# TODO use alternative tiles to flip walls for variety
 #				var flip_x := randi() % 2 == 0
 #				var flip_y := randi() % 2 == 0
-				$TileMap.set_cell(0, Vector2i(x, y), 0, Vector2i(TILE_HEALTH, 0))
-				$TileMap.set_cell(1, Vector2i(x, y), 0, Vector2i(TILE_HEALTH + 2, 0))
+				self.tile_map.set_cell(0, v, 0, self.WALL_COORDS)
+				self.tile_map.set_cell(1, v, 0, self.DEBRIS_FLOOR_COORDS)
 
 
-func setup():
-	setup_tilemap()
+func setup() -> void:
+	self.setup_tilemap()
 
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
-	for bullet in get_tree().get_nodes_in_group("Bullets"):
+	for bullet in self.get_tree().get_nodes_in_group(&"Bullets"):
 		bullet.free()
 
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
+	for enemy in self.get_tree().get_nodes_in_group(&"Enemies"):
 		enemy.free()
 
-	for debris in get_tree().get_nodes_in_group("Debris"):
+	for debris in self.get_tree().get_nodes_in_group(&"Debris"):
 		debris.free()
 
-	kills = 0
-	wave = 0
-	final_wave_delay = final_wave_initial_delay
+	self.kills = 0
+	self.wave = 0
+	self.final_wave_delay = final_wave_initial_delay
 
-	$Player.setup()
-	$Player.visible = true
-	$Player.set_process(true)
-	$Player.set_physics_process(true)
-	$Player.set_process_input(true)
+	self.player.setup()
+	self.player.visible = true
+	self.player.set_process(true)
+	self.player.set_physics_process(true)
+	self.player.set_process_input(true)
 
-	$MenuLayer/MainMenu.visible = false
+	self.main_menu.visible = false
 
-	$SpawnTimer.wait_time = waves[0].time
-	start_time = Time.get_ticks_msec()
-	$SpawnTimer.start()
-
-
-func spawn_wave(index: int):
-	for enemy_index in range(len(waves[index].enemies)):
-		for _i in range(waves[index].enemies[enemy_index]):
-			spawn_enemy(enemies[enemy_index])
+	self.spawn_timer.wait_time = waves[0].time
+	self.start_time = Time.get_ticks_msec()
+	self.spawn_timer.start()
 
 
-func spawn_enemy(enemy_scene):
+func spawn_wave(index: int) -> void:
+	for enemy_index in range(len(self.waves[index].enemies)):
+		for _i in range(self.waves[index].enemies[enemy_index]):
+			self.spawn_enemy(self.enemies[enemy_index])
+
+
+func spawn_enemy(enemy_scene: PackedScene) -> void:
 	# Make sure to update splitter spawn code too (Enemy.gd)
 	var instance = enemy_scene.instantiate()
 	var padding := 4
@@ -152,20 +166,20 @@ func spawn_enemy(enemy_scene):
 		y = pos_range
 	instance.position = Vector2(x, y)
 	instance.add_to_group("Enemies")
-	add_child(instance)
-	instance.connect("enemy_killed", Callable(self, "_on_enemy_killed"))
+	self.add_child(instance)
+	instance.enemy_killed.connect(self._on_enemy_killed)
 
 
-func rand_pitch():
+func rand_pitch() -> float:
 	return randf() / 4.0 + 0.875
 
 
-func _process(delta: float):
+func _process(delta: float) -> void:
 	# Call _draw() dynamically
-	queue_redraw()
+	self.queue_redraw()
 
 	# Update timer; stop timer after player dies
-	if $Player.alive:
+	if self.player.alive:
 		var milliseconds := Time.get_ticks_msec() - start_time
 		var seconds := milliseconds / 1000
 		var minutes := seconds / 60
@@ -173,89 +187,116 @@ func _process(delta: float):
 		seconds %= 60
 		%TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
 	else:
-		$MenuLayer/MainMenu.visible = true
+		self.main_menu.visible = true
 
 	%FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
 
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	# Calculate flock parameters here to avoid recomputing for every flockmate
 	# Reduces time complexity from O(n^2) to O(n)
 	var flock = get_tree().get_nodes_in_group("flock")
-	flock_center = Vector2()
-	flock_heading = Vector2()
+	self.flock_center = Vector2()
+	self.flock_heading = Vector2()
 	for flockmate in flock:
-		flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
-		flock_center += flockmate.position
+		self.flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
+		self.flock_center += flockmate.position
 
 	if len(flock) > 0:
-		flock_heading /= len(flock)
-		flock_center /= len(flock)
+		self.flock_heading /= len(flock)
+		self.flock_center /= len(flock)
 
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("quit"):
-		if $Player.alive:
-			$Player.die()
+		if self.player.alive:
+			self.player.die()
 		elif OS.get_name() != "HTML5":
-			get_tree().quit()
-
+			self.get_tree().quit()
 	elif event.is_action_pressed("restart"):
-		setup()
-
+		self.setup()
 	elif event.is_action_pressed("fps"):
 		%FPSLabel.visible = !%FPSLabel.visible
 
 
-func _on_Timer_timeout():
-	if not $Player.alive:
+func _on_spawn_timer_timeout() -> void:
+	if not self.player.alive:
 		return
 
-	spawn_wave(wave)
+	self.spawn_wave(wave)
 
-	if wave < len(waves) - 1:
-		$SpawnTimer.wait_time = waves[wave + 1].time - waves[wave].time
-		wave += 1
+	if self.wave < len(self.waves) - 1:
+		self.spawn_timer.wait_time = (
+			self.waves[self.wave + 1].time - self.waves[self.wave].time
+		)
+		self.wave += 1
 	else:
-		$SpawnTimer.wait_time = final_wave_delay
-		final_wave_delay = max(final_wave_min_delay, final_wave_delay - final_wave_delay_decrement)
+		self.spawn_timer.wait_time = self.final_wave_delay
+		self.final_wave_delay = max(
+			self.final_wave_min_delay,
+			self.final_wave_delay - self.final_wave_delay_decrement
+		)
 
-	$SpawnTimer.start()
+	self.spawn_timer.start()
 
 
-func _on_enemy_killed(enemy):
-	if $Player.alive:
+func _on_enemy_killed(enemy: Enemy) -> void:
+	if self.player.alive:
 		kills += 1
 
 	# Place debris, regardless of cause of death
+	# TODO specify and spawn debris in enemy scene
 	var instance: Sprite2D
 	if enemy.bomb:
-		instance = crater.instantiate()
+		instance = self.crater.instantiate()
 	elif enemy.max_health > 1:
-		instance = debris_large.instantiate()
+		instance = self.debris_large.instantiate()
 	else:
-		instance = debris_small.instantiate()
+		instance = self.debris_small.instantiate()
 
 	instance.position = enemy.position
 	instance.rotation = randf() * (2 * PI)
 	instance.add_to_group("Debris")
-	add_child(instance)
+	self.add_child(instance)
 
 
-func _draw():
-	var weapon = $Player.last_weapon
+func _draw() -> void:
+	var weapon = self.player.last_weapon
 	if weapon != null and weapon.laser_duration > 0:
 		var time := Time.get_ticks_msec()
-		var power: float = 1.0 - float(time - $Player.last_shot_time) / float(weapon.laser_duration)
+		var power: float = (
+			1.0
+			- float(time - self.player.last_shot_time)
+			/ float(weapon.laser_duration)
+		)
 		if power > 0.0:
-			draw_line($Player.laser_start, $Player.laser_end, weapon.color, 4.0 * power)
+			self.draw_line(
+				self.player.laser_start,
+				self.player.laser_end,
+				weapon.color,
+				4.0 * power
+			)
 
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		if enemy.laser and enemy.health > 0:
 			if enemy.charging:
-				draw_line(enemy.position, enemy.laser_target, enemy.laser_charge_color, 4.0)
+				self.draw_line(
+					enemy.position,
+					enemy.laser_target,
+					enemy.laser_charge_color,
+					4.0
+				)
 			else:
 				var time := Time.get_ticks_msec()
-				var power: float = 1.0 - float(time - enemy.last_shot_time) / float(enemy.laser_duration)
+				var power: float = (
+					1.0
+					- float(time - enemy.last_shot_time)
+					/ float(enemy.laser_duration)
+				)
 				if power > 0.0:
-					draw_line(enemy.position, enemy.laser_target, enemy.laser_shot_color, 4.0 * power)
+					self.draw_line(
+						enemy.position,
+						enemy.laser_target,
+						enemy.laser_shot_color,
+						4.0 * power
+					)
