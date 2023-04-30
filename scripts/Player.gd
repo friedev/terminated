@@ -33,7 +33,7 @@ var shoot2_pressed_time := -self.max_cooldown # milliseconds
 @onready var fly_sound: AudioStreamPlayer2D = %FlySound
 @onready var reloading_sound: AudioStreamPlayer2D = %ReloadingSound
 
-@onready var bullet := preload("res://scenes/Bullet.tscn")
+@onready var bullet := preload("res://scenes/bullet.tscn")
 
 func setup() -> void:
 	self.alive = true

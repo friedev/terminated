@@ -1,16 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://nkchromsigtb"]
+[gd_scene load_steps=13 format=3 uid="uid://pbsavalsj7c6"]
 
-[ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="2"]
-[ext_resource type="PackedScene" uid="uid://b70f17iru82aq" path="res://scenes/Player.tscn" id="3"]
-[ext_resource type="Script" path="res://scripts/Main.gd" id="4"]
-[ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_fqm3k"]
-[ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_n7ewb"]
-[ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_1aqey"]
-[ext_resource type="PackedScene" uid="uid://dlmspohhn3xfo" path="res://scenes/main_menu.tscn" id="6_6f4i6"]
-[ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="12"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_eetng"]
+[ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
+[ext_resource type="PackedScene" uid="uid://bmqqmmpjuvqd" path="res://scenes/player.tscn" id="3_5sen2"]
+[ext_resource type="Script" path="res://scripts/ShakeCamera2D.gd" id="4_6d80i"]
+[ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_o078d"]
+[ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_0fveq"]
+[ext_resource type="PackedScene" uid="uid://dlmspohhn3xfo" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
+[ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
-texture = ExtResource("12")
+texture = ExtResource("2_svqu7")
 texture_region_size = Vector2i(48, 48)
 0:0/0 = 0
 0:0/0/z_index = -2
@@ -64,7 +64,7 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_tpcbk")
 
 [sub_resource type="FontFile" id="FontFile_uerxt"]
-fallbacks = Array[Font]([ExtResource("6_1aqey")])
+fallbacks = Array[Font]([ExtResource("6_0fveq")])
 face_index = null
 embolden = null
 transform = null
@@ -109,7 +109,7 @@ cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
 default_font = SubResource("FontFile_uerxt")
 
 [node name="Main" type="Node2D"]
-script = ExtResource("4")
+script = ExtResource("1_eetng")
 final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
@@ -130,12 +130,12 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = -4
 layer_1/tile_data = PackedInt32Array()
 
-[node name="Player" parent="." instance=ExtResource("3")]
+[node name="Player" parent="." instance=ExtResource("3_5sen2")]
 unique_name_in_owner = true
 
 [node name="ShakeCamera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
-script = ExtResource("4_fqm3k")
+script = ExtResource("4_6d80i")
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
@@ -145,7 +145,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("5_n7ewb")
+theme = ExtResource("5_o078d")
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
@@ -170,11 +170,11 @@ text = "FPS: 60"
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
-[node name="MainMenu" parent="MenuLayer" instance=ExtResource("6_6f4i6")]
+[node name="MainMenu" parent="MenuLayer" instance=ExtResource("7_kwnbg")]
 unique_name_in_owner = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2")
+stream = ExtResource("8_bvs7a")
 autoplay = true
 bus = &"Music"
 

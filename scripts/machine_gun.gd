@@ -1,6 +1,6 @@
 extends Weapon
 
-const BULLET_SCENE := preload("res://scenes/Bullet.tscn")
+const BULLET_SCENE := preload("res://scenes/bullet.tscn")
 
 func fire() -> void:
 	var bullet: Bullet = self.BULLET_SCENE.instantiate()

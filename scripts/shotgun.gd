@@ -1,6 +1,6 @@
 extends Weapon
 
-const BULLET_SCENE := preload("res://scenes/Bullet.tscn")
+const BULLET_SCENE := preload("res://scenes/bullet.tscn")
 
 @export var bullet_count: int
 @export var spread_degrees: float

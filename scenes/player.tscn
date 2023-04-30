@@ -1,11 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://b70f17iru82aq"]
+[gd_scene load_steps=16 format=3 uid="uid://bmqqmmpjuvqd"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ddinid1m88hqu" path="res://sprites/player.png" id="2"]
 [ext_resource type="AudioStream" uid="uid://c1gc3ugmnf154" path="res://audio/sound/hurt/player.wav" id="4"]
 [ext_resource type="AudioStream" uid="uid://da0k3ysbw5su0" path="res://audio/sound/death/player.wav" id="6"]
 [ext_resource type="PackedScene" uid="uid://bkm4hy2o1fw70" path="res://scenes/weapons/machine_gun.tscn" id="9_puqt2"]
-[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/DeathParticles.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/death_particles.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://cyk5eat0qjxsn" path="res://scenes/weapons/shotgun.tscn" id="10_e00kg"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="11"]
 [ext_resource type="PackedScene" uid="uid://dj7vvyf4vacw4" path="res://scenes/weapons/laser.tscn" id="11_aq6cc"]
