@@ -9,8 +9,21 @@ signal screen_shake_toggled(enabled: bool)
 @onready var fullscreen_check_box = %FullscreenCheckBox
 
 
-func _ready() -> void:
-	self.fullscreen_check_box.button_pressed = OS.get_name() != "HTML5"
+func update_fullscreen_status():
+	var window_mode := self.get_window().mode
+	self.fullscreen_check_box.button_pressed = (
+		window_mode == Window.MODE_FULLSCREEN
+		or window_mode == Window.MODE_EXCLUSIVE_FULLSCREEN
+	)
+
+func _process(delta: float) -> void:
+	# Ideally this would trigger via a signal or notification, but I can't find
+	# one that deals with window mode changes
+	# Tried:
+	# - NOTIFICATION_WM_SIZE_CHANGED
+	# - Window.titlebar_changed
+	# - Viewport.size_changed
+	self.update_fullscreen_status()
 
 
 func _on_sound_check_box_toggled(button_pressed: bool) -> void:
