@@ -55,7 +55,7 @@ const enemies: Array[PackedScene] = [
 	preload("res://scenes/enemies/basic_enemy.tscn"),
 	preload("res://scenes/enemies/strong_enemy.tscn"),
 	preload("res://scenes/enemies/laser_enemy.tscn"),
-	preload("res://scenes/enemies/splitter_enemy.tscn"),
+	preload("res://scenes/enemies/basic_enemy.tscn"), # was splitter
 	preload("res://scenes/enemies/bomb_enemy.tscn"),
 ]
 
@@ -76,8 +76,8 @@ var flock_heading: Vector2
 
 @onready var player: Player = %Player
 @onready var tile_map: TileMap = %TileMap
-@onready var main_menu: MainMenu = %MainMenu
 @onready var spawn_timer: Timer = %SpawnTimer
+@onready var main_menu: MainMenu = %MainMenu
 
 func _ready() -> void:
 	randomize()
@@ -118,14 +118,11 @@ func setup() -> void:
 
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
-	for bullet in self.get_tree().get_nodes_in_group(&"bullets"):
-		bullet.free()
-
-	for enemy in self.get_tree().get_nodes_in_group(&"enemies"):
-		enemy.free()
-
-	for debris in self.get_tree().get_nodes_in_group(&"debris"):
-		debris.free()
+	self.get_tree().call_group(&"enemies", &"free")
+	self.get_tree().call_group(&"bullets", &"free")
+	self.get_tree().call_group(&"debris", &"free")
+	self.get_tree().call_group(&"laser_beams", &"free")
+	self.get_tree().call_group(&"death_effects", &"free")
 
 	self.kills = 0
 	self.wave = 0
@@ -151,7 +148,6 @@ func spawn_wave(index: int) -> void:
 
 
 func spawn_enemy(enemy_scene: PackedScene) -> void:
-	# Make sure to update splitter spawn code too (Enemy.gd)
 	var instance = enemy_scene.instantiate()
 	var padding := 4
 	var pos_range = (randf() * 2 - 1) * (arena_radius - padding)
@@ -165,14 +161,11 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 		x = pos_binary
 		y = pos_range
 	instance.position = Vector2(x, y)
+	instance.player = self.player
 	self.add_child(instance)
-	instance.enemy_killed.connect(self._on_enemy_killed)
 
 
 func _process(delta: float) -> void:
-	# Call _draw() dynamically
-	self.queue_redraw()
-
 	# Update timer; stop timer after player dies
 	if self.player.alive:
 		var milliseconds := Time.get_ticks_msec() - start_time
@@ -185,21 +178,6 @@ func _process(delta: float) -> void:
 		self.main_menu.visible = true
 
 	%FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
-
-
-func _physics_process(delta: float) -> void:
-	# Calculate flock parameters here to avoid recomputing for every flockmate
-	# Reduces time complexity from O(n^2) to O(n)
-	var flock = get_tree().get_nodes_in_group(&"flock")
-	self.flock_center = Vector2()
-	self.flock_heading = Vector2()
-	for flockmate in flock:
-		self.flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
-		self.flock_center += flockmate.position
-
-	if len(flock) > 0:
-		self.flock_heading /= len(flock)
-		self.flock_center /= len(flock)
 
 
 func _input(event: InputEvent) -> void:
@@ -233,64 +211,3 @@ func _on_spawn_timer_timeout() -> void:
 		)
 
 	self.spawn_timer.start()
-
-
-func _on_enemy_killed(enemy: Enemy) -> void:
-	if self.player.alive:
-		kills += 1
-
-	# Place debris, regardless of cause of death
-	# TODO specify and spawn debris in enemy scene
-	var instance: Sprite2D
-	if enemy.bomb:
-		instance = self.crater.instantiate()
-	elif enemy.max_health > 1:
-		instance = self.debris_large.instantiate()
-	else:
-		instance = self.debris_small.instantiate()
-
-	instance.position = enemy.position
-	instance.rotation = randf() * (2 * PI)
-	self.add_child(instance)
-
-
-func _draw() -> void:
-#	var weapon = self.player.last_weapon
-#	if weapon != null and weapon.laser_duration > 0:
-#		var time := Time.get_ticks_msec()
-#		var power: float = (
-#			1.0
-#			- float(time - self.player.last_shot_time)
-#			/ float(weapon.laser_duration)
-#		)
-#		if power > 0.0:
-#			self.draw_line(
-#				self.player.laser_start,
-#				self.player.laser_end,
-#				weapon.color,
-#				4.0 * power
-#			)
-
-	for enemy in get_tree().get_nodes_in_group(&"enemies"):
-		if enemy.laser and enemy.health > 0:
-			if enemy.charging:
-				self.draw_line(
-					enemy.position,
-					enemy.laser_target,
-					enemy.laser_charge_color,
-					4.0
-				)
-			else:
-				var time := Time.get_ticks_msec()
-				var power: float = (
-					1.0
-					- float(time - enemy.last_shot_time)
-					/ float(enemy.laser_duration)
-				)
-				if power > 0.0:
-					self.draw_line(
-						enemy.position,
-						enemy.laser_target,
-						enemy.laser_shot_color,
-						4.0 * power
-					)

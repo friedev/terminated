@@ -1,17 +1,17 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://vg1lbtydy1hp"]
 
-[ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/death_particles.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/enemy.gd" id="2"]
-[ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="3"]
-[ext_resource type="AudioStream" uid="uid://bcw7niniwp55n" path="res://audio/sound/hurt/enemy.wav" id="4"]
+[ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_rdv1r"]
+[ext_resource type="Script" path="res://scenes/enemies/basic_enemy.gd" id="2_8lfvh"]
+[ext_resource type="PackedScene" uid="uid://dgn2xuxbl0mxx" path="res://scenes/death_effects/small_death_effect.tscn" id="3_q352q"]
+[ext_resource type="PackedScene" uid="uid://by3vlmhmap0f3" path="res://scenes/debris/debris.tscn" id="4_7usrm"]
 [ext_resource type="Texture2D" uid="uid://dpdvoc3aro50a" path="res://sprites/enemy1.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://b22vfs48ehvrm" path="res://audio/sound/ambient/basic_enemy.ogg" id="6"]
 [ext_resource type="Texture2D" uid="uid://ckdvfwgtd7gth" path="res://sprites/enemy2.png" id="7"]
 
-[sub_resource type="CircleShape2D" id="1"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_jix8c"]
 radius = 3.0
 
-[sub_resource type="SpriteFrames" id="3"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_oamih"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -25,53 +25,39 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="CircleShape2D" id="2"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_x84ya"]
 radius = 20.0
 
-[node name="BasicEnemy" type="CharacterBody2D" groups=["enemies", "flock"]]
-collision_layer = 4
-collision_mask = 15
-script = ExtResource("2")
+[node name="BasicEnemy" groups=["flock"] instance=ExtResource("1_rdv1r")]
+collision_layer = 20
+script = ExtResource("2_8lfvh")
+inertia_weight = 1.0
+separation_weight = 1.0
+alignment_weight = 0.5
+cohesion_weight = 0.2
+player_weight = 2.5
+separation_distance = 20.0
+flock_radius = 512.0
 acceleration = 8.0
 max_speed = 128.0
-max_health = 1
-damage = 1
-attack_knockback = 256.0
-flocking = true
+death_effect_scene = ExtResource("3_q352q")
+debris_scene = ExtResource("4_7usrm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("1")
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_jix8c")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-rotation = 1.5708
-sprite_frames = SubResource("3")
-autoplay = "default"
-frame_progress = 0.868932
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_oamih")
 
-[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4")
-bus = &"Sound"
-
-[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3")
-volume_db = 1.0
-bus = &"Sound"
-
-[node name="AmbientSound" type="AudioStreamPlayer2D" parent="."]
+[node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("6")
 volume_db = 1.0
-max_distance = 512.0
-attenuation = 2.0
-bus = &"Sound"
 
-[node name="DeathParticles" parent="." instance=ExtResource("1")]
-
-[node name="SeparationArea" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 4
+[node name="SeparationArea" type="Area2D" parent="." index="5"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 16
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SeparationArea"]
-shape = SubResource("2")
-
-[connection signal="finished" from="DeathSound" to="." method="_on_DeathSound_finished"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SeparationArea" index="0"]
+shape = SubResource("CircleShape2D_x84ya")

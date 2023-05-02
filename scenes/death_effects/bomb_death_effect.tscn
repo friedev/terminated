@@ -1,0 +1,79 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/death_effects/death_effect.tscn" id="1_xweo1"]
+[ext_resource type="Script" path="res://scenes/death_effects/bomb_death_effect.gd" id="2_08rjy"]
+[ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="3_dvcx2"]
+[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/circle_white_small.png" id="4_q57lp"]
+
+[sub_resource type="Gradient" id="Gradient_u2l0r"]
+colors = PackedColorArray(0.12549, 0.12549, 0.12549, 0.501961, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="4"]
+gradient = SubResource("Gradient_u2l0r")
+
+[sub_resource type="Curve" id="Curve_5qjwk"]
+_data = [Vector2(0, 0), 0.0, 3.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="6"]
+curve = SubResource("Curve_5qjwk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ev8vn"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 96.0
+initial_velocity_max = 160.0
+damping_min = 64.0
+damping_max = 64.0
+scale_max = 1.5
+scale_curve = SubResource("6")
+color_ramp = SubResource("4")
+
+[sub_resource type="Gradient" id="Gradient_qi25s"]
+colors = PackedColorArray(1, 0.831373, 0, 1, 0.756863, 0.0980392, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j4g1q"]
+gradient = SubResource("Gradient_qi25s")
+
+[sub_resource type="Curve" id="Curve_gffu0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="11"]
+curve = SubResource("Curve_gffu0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ergr2"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 92.0
+initial_velocity_max = 256.0
+damping_min = 196.0
+damping_max = 196.0
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("11")
+color_ramp = SubResource("GradientTexture1D_j4g1q")
+
+[node name="BombDeathEffect" instance=ExtResource("1_xweo1")]
+script = ExtResource("2_08rjy")
+
+[node name="AudioStreamPlayer2D" parent="." index="0"]
+stream = ExtResource("3_dvcx2")
+
+[node name="GPUParticles2D" parent="." index="1"]
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_ev8vn")
+texture = ExtResource("4_q57lp")
+lifetime = 1.0
+randomness = 0.5
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="." index="2"]
+unique_name_in_owner = true
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_ergr2")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5

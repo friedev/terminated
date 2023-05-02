@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjyksf5qjaw5w"]
+
+[ext_resource type="Script" path="res://scenes/death_effects/death_effect.gd" id="1_4wfcx"]
+
+[node name="DeathEffect" type="Node2D" groups=["death_effects"]]
+script = ExtResource("1_4wfcx")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+bus = &"Sound"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

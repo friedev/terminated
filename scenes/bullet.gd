@@ -12,11 +12,7 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		if collision.get_collider() is Enemy:
 			var enemy: Enemy = collision.get_collider()
-			enemy.damage_by(
-				damage,
-				(enemy.position - self.position).normalized() * knockback,
-				stun
-			)
+			enemy.health -= damage
 		elif collision.get_collider() is TileMap:
 			# TODO merge with other implementations
 			var tilemap: TileMap = collision.get_collider()
