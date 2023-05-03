@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dltqqwxjy00y4" path="res://scenes/particles/death_particles.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/shotgun.tscn" id="10_e00kg"]
 [ext_resource type="AudioStream" uid="uid://b4wkwh1vctavi" path="res://audio/sound/death/enemy.ogg" id="11"]
-[ext_resource type="PackedScene" path="res://scenes/weapons/laser.tscn" id="11_aq6cc"]
+[ext_resource type="PackedScene" uid="uid://cfxibblterwyy" path="res://scenes/weapons/laser.tscn" id="11_aq6cc"]
 [ext_resource type="AudioStream" uid="uid://ch10el6h52nhk" path="res://audio/sound/ambient/player_fly.ogg" id="12"]
 [ext_resource type="AudioStream" uid="uid://cnv01jp3r4t0f" path="res://audio/sound/weapons/click.ogg" id="13"]
 

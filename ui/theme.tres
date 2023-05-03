@@ -1,6 +1,16 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b2kbr0yu1h6tg"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://b2kbr0yu1h6tg"]
 
 [ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="1_iro17"]
+[ext_resource type="Texture2D" uid="uid://c6auno7vgvnpi" path="res://sprites/check.png" id="1_ytjyw"]
+[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button.tres" id="2_o8sq7"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kxft0"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wlr6k"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ai0xb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bhwmc"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("1_iro17")])
@@ -94,6 +104,20 @@ cache/0/24/16/glyphs/0/texture_idx = -1
 [resource]
 default_font = SubResource("1")
 default_font_size = 32
+CheckBox/icons/checked = ExtResource("1_ytjyw")
+CheckBox/icons/checked_disabled = ExtResource("1_ytjyw")
+CheckBox/icons/radio_checked = ExtResource("1_ytjyw")
+CheckBox/icons/radio_checked_disabled = ExtResource("1_ytjyw")
+CheckBox/icons/radio_unchecked = SubResource("CompressedTexture2D_kxft0")
+CheckBox/icons/radio_unchecked_disabled = SubResource("CompressedTexture2D_wlr6k")
+CheckBox/icons/unchecked = SubResource("CompressedTexture2D_ai0xb")
+CheckBox/icons/unchecked_disabled = SubResource("CompressedTexture2D_bhwmc")
+CheckBox/styles/disabled = ExtResource("2_o8sq7")
+CheckBox/styles/focus = ExtResource("2_o8sq7")
+CheckBox/styles/hover = ExtResource("2_o8sq7")
+CheckBox/styles/hover_pressed = ExtResource("2_o8sq7")
+CheckBox/styles/normal = ExtResource("2_o8sq7")
+CheckBox/styles/pressed = ExtResource("2_o8sq7")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 16

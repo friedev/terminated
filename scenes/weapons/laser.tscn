@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://cfxibblterwyy"]
 
-[ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_46y6d"]
+[ext_resource type="PackedScene" uid="uid://cidh4a2l0xhe" path="res://scenes/weapon.tscn" id="1_46y6d"]
 [ext_resource type="Script" path="res://scenes/weapons/laser.gd" id="2_8mtbw"]
 [ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="3_bnf7k"]
 

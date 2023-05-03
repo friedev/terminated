@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dliy4c84b7iag"]
+
+[ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/options/check_box_option.tscn" id="1_wtkf4"]
+[ext_resource type="Script" path="res://scenes/options/audio_option.gd" id="2_wt8m5"]
+
+[node name="AudioOption" instance=ExtResource("1_wtkf4")]
+script = ExtResource("2_wt8m5")
+bus_name = &""

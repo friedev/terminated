@@ -1,15 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxjdf1p7ppmjr"]
+[gd_scene load_steps=8 format=3 uid="uid://bxjdf1p7ppmjr"]
 
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="1_0sglw"]
-[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_gnx7s"]
-[ext_resource type="Texture2D" uid="uid://c6auno7vgvnpi" path="res://sprites/check.png" id="3_cm3f6"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button.tres" id="4_ndd0l"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_pressed.tres" id="5_oeqwt"]
-[ext_resource type="StyleBox" path="res://ui/styles/stylebox_button_hover.tres" id="6_xp208"]
+[ext_resource type="Script" path="res://scenes/options.gd" id="2_dy6pv"]
+[ext_resource type="PackedScene" uid="uid://dliy4c84b7iag" path="res://scenes/options/audio_option.tscn" id="3_is7wu"]
+[ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://scenes/options/fullscreen_option.tscn" id="4_qnfpr"]
+[ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/options/check_box_option.tscn" id="5_52wkn"]
+[ext_resource type="Script" path="res://scenes/options/screen_shake_option.gd" id="6_3i5l6"]
 
-[sub_resource type="ImageTexture" id="3"]
-
-[sub_resource type="ImageTexture" id="2"]
+[sub_resource type="GDScript" id="GDScript_6a406"]
+script/source = "extends Control
+"
 
 [node name="MainMenu" type="MarginContainer"]
 anchors_preset = 15
@@ -22,7 +22,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
-script = ExtResource("1_gnx7s")
+script = SubResource("GDScript_6a406")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -37,117 +37,90 @@ theme_override_constants/outline_size = 24
 theme_override_font_sizes/font_size = 64
 text = "T E R M I N A T E D"
 horizontal_alignment = 1
+uppercase = true
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
 layout_mode = 2
 
 [node name="InstructionsLabel" type="Label" parent="VBoxContainer/CenterContainer"]
 layout_mode = 2
-text = "       [R] TO START
-     [ESC] TO QUIT
+text = "       [R] to Start
+     [ESC] to Quit
 	
-    [WASD] TO MOVE
-HOLD [LMB] TO SHOOT
- TAP [LMB] FOR SHOTGUN
-     [RMB] FOR LASER"
+    [WASD] to Move
+Hold [LMB] to Shoot
+ Tap [LMB] for Shotgun
+     [RMB] for Laser"
+uppercase = true
 
 [node name="AuthorLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-text = "VERSION 2.0.0-DEV
-BY AARON FRIESEN
-HTTPS://FRIE.DEV"
+text = "Version 2.0.0-dev
+By Aaron Friesen
+https://frie.dev"
+uppercase = true
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="Options" type="GridContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 2
+script = ExtResource("2_dy6pv")
 
-[node name="SoundLabel" type="Label" parent="GridContainer"]
+[node name="SoundLabel" type="Label" parent="Options"]
 layout_mode = 2
-text = "SOUND"
+text = "Sound"
 horizontal_alignment = 2
+uppercase = true
 
-[node name="SoundCheckBox" type="CheckBox" parent="GridContainer"]
+[node name="SoundOption" parent="Options" instance=ExtResource("3_is7wu")]
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_icons/checked = ExtResource("3_cm3f6")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("3_cm3f6")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("4_ndd0l")
-theme_override_styles/pressed = ExtResource("5_oeqwt")
-theme_override_styles/disabled = ExtResource("5_oeqwt")
-theme_override_styles/hover = ExtResource("6_xp208")
-theme_override_styles/hover_pressed = ExtResource("4_ndd0l")
-theme_override_styles/focus = ExtResource("4_ndd0l")
-button_pressed = true
+bus_name = &"Sound"
+default = true
+key = "sound"
 
-[node name="MusicLabel" type="Label" parent="GridContainer"]
+[node name="MusicLabel" type="Label" parent="Options"]
 layout_mode = 2
-text = "MUSIC"
+text = "Music"
 horizontal_alignment = 2
+uppercase = true
 
-[node name="MusicCheckBox" type="CheckBox" parent="GridContainer"]
+[node name="MusicOption" parent="Options" instance=ExtResource("3_is7wu")]
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_icons/checked = ExtResource("3_cm3f6")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("3_cm3f6")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("4_ndd0l")
-theme_override_styles/pressed = ExtResource("5_oeqwt")
-theme_override_styles/disabled = ExtResource("5_oeqwt")
-theme_override_styles/hover = ExtResource("6_xp208")
-theme_override_styles/hover_pressed = ExtResource("4_ndd0l")
-theme_override_styles/focus = ExtResource("4_ndd0l")
-button_pressed = true
+bus_name = &"Music"
+default = true
+key = "music"
 
-[node name="FullscreenLabel" type="Label" parent="GridContainer"]
+[node name="FullscreenLabel" type="Label" parent="Options"]
 layout_mode = 2
-text = "FULLSCREEN"
+text = "Fullscreen"
 horizontal_alignment = 2
+uppercase = true
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="GridContainer"]
-unique_name_in_owner = true
+[node name="FullscreenOption" parent="Options" instance=ExtResource("4_qnfpr")]
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_icons/checked = ExtResource("3_cm3f6")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("3_cm3f6")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("4_ndd0l")
-theme_override_styles/pressed = ExtResource("5_oeqwt")
-theme_override_styles/disabled = ExtResource("5_oeqwt")
-theme_override_styles/hover = ExtResource("6_xp208")
-theme_override_styles/hover_pressed = ExtResource("4_ndd0l")
-theme_override_styles/focus = ExtResource("4_ndd0l")
+key = "fullscreen"
 
-[node name="ScreenShakeLabel" type="Label" parent="GridContainer"]
+[node name="ScreenShakeLabel" type="Label" parent="Options"]
 layout_mode = 2
-text = "SCREEN SHAKE"
+text = "Screen Shake"
 horizontal_alignment = 2
+uppercase = true
 
-[node name="ScreenShakeCheckbox" type="CheckBox" parent="GridContainer"]
+[node name="ScreenShakeOption" parent="Options" instance=ExtResource("5_52wkn")]
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_icons/checked = ExtResource("3_cm3f6")
-theme_override_icons/unchecked = SubResource("3")
-theme_override_icons/radio_checked = ExtResource("3_cm3f6")
-theme_override_icons/radio_unchecked = SubResource("2")
-theme_override_styles/normal = ExtResource("4_ndd0l")
-theme_override_styles/pressed = ExtResource("5_oeqwt")
-theme_override_styles/disabled = ExtResource("5_oeqwt")
-theme_override_styles/hover = ExtResource("6_xp208")
-theme_override_styles/hover_pressed = ExtResource("4_ndd0l")
-theme_override_styles/focus = ExtResource("4_ndd0l")
-button_pressed = true
+script = ExtResource("6_3i5l6")
+default = true
+key = "screen_shake"
 
-[connection signal="toggled" from="GridContainer/SoundCheckBox" to="." method="_on_sound_check_box_toggled"]
-[connection signal="toggled" from="GridContainer/MusicCheckBox" to="." method="_on_music_check_box_toggled"]
-[connection signal="toggled" from="GridContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
-[connection signal="toggled" from="GridContainer/ScreenShakeCheckbox" to="." method="_on_screen_shake_checkbox_toggled"]
+[connection signal="changed" from="Options/SoundOption" to="Options" method="_on_option_changed"]
+[connection signal="changed" from="Options/MusicOption" to="Options" method="_on_option_changed"]
+[connection signal="changed" from="Options/FullscreenOption" to="Options" method="_on_option_changed"]
+[connection signal="changed" from="Options/ScreenShakeOption" to="Options" method="_on_option_changed"]

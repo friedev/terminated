@@ -77,7 +77,7 @@ var flock_heading: Vector2
 @onready var player: Player = %Player
 @onready var tile_map: TileMap = %TileMap
 @onready var spawn_timer: Timer = %SpawnTimer
-@onready var main_menu: MainMenu = %MainMenu
+@onready var main_menu: Control = %MainMenu
 
 func _ready() -> void:
 	randomize()

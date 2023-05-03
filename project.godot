@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.0")
 [autoload]
 
 Flock="*res://scenes/flock.gd"
+Globals="*res://scenes/globals.gd"
 
 [display]
 

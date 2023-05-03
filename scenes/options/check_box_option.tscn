@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgnmle83oa3at"]
+
+[ext_resource type="PackedScene" uid="uid://ce6l67sarkr16" path="res://scenes/options/option.tscn" id="1_gr1vr"]
+[ext_resource type="Script" path="res://scenes/options/check_box_option.gd" id="2_q8cjk"]
+
+[node name="CheckBoxOption" instance=ExtResource("1_gr1vr")]
+custom_minimum_size = Vector2(32, 32)
+script = ExtResource("2_q8cjk")
+default = false
+
+[node name="CheckBox" type="CheckBox" parent="." index="0"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+
+[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]

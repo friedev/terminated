@@ -183,5 +183,4 @@ unique_name_in_owner = true
 wait_time = 4.0
 one_shot = true
 
-[connection signal="screen_shake_toggled" from="MenuLayer/MainMenu" to="Player/ShakeCamera2D" method="_on_main_menu_screen_shake_toggled"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

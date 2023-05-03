@@ -1,9 +1,6 @@
 # https://godotengine.org/qa/438/camera2d-screen-shake-extension?show=886#a886
 extends Camera2D
 
-# MY ADDITION: Easily toggle screen shake
-var shake_enabled := true
-
 var _duration = 0.0
 var _period_in_ms = 0.0
 var _amplitude = 0.0
@@ -53,7 +50,7 @@ func _process(delta):
 # Kick off a new screenshake effect.
 func shake(duration, frequency, amplitude):
 	# MY ADDITION: Easily toggle screen shake
-	if not shake_enabled:
+	if not Globals.screen_shake_enabled:
 		return
 
 	# Don't interrupt current shake duration
@@ -71,7 +68,3 @@ func shake(duration, frequency, amplitude):
 	set_offset(get_offset() - _last_offset)
 	_last_offset = Vector2(0, 0)
 	set_process(true)
-
-
-func _on_main_menu_screen_shake_toggled(enabled: bool) -> void:
-	self.shake_enabled = enabled
