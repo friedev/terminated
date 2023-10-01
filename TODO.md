@@ -5,6 +5,7 @@
 - Explosions destroy walls
 - Wall damage/destruction sound
 - Additional crusher death particles (smoke)
+- Persist high score
 
 Enemy ideas:
 
