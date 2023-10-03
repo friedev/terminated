@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://d0212hf8yyoqm"]
 
-[ext_resource type="PackedScene" uid="uid://bn0sthrnxgsjs" path="res://scenes/weapon.tscn" id="1_7h8ef"]
+[ext_resource type="PackedScene" uid="uid://cidh4a2l0xhe" path="res://scenes/weapon.tscn" id="1_7h8ef"]
 [ext_resource type="Script" path="res://scenes/weapons/machine_gun.gd" id="2_dyeiy"]
 [ext_resource type="AudioStream" uid="uid://cky5k4b2xrcsu" path="res://audio/sound/weapons/machine_gun.ogg" id="3_l3kuq"]
 
@@ -34,4 +34,3 @@ lifetime = 0.1
 [node name="AudioStreamPlayer2D" parent="." index="1"]
 stream = ExtResource("3_l3kuq")
 volume_db = -5.0
-bus = &"Sound"
