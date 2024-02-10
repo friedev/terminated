@@ -9,9 +9,9 @@ curve = SubResource("Curve_8c167")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84qgf"]
 spread = 60.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 64.0
 initial_velocity_max = 92.0
+gravity = Vector3(0, 0, 0)
 damping_min = 128.0
 damping_max = 128.0
 scale_min = 4.0

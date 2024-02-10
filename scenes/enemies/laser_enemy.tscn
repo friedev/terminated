@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_sg534"]
 [ext_resource type="Script" path="res://scenes/enemies/laser_enemy.gd" id="2_mgvt4"]
-[ext_resource type="PackedScene" path="res://scenes/death_effects/large_death_effect.tscn" id="3_g8sn2"]
+[ext_resource type="PackedScene" uid="uid://b6avxbcyicxgg" path="res://scenes/death_effects/large_death_effect.tscn" id="3_g8sn2"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="3_sn67u"]
 [ext_resource type="PackedScene" uid="uid://box3v20dnddho" path="res://scenes/debris/large_debris.tscn" id="4_jy72e"]
 [ext_resource type="Texture2D" uid="uid://c1ehxfamu0fwu" path="res://sprites/laser_enemy.png" id="5"]
@@ -33,9 +33,9 @@ curve = SubResource("8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nfxcr"]
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 196.0
 initial_velocity_max = 256.0
+gravity = Vector3(0, 0, 0)
 damping_min = 256.0
 damping_max = 256.0
 scale_min = 8.0

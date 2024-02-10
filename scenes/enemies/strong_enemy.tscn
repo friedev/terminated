@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://diw0fyfs8fluw"]
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_ujar1"]
-[ext_resource type="PackedScene" path="res://scenes/death_effects/large_death_effect.tscn" id="2_di80h"]
+[ext_resource type="PackedScene" uid="uid://b6avxbcyicxgg" path="res://scenes/death_effects/large_death_effect.tscn" id="2_di80h"]
 [ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/strong_enemy3.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://box3v20dnddho" path="res://scenes/debris/large_debris.tscn" id="3_bua7i"]
 [ext_resource type="Texture2D" uid="uid://c0aa6d8mmhfbv" path="res://sprites/strong_enemy1.png" id="5"]
@@ -38,9 +38,9 @@ curve = SubResource("8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xjdmu"]
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 196.0
 initial_velocity_max = 256.0
+gravity = Vector3(0, 0, 0)
 damping_min = 256.0
 damping_max = 256.0
 scale_min = 8.0
