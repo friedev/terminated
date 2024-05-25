@@ -80,8 +80,6 @@ var flock_heading: Vector2
 @onready var main_menu: Control = %MainMenu
 
 func _ready() -> void:
-	randomize()
-
 	self.player.visible = false
 	self.player.set_process(false)
 	self.player.set_physics_process(false)
