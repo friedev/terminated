@@ -1,8 +1,8 @@
-# TERMINATED
+# Terminated
 
 Slay robots in this top-down arena shooter inspired by [Devil Daggers](https://devildaggers.com/) by Sorath and [2DDD](https://www.youtube.com/watch?v=AdUhOtKY0ko) by Bintr.
 
-TERMINATED (including all code, art, and music) was created by [Aaron Friesen](https://frie.dev).
+Terminated (including all code, art, and music) was created by [Aaron Friesen](https://frie.dev).
 
 ## Instructions
 
