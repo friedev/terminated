@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxjdf1p7ppmjr"]
+[gd_scene load_steps=9 format=3 uid="uid://bxjdf1p7ppmjr"]
 
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="1_0sglw"]
 [ext_resource type="Script" path="res://scenes/options.gd" id="2_dy6pv"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://scenes/options/fullscreen_option.tscn" id="4_qnfpr"]
 [ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/options/check_box_option.tscn" id="5_52wkn"]
 [ext_resource type="Script" path="res://scenes/options/screen_shake_option.gd" id="6_3i5l6"]
+[ext_resource type="Script" path="res://scenes/version_label.gd" id="7_x8sms"]
 
 [sub_resource type="GDScript" id="GDScript_6a406"]
 script/source = "extends Control
@@ -51,15 +52,6 @@ text = "       [R] to Start
 Hold [LMB] to Shoot
  Tap [LMB] for Shotgun
      [RMB] for Laser"
-uppercase = true
-
-[node name="AuthorLabel" type="Label" parent="."]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Version 2.0.0-dev
-By Aaron Friesen
-https://frie.dev"
 uppercase = true
 
 [node name="Options" type="GridContainer" parent="."]
@@ -119,6 +111,30 @@ layout_mode = 2
 script = ExtResource("6_3i5l6")
 default = true
 key = "screen_shake"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+alignment = 2
+
+[node name="VersionLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "VERSION X.X.X"
+vertical_alignment = 2
+uppercase = true
+script = ExtResource("7_x8sms")
+
+[node name="AuthorLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "By Aaron Friesen
+https://frie.dev"
+vertical_alignment = 2
+uppercase = true
 
 [connection signal="changed" from="Options/SoundOption" to="Options" method="_on_option_changed"]
 [connection signal="changed" from="Options/MusicOption" to="Options" method="_on_option_changed"]
