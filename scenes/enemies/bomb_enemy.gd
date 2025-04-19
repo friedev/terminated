@@ -3,7 +3,8 @@ class_name BombEnemy
 
 @export var damage: int
 
-@onready var bomb_area: Area2D = %BombArea
+@export_group("Internal Nodes")
+@export var bomb_area: Area2D
 
 
 func _process(delta: float) -> void:

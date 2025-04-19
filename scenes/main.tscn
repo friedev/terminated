@@ -83,12 +83,19 @@ cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
 [sub_resource type="Theme" id="Theme_dake5"]
 default_font = SubResource("FontFile_uerxt")
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player", "wall_tile_map", "floor_tile_map", "spawn_timer", "main_menu", "timer_label", "fps_label")]
 script = ExtResource("1_m7l1v")
 final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
 map_size = Vector2i(16, 16)
+player = NodePath("Player")
+wall_tile_map = NodePath("WallTileMap")
+floor_tile_map = NodePath("FloorTileMap")
+spawn_timer = NodePath("SpawnTimer")
+main_menu = NodePath("MenuLayer/MainMenu")
+timer_label = NodePath("HUDLayer/HUD/TimerLabel")
+fps_label = NodePath("HUDLayer/HUD/FPSLabel")
 
 [node name="WallTileMap" type="TileMapLayer" parent="."]
 z_index = 1
@@ -101,7 +108,6 @@ use_parent_material = true
 tile_set = SubResource("1")
 
 [node name="Player" parent="." instance=ExtResource("3_5sen2")]
-unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
@@ -125,7 +131,6 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="TimerLabel" type="Label" parent="HUDLayer/HUD"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -133,7 +138,6 @@ theme = SubResource("Theme_dake5")
 text = "00:00.00"
 
 [node name="FPSLabel" type="Label" parent="HUDLayer/HUD"]
-unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
@@ -144,7 +148,6 @@ text = "FPS: 60"
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" parent="MenuLayer" instance=ExtResource("7_kwnbg")]
-unique_name_in_owner = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_bvs7a")
@@ -152,7 +155,6 @@ autoplay = true
 bus = &"Music"
 
 [node name="SpawnTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 4.0
 one_shot = true
 

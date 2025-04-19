@@ -5,7 +5,8 @@ var max_width := 4.0
 var duration := 0.5
 var reverse := false
 
-@onready var timer: Timer = %Timer
+@export_group("Internal Nodes")
+@export var timer: Timer
 
 
 func _ready():

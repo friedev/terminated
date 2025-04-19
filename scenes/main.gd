@@ -47,6 +47,15 @@ var waves := [
 ## Dimensions of the arena floor, in tiles.
 @export var map_size: Vector2i
 
+@export_group("Internal Nodes")
+@export var player: Player
+@export var wall_tile_map: TileMapLayer
+@export var floor_tile_map: TileMapLayer
+@export var spawn_timer: Timer
+@export var main_menu: Control
+@export var timer_label: Label
+@export var fps_label: Label
+
 const debris_small := preload("res://scenes/debris/debris.tscn")
 const debris_large := preload("res://scenes/debris/large_debris.tscn")
 const crater := preload("res://scenes/debris/crater.tscn")
@@ -69,12 +78,6 @@ var final_wave_delay := final_wave_initial_delay
 
 var flock_center: Vector2
 var flock_heading: Vector2
-
-@onready var player: Player = %Player
-@onready var wall_tile_map: TileMapLayer = $WallTileMap
-@onready var floor_tile_map: TileMapLayer = $FloorTileMap
-@onready var spawn_timer: Timer = %SpawnTimer
-@onready var main_menu: Control = %MainMenu
 
 func _ready() -> void:
 	assert(
@@ -166,11 +169,11 @@ func _process(delta: float) -> void:
 		var minutes := seconds / 60
 		milliseconds %= 1000
 		seconds %= 60
-		%TimerLabel.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
+		self.timer_label.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
 	else:
 		self.main_menu.visible = true
 
-	%FPSLabel.text = "FPS: %d" % Engine.get_frames_per_second()
+	self.fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
 
 
 func _input(event: InputEvent) -> void:
@@ -182,7 +185,7 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"restart"):
 		self.setup()
 	elif event.is_action_pressed(&"fps"):
-		%FPSLabel.visible = !%FPSLabel.visible
+		self.fps_label.visible = not self.fps_label.visible
 
 
 func _on_spawn_timer_timeout() -> void:

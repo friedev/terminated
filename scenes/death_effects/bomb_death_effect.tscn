@@ -56,24 +56,24 @@ scale_max = 4.0
 scale_curve = SubResource("11")
 color_ramp = SubResource("GradientTexture1D_j4g1q")
 
-[node name="BombDeathEffect" instance=ExtResource("1_xweo1")]
+[node name="BombDeathEffect" node_paths=PackedStringArray("particles2") instance=ExtResource("1_xweo1")]
 script = ExtResource("2_08rjy")
+particles2 = NodePath("GPUParticles2D2")
 
 [node name="AudioStreamPlayer2D" parent="." index="0"]
 stream = ExtResource("3_dvcx2")
 
 [node name="GPUParticles2D" parent="." index="1"]
 amount = 24
-process_material = SubResource("ParticleProcessMaterial_ev8vn")
 texture = ExtResource("4_q57lp")
 lifetime = 1.0
 randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_ev8vn")
 
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="." index="2"]
-unique_name_in_owner = true
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_ergr2")
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_ergr2")

@@ -8,7 +8,8 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export var stun: float
 @export var color: Color
 
-@onready var shapecast: ShapeCast2D = %ShapeCast2D
+@export_group("Internal Nodes")
+@export var shapecast: ShapeCast2D
 
 func fire() -> void:
 	# TODO merge with enemy laser implementation: give LaserEnemy a Laser node

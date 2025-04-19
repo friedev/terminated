@@ -46,12 +46,17 @@ color = Color(0.12549, 0.12549, 0.12549, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_b0khu"]
 radius = 4.0
 
-[node name="LaserEnemy" instance=ExtResource("1_sg534")]
+[node name="LaserEnemy" node_paths=PackedStringArray("shapecast", "cooldown_timer", "charge_timer", "laser_particles", "laser_sound") instance=ExtResource("1_sg534")]
 script = ExtResource("2_mgvt4")
 laser_damage = 8
 laser_range = 1536.0
 laser_shot_color = Color(1, 0, 0, 1)
 laser_charge_color = Color(1, 0, 0, 0.376471)
+shapecast = NodePath("ShapeCast2D")
+cooldown_timer = NodePath("CooldownTimer")
+charge_timer = NodePath("ChargeTimer")
+laser_particles = NodePath("LaserParticles")
+laser_sound = NodePath("LaserSound")
 max_health = 8
 death_effect_scene = ExtResource("3_g8sn2")
 debris_scene = ExtResource("4_jy72e")
@@ -64,9 +69,9 @@ position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_s7jv7")
 
 [node name="DamageParticles" parent="." index="2"]
-process_material = SubResource("ParticleProcessMaterial_nfxcr")
 lifetime = 0.15
 preprocess = 0.05
+process_material = SubResource("ParticleProcessMaterial_nfxcr")
 
 [node name="HurtSound" parent="." index="3"]
 stream = ExtResource("3_sn67u")
@@ -75,24 +80,19 @@ stream = ExtResource("3_sn67u")
 stream = ExtResource("6")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." index="5"]
-unique_name_in_owner = true
 shape = SubResource("CircleShape2D_b0khu")
 collision_mask = 7
 
 [node name="ChargeTimer" type="Timer" parent="." index="6"]
-unique_name_in_owner = true
 one_shot = true
 
 [node name="CooldownTimer" type="Timer" parent="." index="7"]
-unique_name_in_owner = true
 wait_time = 2.0
 one_shot = true
 
 [node name="LaserParticles" parent="." index="8" instance=ExtResource("9_pe8gd")]
-unique_name_in_owner = true
 
 [node name="LaserSound" type="AudioStreamPlayer2D" parent="." index="9"]
-unique_name_in_owner = true
 stream = ExtResource("7")
 bus = &"Sound"
 

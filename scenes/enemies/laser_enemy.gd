@@ -8,11 +8,12 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export var laser_shot_color: Color
 @export var laser_charge_color: Color
 
-@onready var shapecast: ShapeCast2D = %ShapeCast2D
-@onready var cooldown_timer: Timer = %CooldownTimer
-@onready var charge_timer: Timer = %ChargeTimer
-@onready var laser_particles: GPUParticles2D = %LaserParticles
-@onready var laser_sound: AudioStreamPlayer2D = %LaserSound
+@export_group("Internal Nodes")
+@export var shapecast: ShapeCast2D
+@export var cooldown_timer: Timer
+@export var charge_timer: Timer
+@export var laser_particles: GPUParticles2D
+@export var laser_sound: AudioStreamPlayer2D
 
 func _ready():
 	super._ready()

@@ -13,10 +13,11 @@ const velocity_threshold := 10.0
 
 var player: Player
 
-@onready var sprite: AnimatedSprite2D = %AnimatedSprite2D
-@onready var ambient_sound: AudioStreamPlayer2D = %AmbientSound
-@onready var hurt_sound: AudioStreamPlayer2D = %HurtSound
-@onready var damage_particles: GPUParticles2D = %DamageParticles
+@export_group("Internal Nodes")
+@export var sprite: AnimatedSprite2D
+@export var ambient_sound: AudioStreamPlayer2D
+@export var hurt_sound: AudioStreamPlayer2D
+@export var damage_particles: GPUParticles2D
 
 @onready var health := max_health:
 	set(value):

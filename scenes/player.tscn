@@ -30,77 +30,77 @@ scale_max = 4.0
 scale_curve = SubResource("CurveTexture_bmt0r")
 color = Color(0, 1, 1, 1)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape", "weapon_cooldown_timer", "fly_cooldown_timer", "machine_gun", "shotgun", "laser", "fly_particles", "death_particles", "hurt_sound", "death_sound1", "death_sound2", "fly_sound", "reloading_sound")]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_fj7dw")
+sprite = NodePath("Sprite2D")
+collision_shape = NodePath("CollisionShape2D")
+weapon_cooldown_timer = NodePath("WeaponCooldownTimer")
+fly_cooldown_timer = NodePath("FlyCooldownTimer")
+machine_gun = NodePath("MachineGun")
+shotgun = NodePath("Shotgun")
+laser = NodePath("Laser")
+fly_particles = NodePath("FlyParticles")
+death_particles = NodePath("DeathParticles")
+hurt_sound = NodePath("HurtSound")
+death_sound1 = NodePath("DeathSound1")
+death_sound2 = NodePath("DeathSound2")
+fly_sound = NodePath("FlySound")
+reloading_sound = NodePath("ReloadingSound")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-unique_name_in_owner = true
 shape = SubResource("1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-unique_name_in_owner = true
 rotation = 1.5708
 texture = ExtResource("2")
 offset = Vector2(0, -1)
 
 [node name="MachineGun" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("9_puqt2")]
-unique_name_in_owner = true
 wielder = NodePath("..")
 
 [node name="Shotgun" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("10_e00kg")]
-unique_name_in_owner = true
-wielder = NodePath("..")
 cooldown = 0.5
+wielder = NodePath("..")
 
 [node name="Laser" parent="." node_paths=PackedStringArray("wielder") instance=ExtResource("11_aq6cc")]
-unique_name_in_owner = true
 damage = 8
 stun = 0.25
 color = Color(0, 1, 1, 1)
 wielder = NodePath("..")
 
 [node name="WeaponCooldownTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 one_shot = true
 
 [node name="FlyCooldownTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
 [node name="FlyParticles" type="GPUParticles2D" parent="."]
-unique_name_in_owner = true
 position = Vector2(3, 0)
 amount = 32
 process_material = SubResource("13")
 
 [node name="DeathParticles" parent="." instance=ExtResource("10")]
-unique_name_in_owner = true
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 stream = ExtResource("4")
 bus = &"Sound"
 
 [node name="DeathSound1" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 stream = ExtResource("6")
 bus = &"Sound"
 
 [node name="DeathSound2" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 stream = ExtResource("11")
 bus = &"Sound"
 
 [node name="FlySound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 stream = ExtResource("12")
 volume_db = -8.0
 bus = &"Sound"
 
 [node name="ReloadingSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 stream = ExtResource("13")
 bus = &"Sound"

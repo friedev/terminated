@@ -10,7 +10,8 @@ class_name BasicEnemy
 @export var separation_distance: float
 @export var flock_radius: float
 
-@onready var separation_area: Area2D = %SeparationArea
+@export_group("Internal Nodes")
+@export var separation_area: Area2D
 
 
 func get_flock_center() -> Vector2:

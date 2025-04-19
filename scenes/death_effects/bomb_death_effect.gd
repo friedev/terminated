@@ -1,6 +1,7 @@
 extends DeathEffect
 
-@onready var particles2: GPUParticles2D = %GPUParticles2D2
+@export_group("Internal Nodes")
+@export var particles2: GPUParticles2D
 
 func _ready() -> void:
 	super._ready()

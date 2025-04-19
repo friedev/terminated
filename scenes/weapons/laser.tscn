@@ -26,25 +26,25 @@ color = Color(0.0666667, 0.0666667, 0.0666667, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_4r37b"]
 radius = 8.0
 
-[node name="Laser" instance=ExtResource("1_46y6d")]
+[node name="Laser" node_paths=PackedStringArray("shapecast") instance=ExtResource("1_46y6d")]
 script = ExtResource("2_8mtbw")
 damage = 0
 max_range = 1536.0
 knockback = 0.0
 stun = 0.0
 color = Color(1, 1, 1, 1)
+shapecast = NodePath("ShapeCast2D")
 cooldown = 0.5
 
 [node name="GPUParticles2D" parent="." index="0"]
 amount = 6
-process_material = SubResource("ParticleProcessMaterial_5xjyq")
 lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_5xjyq")
 
 [node name="AudioStreamPlayer2D" parent="." index="1"]
 stream = ExtResource("3_bnf7k")
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." index="3"]
-unique_name_in_owner = true
 shape = SubResource("CircleShape2D_4r37b")
 target_position = Vector2(0, 0)
 collision_mask = 5

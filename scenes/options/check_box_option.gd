@@ -3,7 +3,8 @@ class_name CheckBoxOption
 
 @export var default: bool
 
-@onready var check_box: CheckBox = %CheckBox
+@export_group("Internal Nodes")
+@export var check_box: CheckBox
 
 
 func _ready() -> void:

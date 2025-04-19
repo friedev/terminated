@@ -15,25 +15,26 @@ var shoot1_pressed_time := -self.max_cooldown # milliseconds
 var shoot2_pressed := false
 var shoot2_pressed_time := -self.max_cooldown # milliseconds
 
-@onready var sprite: Sprite2D = %Sprite2D
-@onready var collision_shape: CollisionShape2D = %CollisionShape2D
-@onready var weapon_cooldown_timer: Timer = %WeaponCooldownTimer
-@onready var fly_cooldown_timer: Timer = %FlyCooldownTimer
+@export var bullet := preload("res://scenes/bullet.tscn")
 
-@onready var machine_gun: Weapon = %MachineGun
-@onready var shotgun: Weapon = %Shotgun
-@onready var laser: Weapon = %Laser
+@export_group("Internal Nodes")
+@export var sprite: Sprite2D
+@export var collision_shape: CollisionShape2D
+@export var weapon_cooldown_timer: Timer
+@export var fly_cooldown_timer: Timer
 
-@onready var fly_particles: GPUParticles2D = %FlyParticles
-@onready var death_particles: GPUParticles2D = %DeathParticles
+@export var machine_gun: Weapon
+@export var shotgun: Weapon
+@export var laser: Weapon
 
-@onready var hurt_sound: AudioStreamPlayer2D = %HurtSound
-@onready var death_sound1: AudioStreamPlayer2D = %DeathSound1
-@onready var death_sound2: AudioStreamPlayer2D = %DeathSound2
-@onready var fly_sound: AudioStreamPlayer2D = %FlySound
-@onready var reloading_sound: AudioStreamPlayer2D = %ReloadingSound
+@export var fly_particles: GPUParticles2D
+@export var death_particles: GPUParticles2D
 
-@onready var bullet := preload("res://scenes/bullet.tscn")
+@export var hurt_sound: AudioStreamPlayer2D
+@export var death_sound1: AudioStreamPlayer2D
+@export var death_sound2: AudioStreamPlayer2D
+@export var fly_sound: AudioStreamPlayer2D
+@export var reloading_sound: AudioStreamPlayer2D
 
 func setup() -> void:
 	self.alive = true

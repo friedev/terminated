@@ -2,20 +2,20 @@
 
 [ext_resource type="Script" uid="uid://drmcu2hs6hqng" path="res://scenes/weapon.gd" id="1_53op6"]
 
-[node name="Weapon" type="Node2D"]
+[node name="Weapon" type="Node2D" node_paths=PackedStringArray("particles", "sound", "projectile_spawn_point")]
 script = ExtResource("1_53op6")
+particles = NodePath("GPUParticles2D")
+sound = NodePath("AudioStreamPlayer2D")
+projectile_spawn_point = NodePath("ProjectileSpawnPoint")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-unique_name_in_owner = true
 position = Vector2(2, 0)
 emitting = false
 one_shot = true
 explosiveness = 1.0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 bus = &"Sound"
 
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
-unique_name_in_owner = true
 position = Vector2(8, 0)

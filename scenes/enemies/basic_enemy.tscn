@@ -28,7 +28,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_x84ya"]
 radius = 20.0
 
-[node name="BasicEnemy" groups=["flock"] instance=ExtResource("1_rdv1r")]
+[node name="BasicEnemy" node_paths=PackedStringArray("separation_area") groups=["flock"] instance=ExtResource("1_rdv1r")]
 collision_layer = 20
 script = ExtResource("2_8lfvh")
 inertia_weight = 1.0
@@ -38,6 +38,7 @@ cohesion_weight = 0.2
 player_weight = 2.5
 separation_distance = 20.0
 flock_radius = 512.0
+separation_area = NodePath("SeparationArea")
 acceleration = 8.0
 max_speed = 128.0
 death_effect_scene = ExtResource("3_q352q")
@@ -54,7 +55,6 @@ stream = ExtResource("6")
 volume_db = 1.0
 
 [node name="SeparationArea" type="Area2D" parent="." index="5"]
-unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 16
 monitorable = false

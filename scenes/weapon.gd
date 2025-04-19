@@ -1,12 +1,15 @@
 extends Node2D
 class_name Weapon
 
-@export var wielder: CharacterBody2D
 @export var cooldown: float
 
-@onready var particles: GPUParticles2D = %GPUParticles2D
-@onready var sound: AudioStreamPlayer2D = %AudioStreamPlayer2D
-@onready var projectile_spawn_point: Node2D = %ProjectileSpawnPoint
+@export_group("External Nodes")
+@export var wielder: CharacterBody2D
+
+@export_group("Internal Nodes")
+@export var particles: GPUParticles2D
+@export var sound: AudioStreamPlayer2D
+@export var projectile_spawn_point: Node2D
 
 
 func spawn_projectile(projectile: Node2D) -> void:

@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dh2wli8rnq346" path="res://scenes/death_effects/death_effect.gd" id="1_4wfcx"]
 
-[node name="DeathEffect" type="Node2D" groups=["death_effects"]]
+[node name="DeathEffect" type="Node2D" node_paths=PackedStringArray("sound", "particles") groups=["death_effects"]]
 script = ExtResource("1_4wfcx")
+sound = NodePath("AudioStreamPlayer2D")
+particles = NodePath("GPUParticles2D")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
 bus = &"Sound"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-unique_name_in_owner = true
 emitting = false
 lifetime = 0.5
 one_shot = true
