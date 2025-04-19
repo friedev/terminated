@@ -1,4 +1,4 @@
-extends Node2D
+class_name Main extends Node2D
 
 class Wave:
 	var time: float # seconds
@@ -54,7 +54,6 @@ var waves := [
 @export var floor_tile_map: TileMapLayer
 @export var spawn_timer: Timer
 @export var main_menu: Control
-@export var timer_label: Label
 
 const debris_small := preload("res://scenes/debris/debris.tscn")
 const debris_large := preload("res://scenes/debris/large_debris.tscn")
@@ -71,13 +70,16 @@ const enemies: Array[PackedScene] = [
 const FLOOR_COORDS := Vector2i(0, 0)
 const BORDER_COORDS := Vector2i(9, 0)
 
-var start_time: int
 var kills := 0
 var wave := 0
 var final_wave_delay := final_wave_initial_delay
 
 var flock_center: Vector2
 var flock_heading: Vector2
+
+func _enter_tree() -> void:
+	Globals.main = self
+
 
 func _ready() -> void:
 	assert(
@@ -130,7 +132,7 @@ func setup() -> void:
 	self.main_menu.visible = false
 
 	self.spawn_timer.wait_time = waves[0].time
-	self.start_time = Time.get_ticks_msec()
+	Globals.start_ticks = Time.get_ticks_msec()
 	self.spawn_timer.start()
 
 
@@ -164,17 +166,8 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 
 
 func _process(_delta: float) -> void:
-	# Update timer; stop timer after player dies
-	if self.player.alive:
-		var milliseconds := Time.get_ticks_msec() - start_time
-		@warning_ignore("integer_division")
-		var seconds := milliseconds / 1000
-		@warning_ignore("integer_division")
-		var minutes := seconds / 60
-		milliseconds %= 1000
-		seconds %= 60
-		self.timer_label.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
-	else:
+	if not self.player.alive:
+		# TODO detect via signal
 		self.main_menu.visible = true
 
 
