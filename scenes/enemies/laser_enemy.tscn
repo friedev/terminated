@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://cq1wykaakktjp"]
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_sg534"]
-[ext_resource type="Script" path="res://scenes/enemies/laser_enemy.gd" id="2_mgvt4"]
+[ext_resource type="Script" uid="uid://dcjssm08wr1w1" path="res://scenes/enemies/laser_enemy.gd" id="2_mgvt4"]
 [ext_resource type="PackedScene" uid="uid://b6avxbcyicxgg" path="res://scenes/death_effects/large_death_effect.tscn" id="3_g8sn2"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="3_sn67u"]
 [ext_resource type="PackedScene" uid="uid://box3v20dnddho" path="res://scenes/debris/large_debris.tscn" id="4_jy72e"]

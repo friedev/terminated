@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://bxjdf1p7ppmjr"]
 
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="1_0sglw"]
-[ext_resource type="Script" path="res://scenes/options.gd" id="2_dy6pv"]
+[ext_resource type="Script" uid="uid://bloa2lj5wypf" path="res://scenes/options.gd" id="2_dy6pv"]
 [ext_resource type="PackedScene" uid="uid://dliy4c84b7iag" path="res://scenes/options/audio_option.tscn" id="3_is7wu"]
 [ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://scenes/options/fullscreen_option.tscn" id="4_qnfpr"]
 [ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/options/check_box_option.tscn" id="5_52wkn"]
-[ext_resource type="Script" path="res://scenes/options/screen_shake_option.gd" id="6_3i5l6"]
-[ext_resource type="Script" path="res://scenes/version_label.gd" id="7_x8sms"]
+[ext_resource type="Script" uid="uid://rex0i8nt0iit" path="res://scenes/options/screen_shake_option.gd" id="6_3i5l6"]
+[ext_resource type="Script" uid="uid://cvfji11bhhncx" path="res://scenes/version_label.gd" id="7_x8sms"]
 
 [sub_resource type="GDScript" id="GDScript_6a406"]
 script/source = "extends Control

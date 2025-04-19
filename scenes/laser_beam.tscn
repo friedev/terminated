@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d16ltbk1ci7xa"]
 
-[ext_resource type="Script" path="res://scenes/laser_beam.gd" id="1_a0sa2"]
+[ext_resource type="Script" uid="uid://bk2h76yoravim" path="res://scenes/laser_beam.gd" id="1_a0sa2"]
 
 [node name="LaserBeam" type="Line2D" groups=["laser_beams"]]
 width = 4.0

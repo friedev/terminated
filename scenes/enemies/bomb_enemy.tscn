@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bi7dtqes0yqbl"]
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_khuy8"]
-[ext_resource type="Script" path="res://scenes/enemies/bomb_enemy.gd" id="2_un6hk"]
+[ext_resource type="Script" uid="uid://dc206hnnqbi6j" path="res://scenes/enemies/bomb_enemy.gd" id="2_un6hk"]
 [ext_resource type="PackedScene" uid="uid://c3ju7hav6pg6" path="res://scenes/death_effects/bomb_death_effect.tscn" id="3_6maqp"]
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="4"]
 [ext_resource type="PackedScene" uid="uid://c57x7ungqnnyn" path="res://scenes/debris/crater.tscn" id="4_6kp3y"]

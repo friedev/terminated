@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://vg1lbtydy1hp"]
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_rdv1r"]
-[ext_resource type="Script" path="res://scenes/enemies/basic_enemy.gd" id="2_8lfvh"]
+[ext_resource type="Script" uid="uid://bawqw0klo4fwx" path="res://scenes/enemies/basic_enemy.gd" id="2_8lfvh"]
 [ext_resource type="PackedScene" uid="uid://dgn2xuxbl0mxx" path="res://scenes/death_effects/small_death_effect.tscn" id="3_q352q"]
 [ext_resource type="PackedScene" uid="uid://by3vlmhmap0f3" path="res://scenes/debris/debris.tscn" id="4_7usrm"]
 [ext_resource type="Texture2D" uid="uid://dpdvoc3aro50a" path="res://sprites/enemy1.png" id="5"]

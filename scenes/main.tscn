@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://dhhobx3w6vhyc"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_m7l1v"]
+[ext_resource type="Script" uid="uid://bie7a5du7w0vi" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
 [ext_resource type="PackedScene" uid="uid://bmqqmmpjuvqd" path="res://scenes/player.tscn" id="3_5sen2"]
-[ext_resource type="Script" path="res://scenes/shake_camera.gd" id="4_6phkc"]
+[ext_resource type="Script" uid="uid://dsjeoe7g42ah8" path="res://scenes/shake_camera.gd" id="4_6phkc"]
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_o078d"]
 [ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_0fveq"]
 [ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
