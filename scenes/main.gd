@@ -165,12 +165,6 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 	self.add_child(instance)
 
 
-func _process(_delta: float) -> void:
-	if not self.player.alive:
-		# TODO detect via signal
-		self.main_menu.visible = true
-
-
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("quit"):
 		if self.player.alive:
@@ -204,3 +198,7 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_node_spawned(node: Node) -> void:
 	self.add_child(node)
+
+
+func _on_player_died() -> void:
+	self.main_menu.show()

@@ -1,5 +1,6 @@
-extends CharacterBody2D
-class_name Player
+class_name Player extends CharacterBody2D
+
+signal died
 
 # TODO remove hardcoded maximum cooldown
 const max_cooldown := 0.5
@@ -167,3 +168,4 @@ func die() -> void:
 	self.fly_particles.emitting = false
 	self.fly_sound.stop()
 	self.death_particles.emitting = true
+	self.died.emit()

@@ -160,4 +160,5 @@ bus = &"Music"
 wait_time = 4.0
 one_shot = true
 
+[connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
