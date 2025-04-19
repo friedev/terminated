@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cjyksf5qjaw5w" path="res://scenes/death_effects/death_effect.tscn" id="1_xweo1"]
 [ext_resource type="Script" uid="uid://dl50vo5d1dl73" path="res://scenes/death_effects/bomb_death_effect.gd" id="2_08rjy"]
 [ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="3_dvcx2"]
-[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/circle_white_small.png" id="4_q57lp"]
+[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/ui/circle_white_small.png" id="4_q57lp"]
 
 [sub_resource type="Gradient" id="Gradient_u2l0r"]
 colors = PackedColorArray(0.12549, 0.12549, 0.12549, 0.501961, 0, 0, 0, 0)

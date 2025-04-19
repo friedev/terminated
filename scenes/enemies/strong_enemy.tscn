@@ -2,11 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://brcqfpfn1mwrl" path="res://scenes/enemy.tscn" id="1_ujar1"]
 [ext_resource type="PackedScene" uid="uid://b6avxbcyicxgg" path="res://scenes/death_effects/large_death_effect.tscn" id="2_di80h"]
-[ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/strong_enemy3.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://ro8am5w041fh" path="res://sprites/enemies/strong_enemy3.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://box3v20dnddho" path="res://scenes/debris/large_debris.tscn" id="3_bua7i"]
-[ext_resource type="Texture2D" uid="uid://c0aa6d8mmhfbv" path="res://sprites/strong_enemy1.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://c0aa6d8mmhfbv" path="res://sprites/enemies/strong_enemy1.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://vetmfm2xmluv" path="res://audio/sound/ambient/strong_enemy.ogg" id="6"]
-[ext_resource type="Texture2D" uid="uid://l2gpo6duqw5s" path="res://sprites/strong_enemy2.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://l2gpo6duqw5s" path="res://sprites/enemies/strong_enemy2.png" id="7"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l3h1t"]

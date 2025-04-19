@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0aa6d8mmhfbv"
-path="res://.godot/imported/strong_enemy1.png-74a68dcbfa7ca70a113adba37d9a5942.ctex"
+uid="uid://bilyet22qssyp"
+path="res://.godot/imported/spawner.png-83f8082d9f4c3ea61e9c69031978683f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/strong_enemy1.png"
-dest_files=["res://.godot/imported/strong_enemy1.png-74a68dcbfa7ca70a113adba37d9a5942.ctex"]
+source_file="res://sprites/enemies/spawner.png"
+dest_files=["res://.godot/imported/spawner.png-83f8082d9f4c3ea61e9c69031978683f.ctex"]
 
 [params]
 

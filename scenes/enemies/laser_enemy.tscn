@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b6avxbcyicxgg" path="res://scenes/death_effects/large_death_effect.tscn" id="3_g8sn2"]
 [ext_resource type="AudioStream" uid="uid://bjil0wn43p4wo" path="res://audio/sound/hurt/enemy.ogg" id="3_sn67u"]
 [ext_resource type="PackedScene" uid="uid://box3v20dnddho" path="res://scenes/debris/large_debris.tscn" id="4_jy72e"]
-[ext_resource type="Texture2D" uid="uid://c1ehxfamu0fwu" path="res://sprites/laser_enemy.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://c1ehxfamu0fwu" path="res://sprites/enemies/laser_enemy.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://blrh40ileupur" path="res://audio/sound/ambient/hum.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://audio/sound/weapons/laser.ogg" id="7"]
 [ext_resource type="PackedScene" uid="uid://cugri1b6ktfy1" path="res://scenes/particles/laser_particles.tscn" id="9_pe8gd"]
@@ -75,11 +75,9 @@ process_material = SubResource("ParticleProcessMaterial_nfxcr")
 
 [node name="HurtSound" parent="." index="3"]
 stream = ExtResource("3_sn67u")
-bus = &"Sound"
 
 [node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("6")
-bus = &"Sound"
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." index="5"]
 shape = SubResource("CircleShape2D_b0khu")

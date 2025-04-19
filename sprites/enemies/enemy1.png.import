@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bukty7wxmcmdo"
-path="res://.godot/imported/crater.png-545380a8e81d1df963785f1f7ab24050.ctex"
+uid="uid://dpdvoc3aro50a"
+path="res://.godot/imported/enemy1.png-ffbc5e9ad4df95f08ae633746788db6c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/crater.png"
-dest_files=["res://.godot/imported/crater.png-545380a8e81d1df963785f1f7ab24050.ctex"]
+source_file="res://sprites/enemies/enemy1.png"
+dest_files=["res://.godot/imported/enemy1.png-ffbc5e9ad4df95f08ae633746788db6c.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bilyet22qssyp"
-path="res://.godot/imported/spawner.png-23b55fe30f7f6d8f8b424f79308cad23.ctex"
+uid="uid://cwems8f2yfj3s"
+path="res://.godot/imported/splitter_enemy.png-fa004ca572dcd061a532fcb5a9916b7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/spawner.png"
-dest_files=["res://.godot/imported/spawner.png-23b55fe30f7f6d8f8b424f79308cad23.ctex"]
+source_file="res://sprites/enemies/splitter_enemy.png"
+dest_files=["res://.godot/imported/splitter_enemy.png-fa004ca572dcd061a532fcb5a9916b7b.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwems8f2yfj3s"
-path="res://.godot/imported/splitter_enemy.png-e0ba01ec338ef41c48ae129491aaaf23.ctex"
+uid="uid://dp6c146m5glv4"
+path="res://.godot/imported/circle_white_small.png-bff120482308490c1262ad38773391a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/splitter_enemy.png"
-dest_files=["res://.godot/imported/splitter_enemy.png-e0ba01ec338ef41c48ae129491aaaf23.ctex"]
+source_file="res://sprites/ui/circle_white_small.png"
+dest_files=["res://.godot/imported/circle_white_small.png-bff120482308490c1262ad38773391a7.ctex"]
 
 [params]
 

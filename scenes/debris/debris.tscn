@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://by3vlmhmap0f3"]
 
-[ext_resource type="Texture2D" uid="uid://d1w1v6y24qvr1" path="res://sprites/debris.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://d1w1v6y24qvr1" path="res://sprites/debris/debris.png" id="1"]
 
 [node name="Gib" type="Sprite2D" groups=["debris"]]
 light_mask = 3

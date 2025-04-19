@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ro8am5w041fh"
-path="res://.godot/imported/strong_enemy3.png-5c2bfcd34020a87b55761853c53904ec.ctex"
+uid="uid://bukty7wxmcmdo"
+path="res://.godot/imported/crater.png-2258d85f272bc261ea88a0f39d5e1150.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/strong_enemy3.png"
-dest_files=["res://.godot/imported/strong_enemy3.png-5c2bfcd34020a87b55761853c53904ec.ctex"]
+source_file="res://sprites/debris/crater.png"
+dest_files=["res://.godot/imported/crater.png-2258d85f272bc261ea88a0f39d5e1150.ctex"]
 
 [params]
 

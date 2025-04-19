@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://bawqw0klo4fwx" path="res://scenes/enemies/basic_enemy.gd" id="2_8lfvh"]
 [ext_resource type="PackedScene" uid="uid://dgn2xuxbl0mxx" path="res://scenes/death_effects/small_death_effect.tscn" id="3_q352q"]
 [ext_resource type="PackedScene" uid="uid://by3vlmhmap0f3" path="res://scenes/debris/debris.tscn" id="4_7usrm"]
-[ext_resource type="Texture2D" uid="uid://dpdvoc3aro50a" path="res://sprites/enemy1.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://dpdvoc3aro50a" path="res://sprites/enemies/enemy1.png" id="5"]
 [ext_resource type="AudioStream" uid="uid://b22vfs48ehvrm" path="res://audio/sound/ambient/basic_enemy.ogg" id="6"]
-[ext_resource type="Texture2D" uid="uid://ckdvfwgtd7gth" path="res://sprites/enemy2.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://ckdvfwgtd7gth" path="res://sprites/enemies/enemy2.png" id="7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jix8c"]
 radius = 3.0
@@ -50,13 +50,9 @@ shape = SubResource("CircleShape2D_jix8c")
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_oamih")
 
-[node name="HurtSound" parent="." index="3"]
-bus = &"Sound"
-
 [node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("6")
 volume_db = 1.0
-bus = &"Sound"
 
 [node name="SeparationArea" type="Area2D" parent="." index="5"]
 collision_layer = 0

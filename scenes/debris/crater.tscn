@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c57x7ungqnnyn"]
 
-[ext_resource type="Texture2D" uid="uid://bukty7wxmcmdo" path="res://sprites/crater.png" id="1_wjuit"]
+[ext_resource type="Texture2D" uid="uid://bukty7wxmcmdo" path="res://sprites/debris/crater.png" id="1_wjuit"]
 
 [node name="Crater" type="Sprite2D" groups=["debris"]]
 light_mask = 3
