@@ -90,14 +90,15 @@ final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
 map_size = Vector2i(16, 16)
 
-[node name="TileMap" type="TileMap" parent="."]
-unique_name_in_owner = true
+[node name="WallTileMap" type="TileMapLayer" parent="."]
+z_index = 1
+use_parent_material = true
 tile_set = SubResource("1")
-format = 2
-layer_0/name = "walls"
-layer_0/z_index = 1
-layer_1/name = "floors"
-layer_1/z_index = -4
+
+[node name="FloorTileMap" type="TileMapLayer" parent="."]
+z_index = -4
+use_parent_material = true
+tile_set = SubResource("1")
 
 [node name="Player" parent="." instance=ExtResource("3_5sen2")]
 unique_name_in_owner = true
