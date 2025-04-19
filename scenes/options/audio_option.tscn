@@ -5,4 +5,4 @@
 
 [node name="AudioOption" instance=ExtResource("1_wtkf4")]
 script = ExtResource("2_wt8m5")
-bus_name = &""
+bus_name = ""

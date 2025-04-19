@@ -50,9 +50,13 @@ shape = SubResource("CircleShape2D_jix8c")
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_oamih")
 
+[node name="HurtSound" parent="." index="3"]
+bus = &"Sound"
+
 [node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("6")
 volume_db = 1.0
+bus = &"Sound"
 
 [node name="SeparationArea" type="Area2D" parent="." index="5"]
 collision_layer = 0

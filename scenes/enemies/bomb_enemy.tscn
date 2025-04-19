@@ -40,8 +40,12 @@ shape = SubResource("1")
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_l51c6")
 
+[node name="HurtSound" parent="." index="3"]
+bus = &"Sound"
+
 [node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("4")
+bus = &"Sound"
 
 [node name="BombArea" type="Area2D" parent="." index="5"]
 collision_layer = 0

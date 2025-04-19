@@ -1,7 +1,7 @@
 extends CheckBoxOption
 class_name AudioOption
 
-@export var bus_name: StringName
+@export var bus_name: String
 
 @onready var bus_index := AudioServer.get_bus_index(self.bus_name)
 

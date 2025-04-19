@@ -72,7 +72,7 @@ uppercase = true
 [node name="SoundOption" parent="Options" instance=ExtResource("3_is7wu")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-bus_name = &"Sound"
+bus_name = "Sound"
 default = true
 key = "sound"
 
@@ -85,7 +85,7 @@ uppercase = true
 [node name="MusicOption" parent="Options" instance=ExtResource("3_is7wu")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-bus_name = &"Music"
+bus_name = "Music"
 default = true
 key = "music"
 

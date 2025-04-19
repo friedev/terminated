@@ -2,7 +2,7 @@ extends Node
 
 const CONFIG_PATH := "user://options.cfg"
 const OPTIONS_SECTION := "options"
-const OPTIONS_GROUP := &"options"
+const OPTIONS_GROUP := "options"
 
 
 func load_config():

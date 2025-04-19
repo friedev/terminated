@@ -105,11 +105,11 @@ func setup() -> void:
 
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
-	self.get_tree().call_group(&"enemies", &"free")
-	self.get_tree().call_group(&"bullets", &"free")
-	self.get_tree().call_group(&"debris", &"free")
-	self.get_tree().call_group(&"laser_beams", &"free")
-	self.get_tree().call_group(&"death_effects", &"free")
+	self.get_tree().call_group("enemies", "free")
+	self.get_tree().call_group("bullets", "free")
+	self.get_tree().call_group("debris", "free")
+	self.get_tree().call_group("laser_beams", "free")
+	self.get_tree().call_group("death_effects", "free")
 
 	self.kills = 0
 	self.wave = 0
@@ -177,14 +177,14 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"quit"):
+	if event.is_action_pressed("quit"):
 		if self.player.alive:
 			self.player.die()
 		elif OS.get_name() != "HTML5":
 			self.get_tree().quit()
-	elif event.is_action_pressed(&"restart"):
+	elif event.is_action_pressed("restart"):
 		self.setup()
-	elif event.is_action_pressed(&"fps"):
+	elif event.is_action_pressed("fps"):
 		self.fps_label.visible = not self.fps_label.visible
 
 

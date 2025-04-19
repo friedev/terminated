@@ -75,9 +75,11 @@ process_material = SubResource("ParticleProcessMaterial_nfxcr")
 
 [node name="HurtSound" parent="." index="3"]
 stream = ExtResource("3_sn67u")
+bus = &"Sound"
 
 [node name="AmbientSound" parent="." index="4"]
 stream = ExtResource("6")
+bus = &"Sound"
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." index="5"]
 shape = SubResource("CircleShape2D_b0khu")
