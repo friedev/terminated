@@ -28,5 +28,5 @@ func _ready() -> void:
 	self.load_config()
 
 
-func _on_option_changed(value) -> void:
+func _on_option_changed(value: Variant) -> void:
 	self.save_config()
