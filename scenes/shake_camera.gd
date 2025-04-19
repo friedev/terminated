@@ -25,5 +25,5 @@ func apply_shake() -> void:
 	self.shake -= self.shake_reduction
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	self.apply_shake()

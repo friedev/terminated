@@ -5,7 +5,7 @@ const OPTIONS_SECTION := "options"
 const OPTIONS_GROUP := "options"
 
 
-func load_config():
+func load_config() -> void:
 	var config := ConfigFile.new()
 	config.load(self.CONFIG_PATH)
 	for option_node in self.get_tree().get_nodes_in_group(self.OPTIONS_GROUP):
@@ -16,7 +16,7 @@ func load_config():
 			)
 
 
-func save_config():
+func save_config() -> void:
 	var config := ConfigFile.new()
 	for option_node in self.get_tree().get_nodes_in_group(self.OPTIONS_GROUP):
 		var option := option_node as Option
@@ -28,5 +28,5 @@ func _ready() -> void:
 	self.load_config()
 
 
-func _on_option_changed(value: Variant) -> void:
+func _on_option_changed(_value: Variant) -> void:
 	self.save_config()

@@ -15,7 +15,7 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export var laser_particles: GPUParticles2D
 @export var laser_sound: AudioStreamPlayer2D
 
-func _ready():
+func _ready() -> void:
 	super._ready()
 	self.cooldown_timer.start()
 
@@ -24,7 +24,7 @@ func is_charging() -> bool:
 	return not self.charge_timer.is_stopped()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if not self.is_charging():
 		var target_rotation := (self.player.global_position - self.global_position).angle()
 		self.rotation = lerp_angle(rotation, target_rotation, 0.1)
@@ -44,12 +44,12 @@ func fire_laser() -> void:
 		self.shapecast.force_shapecast_update()
 		collision_point = self.shapecast.get_collision_point(0)
 		laser_end = collision_point
-		var object_hit = self.shapecast.get_collider(0)
+		var object_hit := self.shapecast.get_collider(0)
 
 		var player_hit := object_hit as Player
 		if player_hit != null:
 			player_hit.die()
-			self.shapecast.add_exception(object_hit)
+			self.shapecast.add_exception(player_hit)
 			continue
 
 		var enemy_hit := object_hit as Enemy
@@ -58,7 +58,7 @@ func fire_laser() -> void:
 			# Don't penetrate large enemies
 			if enemy_hit.max_health > 1:
 				break
-			self.shapecast.add_exception(object_hit)
+			self.shapecast.add_exception(enemy_hit)
 			continue
 
 		var tilemap_hit := object_hit as TileMap
@@ -77,7 +77,7 @@ func fire_laser() -> void:
 	self.laser_particles.restart()
 
 
-func _on_cooldown_timer_timeout():
+func _on_cooldown_timer_timeout() -> void:
 	self.charge_timer.start()
 
 	var target_position := Vector2(self.laser_range, 0)
@@ -95,6 +95,6 @@ func _on_cooldown_timer_timeout():
 	laser_beam.default_color = self.laser_charge_color
 
 
-func _on_charge_timer_timeout():
+func _on_charge_timer_timeout() -> void:
 	self.cooldown_timer.start()
 	self.fire_laser()

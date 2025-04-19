@@ -9,11 +9,11 @@ var reverse := false
 @export var timer: Timer
 
 
-func _ready():
+func _ready() -> void:
 	self.timer.start(self.duration)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var strength := self.timer.time_left / self.timer.wait_time
 	if self.reverse:
 		strength = 1.0 - strength

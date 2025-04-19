@@ -7,15 +7,14 @@ class_name BombEnemy
 @export var bomb_area: Area2D
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	self.bomb_area.global_rotation = 0
 
 
-func die():
+func die() -> void:
 	for body in self.bomb_area.get_overlapping_bodies():
-		var player := body as Player
-		if player != null:
-			player.die()
+		if body == self.player:
+			self.player.die()
 			continue
 
 		var enemy := body as Enemy

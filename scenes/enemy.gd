@@ -33,16 +33,16 @@ var player: Player
 			return
 
 
-func _ready():
+func _ready() -> void:
 	self.ambient_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	self.ambient_sound.play(randf() * self.ambient_sound.stream.get_length())
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	self.sprite.speed_scale = self.velocity.length() / self.max_speed
 
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float) -> void:
 	var target_direction := self.get_target_direction()
 	self.velocity += target_direction * self.acceleration
 	self.velocity = self.velocity.limit_length(self.max_speed)
@@ -63,9 +63,8 @@ func get_target_direction() -> Vector2:
 
 func handle_collision(collision: KinematicCollision2D) -> void:
 	var collider := collision.get_collider()
-	if collider is Player:
-		var player: Player = collider
-		player.die()
+	if collider == self.player:
+		self.player.die()
 		return
 
 	if collider is Enemy:
@@ -85,7 +84,7 @@ func direction_to_player() -> Vector2:
 	return Vector2(1, 0).rotated(self.position.angle_to_point(self.player.position))
 
 
-func die():
+func die() -> void:
 	var death_effect: DeathEffect = self.death_effect_scene.instantiate()
 	death_effect.global_position = self.global_position
 	self.add_sibling(death_effect)

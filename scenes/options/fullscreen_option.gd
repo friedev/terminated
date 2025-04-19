@@ -29,7 +29,7 @@ func set_option(value: Variant, emit := true) -> void:
 	super.set_option(cast_value, emit)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Ideally this would trigger via a signal or notification, but I can't find
 	# one that deals with window mode changes
 	# Tried:

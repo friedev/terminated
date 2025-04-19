@@ -6,7 +6,7 @@ class_name DeathEffect
 @export var particles: GPUParticles2D
 
 
-func _ready():
+func _ready() -> void:
 	self.sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	self.sound.play()
 	self.particles.restart()

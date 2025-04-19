@@ -27,18 +27,18 @@ func fire() -> void:
 		self.shapecast.force_shapecast_update()
 		collision_point = self.shapecast.get_collision_point(0)
 		laser_end = collision_point
-		var object_hit = self.shapecast.get_collider(0)
+		var object_hit := self.shapecast.get_collider(0)
 
-		var enemy_hit = object_hit as Enemy
+		var enemy_hit := object_hit as Enemy
 		if enemy_hit != null:
 			enemy_hit.health -= self.damage
 			# Don't penetrate large enemies
 			if enemy_hit.max_health > 1:
 				break
-			self.shapecast.add_exception(object_hit)
+			self.shapecast.add_exception(enemy_hit)
 			continue
 
-		var tilemap_hit = object_hit as TileMap
+		var tilemap_hit := object_hit as TileMap
 		if tilemap_hit != null:
 			break
 	self.shapecast.clear_exceptions()

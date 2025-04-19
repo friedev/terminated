@@ -95,7 +95,7 @@ func _physics_process(delta: float) -> void:
 			if (
 				self.velocity.length() == 0
 				or is_equal_approx(
-					abs(self.velocity.angle_to(input_velocity)), PI
+					absf(self.velocity.angle_to(input_velocity)), PI
 				)
 			):
 				new_velocity = input_velocity.normalized()

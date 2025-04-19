@@ -4,7 +4,8 @@ class Wave:
 	var time: float # seconds
 	var enemies: Array
 
-	func _init(time: float, enemies: Array):
+	@warning_ignore("shadowed_variable")
+	func _init(time: float, enemies: Array) -> void:
 		self.time = time
 		self.enemies = enemies
 
@@ -139,8 +140,8 @@ func spawn_wave(index: int) -> void:
 
 
 func spawn_enemy(enemy_scene: PackedScene) -> void:
-	var instance = enemy_scene.instantiate()
-	var spawn_position
+	var instance: Enemy = enemy_scene.instantiate()
+	var spawn_position: Vector2
 	# TODO in theory, we shouldn't need to subtract one from map_size.x/y here
 	if randi() % 2 == 0:
 		spawn_position = self.floor_tile_map.map_to_local(
@@ -161,11 +162,13 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 	self.add_child(instance)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Update timer; stop timer after player dies
 	if self.player.alive:
 		var milliseconds := Time.get_ticks_msec() - start_time
+		@warning_ignore("integer_division")
 		var seconds := milliseconds / 1000
+		@warning_ignore("integer_division")
 		var minutes := seconds / 60
 		milliseconds %= 1000
 		seconds %= 60
