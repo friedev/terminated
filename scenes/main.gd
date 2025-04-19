@@ -55,7 +55,6 @@ var waves := [
 @export var spawn_timer: Timer
 @export var main_menu: Control
 @export var timer_label: Label
-@export var fps_label: Label
 
 const debris_small := preload("res://scenes/debris/debris.tscn")
 const debris_large := preload("res://scenes/debris/large_debris.tscn")
@@ -178,8 +177,6 @@ func _process(_delta: float) -> void:
 	else:
 		self.main_menu.visible = true
 
-	self.fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
-
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("quit"):
@@ -189,8 +186,6 @@ func _input(event: InputEvent) -> void:
 			self.get_tree().quit()
 	elif event.is_action_pressed("restart"):
 		self.setup()
-	elif event.is_action_pressed("fps"):
-		self.fps_label.visible = not self.fps_label.visible
 
 
 func _on_spawn_timer_timeout() -> void:

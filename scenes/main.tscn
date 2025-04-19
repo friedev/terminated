@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dhhobx3w6vhyc"]
+[gd_scene load_steps=14 format=3 uid="uid://dhhobx3w6vhyc"]
 
 [ext_resource type="Script" uid="uid://bie7a5du7w0vi" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dsjeoe7g42ah8" path="res://scenes/shake_camera.gd" id="4_6phkc"]
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_o078d"]
 [ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_0fveq"]
+[ext_resource type="Script" uid="uid://dqmnuwy8dowof" path="res://scenes/fps_label.gd" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
 
@@ -83,7 +84,7 @@ cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
 [sub_resource type="Theme" id="Theme_dake5"]
 default_font = SubResource("FontFile_uerxt")
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("player", "wall_tile_map", "floor_tile_map", "spawn_timer", "main_menu", "timer_label", "fps_label")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player", "wall_tile_map", "floor_tile_map", "spawn_timer", "main_menu", "timer_label")]
 script = ExtResource("1_m7l1v")
 final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
@@ -95,7 +96,6 @@ floor_tile_map = NodePath("FloorTileMap")
 spawn_timer = NodePath("SpawnTimer")
 main_menu = NodePath("MenuLayer/MainMenu")
 timer_label = NodePath("HUDLayer/HUD/TimerLabel")
-fps_label = NodePath("HUDLayer/HUD/FPSLabel")
 
 [node name="WallTileMap" type="TileMapLayer" parent="."]
 z_index = 1
@@ -144,6 +144,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 theme = SubResource("Theme_dake5")
 text = "FPS: 60"
+script = ExtResource("7_85g3d")
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 
