@@ -44,7 +44,7 @@ func fire() -> void:
 	self.shapecast.clear_exceptions()
 
 	var laser_beam: LaserBeam = self.LASER_BEAM_SCENE.instantiate()
-	self.wielder.add_sibling(laser_beam)
+	SignalBus.node_spawned.emit(laser_beam)
 	laser_beam.add_point(laser_start)
 	laser_beam.add_point(laser_end)
 	laser_beam.default_color = self.color

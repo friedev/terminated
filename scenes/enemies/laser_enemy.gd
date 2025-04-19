@@ -67,7 +67,7 @@ func fire_laser() -> void:
 	self.shapecast.clear_exceptions()
 
 	var laser_beam: LaserBeam = self.LASER_BEAM_SCENE.instantiate()
-	self.add_sibling(laser_beam)
+	SignalBus.node_spawned.emit(laser_beam)
 	laser_beam.add_point(laser_start)
 	laser_beam.add_point(laser_end)
 	laser_beam.default_color = self.laser_shot_color
@@ -89,7 +89,7 @@ func _on_cooldown_timer_timeout() -> void:
 	var laser_beam: LaserBeam = self.LASER_BEAM_SCENE.instantiate()
 	laser_beam.reverse = true
 	laser_beam.duration = self.cooldown_timer.time_left
-	self.add_sibling(laser_beam)
+	SignalBus.node_spawned.emit(laser_beam)
 	laser_beam.add_point(laser_start)
 	laser_beam.add_point(laser_end)
 	laser_beam.default_color = self.laser_charge_color

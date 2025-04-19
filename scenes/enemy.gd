@@ -87,11 +87,11 @@ func direction_to_player() -> Vector2:
 func die() -> void:
 	var death_effect: DeathEffect = self.death_effect_scene.instantiate()
 	death_effect.global_position = self.global_position
-	self.add_sibling(death_effect)
+	SignalBus.node_spawned.emit(death_effect)
 
 	var debris: Node2D = self.debris_scene.instantiate()
 	debris.global_position = self.global_position
 	debris.rotation = randf() * (2 * PI)
-	self.add_sibling(debris)
+	SignalBus.node_spawned.emit(debris)
 
 	self.queue_free()

@@ -86,6 +86,8 @@ func _ready() -> void:
 		"Expected wall and floor tile sizes to match"
 	)
 
+	SignalBus.node_spawned.connect(self._on_node_spawned)
+
 	self.player.visible = false
 	self.player.set_process(false)
 	self.player.set_physics_process(false)
@@ -210,3 +212,7 @@ func _on_spawn_timer_timeout() -> void:
 		)
 
 	self.spawn_timer.start()
+
+
+func _on_node_spawned(node: Node) -> void:
+	self.add_child(node)
