@@ -75,28 +75,9 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 			self.die()
 		return
 
-	if collider is TileMap:
-		# TODO merge with other implementations
-		var tilemap: TileMap = collider
-		var cellv = tilemap.local_to_map(collision.get_position() + collision.get_travel())
-		var tile_id = tilemap.get_cell_atlas_coords(0, cellv).x
-		if 0 < tile_id and tile_id < 9:
-			var damage: int
-			if max_health == 1:
-				damage = 1
-			else:
-				damage = 9
-			var new_tile_id = tile_id - damage
-			if new_tile_id <= 0:
-				new_tile_id = -1
-			# TODO flip tiles
-			#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-			#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-			tilemap.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
-			#tilemap.update_dirty_quadrants()
-		if self.max_health == 1:
-			self.die()
-			return
+	if collider is TileMap and self.max_health == 1:
+		self.die()
+		return
 
 
 func direction_to_player() -> Vector2:

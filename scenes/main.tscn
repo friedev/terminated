@@ -88,8 +88,7 @@ script = ExtResource("1_m7l1v")
 final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
-map_radius = 1024
-arena_radius = 256
+map_size = Vector2i(16, 16)
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true

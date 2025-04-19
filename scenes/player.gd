@@ -37,11 +37,10 @@ var shoot2_pressed_time := -self.max_cooldown # milliseconds
 
 func setup() -> void:
 	self.alive = true
-	self.position = Vector2()
 	self.shoot1_pressed = false
-	self.shoot1_pressed_time = -self.max_cooldown
+	self.shoot1_pressed_time = - self.max_cooldown
 	self.shoot2_pressed = false
-	self.shoot2_pressed_time = -self.max_cooldown
+	self.shoot2_pressed_time = - self.max_cooldown
 	self.set_process(true)
 	self.set_physics_process(true)
 	self.set_process_input(true)

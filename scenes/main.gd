@@ -44,8 +44,8 @@ var waves := [
 @export var final_wave_delay_decrement: float
 @export var final_wave_min_delay: float
 
-@export var map_radius: int
-@export var arena_radius: int
+## Dimensions of the arena floor, in tiles.
+@export var map_size: Vector2i
 
 const debris_small := preload("res://scenes/debris/debris.tscn")
 const debris_large := preload("res://scenes/debris/large_debris.tscn")
@@ -59,12 +59,8 @@ const enemies: Array[PackedScene] = [
 	preload("res://scenes/enemies/bomb_enemy.tscn"),
 ]
 
-const TILE_HEALTH := 8
-
 const FLOOR_COORDS := Vector2i(0, 0)
-const DEBRIS_FLOOR_COORDS := Vector2i(self.TILE_HEALTH + 2, 0)
-const WALL_COORDS := Vector2i(self.TILE_HEALTH, 0)
-const BORDER_COORDS := Vector2i(self.TILE_HEALTH + 1, 0)
+const BORDER_COORDS := Vector2i(9, 0)
 
 var start_time: int
 var kills := 0
@@ -85,30 +81,14 @@ func _ready() -> void:
 	self.player.set_physics_process(false)
 	self.player.set_process_input(false)
 
-	self.setup_tilemap()
-
 
 func setup_tilemap() -> void:
-	var map_tiles = self.map_radius / self.tile_map.tile_set.tile_size.x
-	var arena_tiles = self.arena_radius / self.tile_map.tile_set.tile_size.x
-	for x in range(-map_tiles, map_tiles + 1):
-		for y in range(-map_tiles, map_tiles + 1):
+	for x in range(0, self.map_size.x + 2):
+		for y in range(0, self.map_size.y + 2):
 			var v := Vector2i(x, y)
-			# Arena center
-			if abs(x) <= arena_tiles and abs(y) <= arena_tiles:
-				self.tile_map.set_cell(0, v)
-				self.tile_map.set_cell(1, v, 0, self.FLOOR_COORDS)
-			# Arena border
-			elif abs(x) == map_tiles or abs(y) == map_tiles:
+			self.tile_map.set_cell(1, v, 0, self.FLOOR_COORDS)
+			if x == 0 or x == self.map_size.x + 1 or y == 0 or y == self.map_size.y + 1:
 				self.tile_map.set_cell(0, v, 0, self.BORDER_COORDS)
-				self.tile_map.set_cell(1, v, 0, self.FLOOR_COORDS)
-			# Wall area
-			else:
-				# TODO use alternative tiles to flip walls for variety
-#				var flip_x := randi() % 2 == 0
-#				var flip_y := randi() % 2 == 0
-				self.tile_map.set_cell(0, v, 0, self.WALL_COORDS)
-				self.tile_map.set_cell(1, v, 0, self.DEBRIS_FLOOR_COORDS)
 
 
 func setup() -> void:
@@ -126,6 +106,10 @@ func setup() -> void:
 	self.wave = 0
 	self.final_wave_delay = final_wave_initial_delay
 
+	self.player.global_position = Vector2(
+		self.tile_map.tile_set.tile_size
+		* (self.map_size + Vector2i.ONE * 2)
+	) * 0.5
 	self.player.setup()
 	self.player.visible = true
 	self.player.set_process(true)
@@ -147,18 +131,23 @@ func spawn_wave(index: int) -> void:
 
 func spawn_enemy(enemy_scene: PackedScene) -> void:
 	var instance = enemy_scene.instantiate()
-	var padding := 4
-	var pos_range = (randf() * 2 - 1) * (arena_radius - padding)
-	var pos_binary = (randi() % 2 * 2 - 1) * (arena_radius - padding)
-	var x
-	var y
+	var spawn_position
+	# TODO in theory, we shouldn't need to subtract one from map_size.x/y here
 	if randi() % 2 == 0:
-		x = pos_range
-		y = pos_binary
+		spawn_position = self.tile_map.map_to_local(
+			Vector2i(
+				randi() % (self.map_size.x - 1),
+				0 if randi() % 2 == 0 else self.map_size.y - 1
+			) + Vector2i.ONE
+		)
 	else:
-		x = pos_binary
-		y = pos_range
-	instance.position = Vector2(x, y)
+		spawn_position = self.tile_map.map_to_local(
+			Vector2i(
+				0 if randi() % 2 == 0 else self.map_size.x - 1,
+				randi() % self.map_size.y - 1
+			) + Vector2i.ONE
+		)
+	instance.global_position = spawn_position
 	instance.player = self.player
 	self.add_child(instance)
 

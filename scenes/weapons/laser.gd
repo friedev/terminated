@@ -39,22 +39,6 @@ func fire() -> void:
 
 		var tilemap_hit = object_hit as TileMap
 		if tilemap_hit != null:
-			# TODO merge with other implementations
-			var position_hit = (
-				collision_point
-				+ Vector2(object_hit.tile_set.tile_size.x / 2, 0)
-				.rotated(self.shapecast.global_rotation)
-			)
-			var cellv = tilemap_hit.local_to_map(position_hit)
-			var tile_id = tilemap_hit.get_cell_atlas_coords(0, cellv).x
-			if 0 < tile_id and tile_id < 9:
-				var new_tile_id = tile_id - 9
-				if new_tile_id <= 0:
-					new_tile_id = -1
-				# TODOO flip tiles
-				#var flip_x = tilemap.is_cell_x_flipped(cellv.x, cellv.y)
-				#var flip_y = tilemap.is_cell_y_flipped(cellv.x, cellv.y)
-				tilemap_hit.set_cell(0, cellv, 0, Vector2i(new_tile_id, 0))
 			break
 	self.shapecast.clear_exceptions()
 
