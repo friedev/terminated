@@ -6,9 +6,9 @@
 [ext_resource type="Script" uid="uid://dsjeoe7g42ah8" path="res://scenes/shake_camera.gd" id="4_6phkc"]
 [ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="5_o078d"]
 [ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://ui/fonts/FSEX302.ttf" id="6_0fveq"]
-[ext_resource type="Script" uid="uid://dqmnuwy8dowof" path="res://scenes/fps_label.gd" id="7_85g3d"]
-[ext_resource type="Script" uid="uid://cuxjfvpu8gft2" path="res://scenes/timer_label.gd" id="7_choun"]
-[ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/main_menu.tscn" id="7_kwnbg"]
+[ext_resource type="Script" uid="uid://dqmnuwy8dowof" path="res://scenes/ui/fps_label.gd" id="7_85g3d"]
+[ext_resource type="Script" uid="uid://cuxjfvpu8gft2" path="res://scenes/ui/timer_label.gd" id="7_choun"]
+[ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/ui/main_menu.tscn" id="7_kwnbg"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
