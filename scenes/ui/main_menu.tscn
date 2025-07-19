@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxjdf1p7ppmjr"]
+[gd_scene load_steps=13 format=3 uid="uid://bxjdf1p7ppmjr"]
 
 [ext_resource type="Theme" uid="uid://cp2dw8jh1pmps" path="res://ui/theme.tres" id="1_0sglw"]
 [ext_resource type="Script" uid="uid://bjf4uvk2ono4a" path="res://scenes/ui/main_menu.gd" id="2_wb0q5"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c2ycrcbab4t57" path="res://scenes/ui/options/volume_option.tscn" id="7_otr3d"]
 [ext_resource type="Script" uid="uid://cvfji11bhhncx" path="res://scenes/ui/version_label.gd" id="7_x8sms"]
 [ext_resource type="PackedScene" uid="uid://dbbnhubut8hco" path="res://scenes/ui/options/slider_option.tscn" id="8_q85j6"]
+[ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/ui/options/check_box_option.tscn" id="10_7suek"]
 [ext_resource type="Script" uid="uid://b6qdw17kc1ly0" path="res://scenes/ui/linked_label.gd" id="11_h4dpu"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_h4dpu"]
@@ -120,7 +121,6 @@ text = "       [R] Reboot
 uppercase = true
 
 [node name="OptionsMenu" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -162,18 +162,6 @@ layout_mode = 2
 text = "Music"
 uppercase = true
 
-[node name="FullscreenOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("4_qnfpr")]
-layout_mode = 2
-size_flags_horizontal = 8
-default = true
-toggle_input_action = "toggle_fullscreen"
-key = "fullscreen"
-
-[node name="FullscreenLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
-layout_mode = 2
-text = "Fullscreen"
-uppercase = true
-
 [node name="SliderOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("8_q85j6")]
 layout_mode = 2
 default = 0.3
@@ -182,6 +170,38 @@ key = "screen_shake"
 [node name="ScreenShakeLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
 layout_mode = 2
 text = "Screen Shake"
+uppercase = true
+
+[node name="FullscreenOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("4_qnfpr")]
+layout_mode = 2
+size_flags_horizontal = 8
+default = true
+key = "fullscreen"
+
+[node name="FullscreenLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
+layout_mode = 2
+text = "Fullscreen"
+uppercase = true
+
+[node name="ShowTimerOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("10_7suek")]
+layout_mode = 2
+size_flags_horizontal = 8
+default = true
+key = "show_timer"
+
+[node name="ShowTimerLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
+layout_mode = 2
+text = "Show Timer"
+uppercase = true
+
+[node name="ShowFPSOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("10_7suek")]
+layout_mode = 2
+size_flags_horizontal = 8
+key = "show_fps"
+
+[node name="ShowFPSLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
+layout_mode = 2
+text = "Show FPS"
 uppercase = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OptionsMenu"]
