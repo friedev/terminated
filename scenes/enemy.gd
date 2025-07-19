@@ -28,44 +28,44 @@ const velocity_threshold := 10.0
 
 @onready var health := max_health:
 	set(value):
-		if value < self.health:
-			self.hurt_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
-			self.hurt_sound.play()
-			self.damage_particles.restart()
+		if value < health:
+			hurt_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
+			hurt_sound.play()
+			damage_particles.restart()
 
-		health = clamp(value, 0, self.max_health)
+		health = clamp(value, 0, max_health)
 
 		if health <= 0:
-			self.die()
+			die()
 			return
 
 
 func _ready() -> void:
-	self.ambient_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
-	self.ambient_sound.play(randf() * self.ambient_sound.stream.get_length())
+	ambient_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
+	ambient_sound.play(randf() * ambient_sound.stream.get_length())
 
 
 func _process(_delta: float) -> void:
-	self.sprite.speed_scale = self.velocity.length() / self.max_speed
+	sprite.speed_scale = velocity.length() / max_speed
 
 
 func _physics_process(_delta: float) -> void:
-	var target_direction := self.get_target_direction()
-	self.velocity += target_direction * self.acceleration
-	self.velocity = self.velocity.limit_length(self.max_speed)
+	var target_direction := get_target_direction()
+	velocity += target_direction * acceleration
+	velocity = velocity.limit_length(max_speed)
 
-	if self.velocity.length() > self.velocity_threshold:
-		self.rotation = self.velocity.angle()
+	if velocity.length() > velocity_threshold:
+		rotation = velocity.angle()
 	else:
-		self.rotation = target_direction.angle()
+		rotation = target_direction.angle()
 
-	self.move_and_slide()
-	for slide_index in range(self.get_slide_collision_count()):
-		self.handle_collision(self.get_slide_collision(slide_index))
+	move_and_slide()
+	for slide_index in range(get_slide_collision_count()):
+		handle_collision(get_slide_collision(slide_index))
 
 
 func get_target_direction() -> Vector2:
-	return self.direction_to_player()
+	return direction_to_player()
 
 
 func handle_collision(collision: KinematicCollision2D) -> void:
@@ -76,37 +76,37 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 
 	if collider is Enemy:
 		var enemy: Enemy = collider
-		if self.max_health > 1 and enemy.max_health == 1:
+		if max_health > 1 and enemy.max_health == 1:
 			enemy.die()
-		elif self.max_health == 1 and enemy.max_health > 1:
-			self.die()
+		elif max_health == 1 and enemy.max_health > 1:
+			die()
 		return
 
-	if collider is TileMapLayer and self.max_health == 1:
-		self.die()
+	if collider is TileMapLayer and max_health == 1:
+		die()
 		return
 
 
 func angle_to_player() -> float:
-	return self.global_position.angle_to_point(Player.instance.global_position)
+	return global_position.angle_to_point(Player.instance.global_position)
 
 
 func direction_to_player() -> Vector2:
-	return Vector2.RIGHT.rotated(self.angle_to_player())
+	return Vector2.RIGHT.rotated(angle_to_player())
 
 
 func die() -> void:
-	if self.is_queued_for_deletion():
+	if is_queued_for_deletion():
 		return
 	
-	var death_effect: DeathEffect = self.death_effect_scene.instantiate()
-	death_effect.global_position = self.global_position
+	var death_effect: DeathEffect = death_effect_scene.instantiate()
+	death_effect.global_position = global_position
 	SignalBus.node_spawned.emit(death_effect)
 
-	var debris: Node2D = self.debris_scene.instantiate()
-	debris.global_position = self.global_position
+	var debris: Node2D = debris_scene.instantiate()
+	debris.global_position = global_position
 	debris.rotation = randf() * (2 * PI)
 	SignalBus.node_spawned.emit(debris)
 
-	self.queue_free()
-	self.destroyed.emit()
+	queue_free()
+	destroyed.emit()

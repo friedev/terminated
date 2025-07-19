@@ -8,13 +8,13 @@ var flock_heading := Vector2()
 func _physics_process(_delta: float) -> void:
 	# Calculate flock parameters here to avoid recomputing for every flockmate
 	# Reduces time complexity from O(n^2) to O(n)
-	var flock := self.get_tree().get_nodes_in_group("flock")
-	self.flock_center = Vector2()
-	self.flock_heading = Vector2()
+	var flock := get_tree().get_nodes_in_group("flock")
+	flock_center = Vector2()
+	flock_heading = Vector2()
 	for flockmate: Node2D in flock:
-		self.flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
-		self.flock_center += flockmate.position
+		flock_heading += Vector2(1, 0).rotated(flockmate.rotation)
+		flock_center += flockmate.position
 
 	if len(flock) > 0:
-		self.flock_heading /= len(flock)
-		self.flock_center /= len(flock)
+		flock_heading /= len(flock)
+		flock_center /= len(flock)

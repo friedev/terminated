@@ -5,4 +5,4 @@ extends DeathEffect
 
 func _ready() -> void:
 	super._ready()
-	self.particles2.restart()
+	particles2.restart()

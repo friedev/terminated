@@ -10,20 +10,20 @@ var reverse := false
 
 
 func _ready() -> void:
-	self.timer.start(self.duration)
-	self.update_strength()
+	timer.start(duration)
+	update_strength()
 
 
 func _process(_delta: float) -> void:
-	self.update_strength()
+	update_strength()
 
 
 func update_strength() -> void:
-	var strength := self.timer.time_left / self.timer.wait_time
-	if self.reverse:
+	var strength := timer.time_left / timer.wait_time
+	if reverse:
 		strength = 1.0 - strength
-	self.width = self.max_width * strength
+	width = max_width * strength
 
 
 func _on_timer_timeout() -> void:
-	self.queue_free()
+	queue_free()

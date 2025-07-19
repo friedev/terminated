@@ -20,13 +20,13 @@ func get_flock_center() -> Vector2:
 
 func get_flock_separation() -> Vector2:
 	var separation := Vector2()
-	for body in self.separation_area.get_overlapping_bodies():
+	for body in separation_area.get_overlapping_bodies():
 		if body == self:
 			continue
-		var distance := self.position.distance_to(body.position)
+		var distance := position.distance_to(body.position)
 		separation -= (
-			(body.position - self.position).normalized()
-			* (self.separation_distance / distance)
+			(body.position - position).normalized()
+			* (separation_distance / distance)
 		)
 	return separation
 
@@ -36,28 +36,28 @@ func get_flock_heading() -> Vector2:
 
 
 func get_flock_cohesion() -> Vector2:
-	return (self.get_flock_center() - position) / self.flock_radius
+	return (get_flock_center() - position) / flock_radius
 
 
 # Adapted from Vinicius Gerevini's Godot Boids implementation (MIT license):
 # https://github.com/viniciusgerevini/godot-boids
 func get_flock_direction() -> Vector2:
-	var direction := Vector2(1, 0).rotated(self.rotation)
-	var player_direction := self.direction_to_player()
-	var separation := self.get_flock_separation()
-	var heading := self.get_flock_heading()
-	var cohesion := self.get_flock_cohesion()
+	var direction := Vector2(1, 0).rotated(rotation)
+	var player_direction := direction_to_player()
+	var separation := get_flock_separation()
+	var heading := get_flock_heading()
+	var cohesion := get_flock_cohesion()
 
 	var flock_direction := (
-		direction * self.inertia_weight
-		+ player_direction * self.player_weight
-		+ separation * self.separation_weight
-		+ heading * self.alignment_weight
-		+ cohesion * self.cohesion_weight
+		direction * inertia_weight
+		+ player_direction * player_weight
+		+ separation * separation_weight
+		+ heading * alignment_weight
+		+ cohesion * cohesion_weight
 	)
 
 	return flock_direction.normalized()
 
 
 func get_target_direction() -> Vector2:
-	return self.get_flock_direction()
+	return get_flock_direction()

@@ -13,24 +13,24 @@ var enemy_prototypes: Dictionary[PackedScene, Enemy]
 
 
 func _ready() -> void:
-	for enemy_scene in self.enemy_scenes:
-		self.enemy_prototypes[enemy_scene] = enemy_scene.instantiate()
+	for enemy_scene in enemy_scenes:
+		enemy_prototypes[enemy_scene] = enemy_scene.instantiate()
 
 
 func start() -> void:
-	self.wave = 0
-	self.spawn_wave()
-	self.spawn_timer.start()
+	wave = 0
+	spawn_wave()
+	spawn_timer.start()
 
 
 func stop() -> void:
-	self.spawn_timer.stop()
+	spawn_timer.stop()
 
 
 func spawn_wave() -> void:
-	var difficulty := self.starting_difficulty + self.wave * self.difficulty_per_wave
-	self.spawn_enemies(difficulty)
-	self.wave += 1
+	var difficulty := starting_difficulty + wave * difficulty_per_wave
+	spawn_enemies(difficulty)
+	wave += 1
 
 
 func spawn_enemies(max_difficulty: int) -> void:
@@ -56,17 +56,17 @@ func spawn_enemies(max_difficulty: int) -> void:
 		open_coords.erase(spawn_coords)
 		var spawn_position := Main.instance.floor_tile_map.map_to_local(spawn_coords)
 
-		self.spawn_shape_cast.global_position = spawn_position
-		self.spawn_shape_cast.force_shapecast_update()
-		if self.spawn_shape_cast.is_colliding():
+		spawn_shape_cast.global_position = spawn_position
+		spawn_shape_cast.force_shapecast_update()
+		if spawn_shape_cast.is_colliding():
 			continue
 
 		var possible_enemy_scenes: Array[PackedScene]
 
 		var total_weight := 0.0
-		for enemy_scene in self.enemy_scenes:
-			var enemy_prototype := self.enemy_prototypes[enemy_scene]
-			if self.wave >= enemy_prototype.min_wave and enemy_prototype.difficulty <= max_difficulty:
+		for enemy_scene in enemy_scenes:
+			var enemy_prototype := enemy_prototypes[enemy_scene]
+			if wave >= enemy_prototype.min_wave and enemy_prototype.difficulty <= max_difficulty:
 				possible_enemy_scenes.append(enemy_scene)
 				total_weight += enemy_prototype.weight
 
@@ -80,7 +80,7 @@ func spawn_enemies(max_difficulty: int) -> void:
 		var chosen_weight := randf() * total_weight
 		var current_weight := 0.0
 		for enemy_scene in possible_enemy_scenes:
-			current_weight += self.enemy_prototypes[enemy_scene].weight
+			current_weight += enemy_prototypes[enemy_scene].weight
 			if current_weight > chosen_weight:
 				var enemy: Enemy = enemy_scene.instantiate()
 				enemy.global_position = spawn_position
@@ -90,4 +90,4 @@ func spawn_enemies(max_difficulty: int) -> void:
 
 
 func _on_spawn_timer_timeout() -> void:
-	self.spawn_wave()
+	spawn_wave()

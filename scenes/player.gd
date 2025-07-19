@@ -15,9 +15,9 @@ static var instance: Player
 var alive := false
 
 var shoot1_pressed := false
-var shoot1_pressed_time := -self.max_cooldown # milliseconds
+var shoot1_pressed_time := -max_cooldown # milliseconds
 var shoot2_pressed := false
-var shoot2_pressed_time := -self.max_cooldown # milliseconds
+var shoot2_pressed_time := -max_cooldown # milliseconds
 
 @export var bullet := preload("res://scenes/bullet.tscn")
 
@@ -48,40 +48,40 @@ func _enter_tree() -> void:
 
 
 func setup() -> void:
-	self.alive = true
-	self.shoot1_pressed = false
-	self.shoot1_pressed_time = - self.max_cooldown
-	self.shoot2_pressed = false
-	self.shoot2_pressed_time = - self.max_cooldown
-	self.set_process(true)
-	self.set_physics_process(true)
-	self.set_process_input(true)
-	self.sprite.show()
-	self.collision_shape.disabled = false
-	self.death_particles.emitting = false
+	alive = true
+	shoot1_pressed = false
+	shoot1_pressed_time = - max_cooldown
+	shoot2_pressed = false
+	shoot2_pressed_time = - max_cooldown
+	set_process(true)
+	set_physics_process(true)
+	set_process_input(true)
+	sprite.show()
+	collision_shape.disabled = false
+	death_particles.emitting = false
 
 
 func _input(event: InputEvent) -> void:
 	var time := Time.get_ticks_msec() / 1000.0
 
 	if event.is_action_pressed("shoot1"):
-		self.shoot1_pressed = true
-		self.shoot1_pressed_time = time
+		shoot1_pressed = true
+		shoot1_pressed_time = time
 
 	elif event.is_action_pressed("shoot2"):
-		self.shoot2_pressed = true
-		self.shoot2_pressed_time = time
-		if not self.shoot_weapon(self.laser):
-			self.reloading_sound.play()
+		shoot2_pressed = true
+		shoot2_pressed_time = time
+		if not shoot_weapon(laser):
+			reloading_sound.play()
 	
 	elif event.is_action_pressed("quit"):
-		if self.alive:
-			self.die()
+		if alive:
+			die()
 
 
 func get_angle_to_mouse() -> float:
-	return self.global_position.angle_to_point(
-		self.get_global_mouse_position()
+	return global_position.angle_to_point(
+		get_global_mouse_position()
 	) + PI
 
 
@@ -100,41 +100,41 @@ func _physics_process(delta: float) -> void:
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if not self.fly_cooldown_timer.is_stopped() or Input.is_action_pressed("shoot1"):
+		if not fly_cooldown_timer.is_stopped() or Input.is_action_pressed("shoot1"):
 			new_velocity = input_velocity.normalized()
-			magnitude = self.walk_speed
-			new_rotation = self.get_angle_to_mouse()
-			self.fly_particles.emitting = false
-			self.fly_sound.stop()
+			magnitude = walk_speed
+			new_rotation = get_angle_to_mouse()
+			fly_particles.emitting = false
+			fly_sound.stop()
 		else:
 			if (
-				self.velocity.length() == 0
+				velocity.length() == 0
 				or is_equal_approx(
-					absf(self.velocity.angle_to(input_velocity)), PI
+					absf(velocity.angle_to(input_velocity)), PI
 				)
 			):
 				new_velocity = input_velocity.normalized()
 			else:
 				new_velocity = (
-					self.velocity.normalized()
+					velocity.normalized()
 					* inertia
 					+ input_velocity.normalized()
 				).normalized()
 			new_rotation = new_velocity.angle()
-			magnitude = self.fly_speed
-			self.fly_particles.emitting = true
-			if not self.fly_sound.playing:
-				self.fly_sound.play()
-		self.velocity = new_velocity * magnitude
-		self.move_and_slide()
+			magnitude = fly_speed
+			fly_particles.emitting = true
+			if not fly_sound.playing:
+				fly_sound.play()
+		velocity = new_velocity * magnitude
+		move_and_slide()
 	else:
-		self.velocity = Vector2()
+		velocity = Vector2()
 		new_rotation = get_angle_to_mouse()
-		self.fly_particles.emitting = false
-		self.fly_sound.stop()
+		fly_particles.emitting = false
+		fly_sound.stop()
 	new_rotation += PI
 	# TODO export variable for rotation weight
-	self.rotation = lerp_angle(self.rotation, new_rotation, 24 * delta)
+	rotation = lerp_angle(rotation, new_rotation, 24 * delta)
 
 	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
 	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
@@ -143,38 +143,38 @@ func _physics_process(delta: float) -> void:
 		var held_duration := time - shoot1_pressed_time
 		var using_machine_gun: bool = held_duration > machine_gun.cooldown
 		if shoot1_currently_pressed and using_machine_gun:
-			self.shoot_weapon(self.machine_gun)
+			shoot_weapon(machine_gun)
 		elif not shoot1_currently_pressed and not using_machine_gun:
-			if not shoot_weapon(self.shotgun):
-				self.reloading_sound.play()
+			if not shoot_weapon(shotgun):
+				reloading_sound.play()
 		shoot1_pressed = shoot1_currently_pressed
 
 	elif shoot2_currently_pressed:
-		self.shoot_weapon(self.laser)
+		shoot_weapon(laser)
 		shoot2_pressed = shoot2_currently_pressed
 
 
 func shoot_weapon(weapon: Weapon) -> bool:
-	if not self.weapon_cooldown_timer.is_stopped():
+	if not weapon_cooldown_timer.is_stopped():
 		return false
 	weapon.fire()
-	self.weapon_cooldown_timer.start(weapon.cooldown)
-	self.fly_cooldown_timer.start()
+	weapon_cooldown_timer.start(weapon.cooldown)
+	fly_cooldown_timer.start()
 	SignalBus.screen_shake.emit(weapon.screen_shake)
 	return true
 
 
 func die() -> void:
-	self.alive = false
-	self.set_process(false)
-	self.set_physics_process(false)
-	self.set_process_input(false)
-	self.sprite.hide()
-	self.collision_shape.set_deferred("disabled", true)
-	self.death_sound1.play()
-	self.death_sound2.play()
-	self.fly_particles.emitting = false
-	self.fly_sound.stop()
-	self.death_particles.emitting = true
+	alive = false
+	set_process(false)
+	set_physics_process(false)
+	set_process_input(false)
+	sprite.hide()
+	collision_shape.set_deferred("disabled", true)
+	death_sound1.play()
+	death_sound2.play()
+	fly_particles.emitting = false
+	fly_sound.stop()
+	death_particles.emitting = true
 	SignalBus.screen_shake.emit(1.0)
-	self.died.emit()
+	died.emit()

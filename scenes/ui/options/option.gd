@@ -6,8 +6,8 @@ signal changed(value: Variant)
 
 
 func _ready() -> void:
-	if self.key in Options.options:
-		self.set_option(Options.options[self.key], false)
+	if key in Options.options:
+		set_option(Options.options[key], false)
 
 
 func get_default() -> Variant:
@@ -16,11 +16,11 @@ func get_default() -> Variant:
 
 
 func get_option() -> Variant:
-	return Options.options[self.key]
+	return Options.options[key]
 
 
 func set_option(value: Variant, emit := true) -> bool:
-	Options.options[self.key] = value
+	Options.options[key] = value
 	if emit:
-		self.changed.emit(value)
+		changed.emit(value)
 	return true

@@ -8,10 +8,10 @@ class_name Bullet
 
 
 func _physics_process(delta: float) -> void:
-	var collision := self.move_and_collide(self.velocity * delta)
+	var collision := move_and_collide(velocity * delta)
 	if collision:
 		if collision.get_collider() is Enemy:
 			var enemy: Enemy = collision.get_collider()
 			enemy.health -= damage
 		# Always destroyed in a collision
-		self.queue_free()
+		queue_free()

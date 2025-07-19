@@ -195,8 +195,8 @@ max_results = 1
 collision_mask = 7
 
 [connection signal="game_started" from="." to="HUDLayer/HUD/VBoxContainer/TimerLabel" method="_on_main_game_started"]
-[connection signal="game_started" from="." to="MenuLayer/MainMenu" method="_on_main_game_started"]
 [connection signal="game_started" from="." to="HUDLayer/HUD/VBoxContainer/HighScoreLabel" method="_on_main_game_started"]
+[connection signal="game_started" from="." to="MenuLayer/MainMenu" method="_on_main_game_started"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="died" from="Player" to="HUDLayer/HUD/VBoxContainer/TimerLabel" method="_on_player_died"]
 [connection signal="died" from="Player" to="HUDLayer/HUD/VBoxContainer/HighScoreLabel" method="_on_player_died"]

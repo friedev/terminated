@@ -15,22 +15,22 @@ var noise := FastNoiseLite.new()
 
 
 func _ready() -> void:
-	self.noise.seed = randi()
-	SignalBus.screen_shake.connect(self._on_screen_shake)
+	noise.seed = randi()
+	SignalBus.screen_shake.connect(_on_screen_shake)
 
 
 func apply_shake(delta: float) -> void:
-	var noise_position := Time.get_ticks_msec() * self.shake_rate
-	var x := self.noise.get_noise_1d(noise_position)
-	var y := self.noise.get_noise_1d(-noise_position)
+	var noise_position := Time.get_ticks_msec() * shake_rate
+	var x := noise.get_noise_1d(noise_position)
+	var y := noise.get_noise_1d(-noise_position)
 	var screen_shake_setting: float = Options.options["screen_shake"]
-	self.offset = Vector2(x, y) * self.max_offset * (self.shake ** 2) * screen_shake_setting
-	self.shake -= self.shake_reduction * delta
+	offset = Vector2(x, y) * max_offset * (shake ** 2) * screen_shake_setting
+	shake -= shake_reduction * delta
 
 
 func _process(delta: float) -> void:
-	self.apply_shake(delta)
+	apply_shake(delta)
 
 
 func _on_screen_shake(new_shake: float) -> void:
-	self.shake = maxf(self.shake, new_shake)
+	shake = maxf(shake, new_shake)

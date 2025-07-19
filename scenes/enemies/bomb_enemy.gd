@@ -8,11 +8,11 @@ class_name BombEnemy
 
 
 func _process(_delta: float) -> void:
-	self.bomb_area.global_rotation = 0
+	bomb_area.global_rotation = 0
 
 
 func die() -> void:
-	for body in self.bomb_area.get_overlapping_bodies():
+	for body in bomb_area.get_overlapping_bodies():
 		if body is Player:
 			(body as Player).die()
 			continue
