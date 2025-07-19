@@ -74,7 +74,7 @@ func fire_laser() -> void:
 	laser_beam.add_point(laser_start)
 	laser_beam.add_point(laser_end)
 	laser_beam.default_color = laser_shot_color
-	destroyed.connect(laser_beam.queue_free)
+	destroyed.connect(laser_beam.hide)
 
 	laser_sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	laser_sound.play()
