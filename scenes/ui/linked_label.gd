@@ -2,9 +2,12 @@
 extends RichTextLabel
 
 
-func _ready():
+func _ready() -> void:
 	self.meta_clicked.connect(self._on_meta_clicked)
 
 
-func _on_meta_clicked(meta):
-	OS.shell_open(meta)
+func _on_meta_clicked(meta: Variant) -> void:
+	if not meta is String:
+		assert(false)
+	else:
+		OS.shell_open(meta as String)
