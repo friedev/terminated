@@ -5,6 +5,7 @@
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "ambient_sound", "hurt_sound", "damage_particles") groups=["enemies"]]
 collision_layer = 4
 collision_mask = 7
+motion_mode = 1
 script = ExtResource("1_ge6lr")
 max_health = 1
 sprite = NodePath("AnimatedSprite2D")

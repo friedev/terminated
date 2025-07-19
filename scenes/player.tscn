@@ -33,6 +33,7 @@ color = Color(0, 1, 1, 1)
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape", "weapon_cooldown_timer", "fly_cooldown_timer", "machine_gun", "shotgun", "laser", "fly_particles", "death_particles", "hurt_sound", "death_sound1", "death_sound2", "fly_sound", "reloading_sound")]
 collision_layer = 2
 collision_mask = 5
+motion_mode = 1
 script = ExtResource("1_fj7dw")
 sprite = NodePath("Sprite2D")
 collision_shape = NodePath("CollisionShape2D")
