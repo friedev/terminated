@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dhhobx3w6vhyc"]
+[gd_scene load_steps=22 format=3 uid="uid://dhhobx3w6vhyc"]
 
 [ext_resource type="Script" uid="uid://bie7a5du7w0vi" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cuxjfvpu8gft2" path="res://scenes/ui/timer_label.gd" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/ui/main_menu.tscn" id="7_kwnbg"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
+[ext_resource type="Script" uid="uid://uje3c8avendi" path="res://scenes/ui/high_score_label.gd" id="9_jbj1t"]
 [ext_resource type="Script" uid="uid://cnfwfpcip7knm" path="res://scenes/enemy_spawner.gd" id="11_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://vg1lbtydy1hp" path="res://scenes/enemies/basic_enemy.tscn" id="12_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://bi7dtqes0yqbl" path="res://scenes/enemies/bomb_enemy.tscn" id="13_jbj1t"]
@@ -129,19 +130,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_o078d")
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 
-[node name="TimerLabel" type="Label" parent="HUDLayer/HUD"]
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/HUD"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+
+[node name="TimerLabel" type="Label" parent="HUDLayer/HUD/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
 theme = SubResource("Theme_dake5")
-text = "00:00.00"
+text = "XX:XX.XX"
+uppercase = true
 script = ExtResource("7_choun")
+
+[node name="HighScoreLabel" type="Label" parent="HUDLayer/HUD/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.745098, 0.745098, 0.745098, 1)
+text = "Best: XX:XX.XX"
+uppercase = true
+script = ExtResource("9_jbj1t")
+metadata/_custom_type_script = "uid://uje3c8avendi"
 
 [node name="FPSLabel" type="Label" parent="HUDLayer/HUD"]
 visible = false
@@ -179,8 +194,11 @@ target_position = Vector2(0, 0)
 max_results = 1
 collision_mask = 7
 
-[connection signal="game_started" from="." to="HUDLayer/HUD/TimerLabel" method="_on_main_game_started"]
+[connection signal="game_started" from="." to="HUDLayer/HUD/VBoxContainer/TimerLabel" method="_on_main_game_started"]
 [connection signal="game_started" from="." to="MenuLayer/MainMenu" method="_on_main_game_started"]
+[connection signal="game_started" from="." to="HUDLayer/HUD/VBoxContainer/HighScoreLabel" method="_on_main_game_started"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
+[connection signal="died" from="Player" to="HUDLayer/HUD/VBoxContainer/TimerLabel" method="_on_player_died"]
+[connection signal="died" from="Player" to="HUDLayer/HUD/VBoxContainer/HighScoreLabel" method="_on_player_died"]
 [connection signal="play_pressed" from="MenuLayer/MainMenu" to="." method="_on_main_menu_play_pressed"]
 [connection signal="timeout" from="EnemySpawner/SpawnTimer" to="EnemySpawner" method="_on_spawn_timer_timeout"]
