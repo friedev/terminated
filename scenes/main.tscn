@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dhhobx3w6vhyc"]
+[gd_scene load_steps=21 format=3 uid="uid://dhhobx3w6vhyc"]
 
 [ext_resource type="Script" uid="uid://bie7a5du7w0vi" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
@@ -10,6 +10,11 @@
 [ext_resource type="Script" uid="uid://cuxjfvpu8gft2" path="res://scenes/ui/timer_label.gd" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://scenes/ui/main_menu.tscn" id="7_kwnbg"]
 [ext_resource type="AudioStream" uid="uid://u1h2atrwy5h4" path="res://audio/music/terminated_loop.mp3" id="8_bvs7a"]
+[ext_resource type="Script" uid="uid://cnfwfpcip7knm" path="res://scenes/enemy_spawner.gd" id="11_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://vg1lbtydy1hp" path="res://scenes/enemies/basic_enemy.tscn" id="12_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://bi7dtqes0yqbl" path="res://scenes/enemies/bomb_enemy.tscn" id="13_jbj1t"]
+[ext_resource type="PackedScene" uid="uid://cq1wykaakktjp" path="res://scenes/enemies/laser_enemy.tscn" id="14_muem4"]
+[ext_resource type="PackedScene" uid="uid://diw0fyfs8fluw" path="res://scenes/enemies/strong_enemy.tscn" id="15_dp3eg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpcbk"]
 texture = ExtResource("2_svqu7")
@@ -88,16 +93,12 @@ default_font = SubResource("FontFile_uerxt")
 [sub_resource type="CircleShape2D" id="CircleShape2D_choun"]
 radius = 15.0
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("player", "wall_tile_map", "floor_tile_map", "spawn_timer", "spawn_shape_cast", "main_menu")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("wall_tile_map", "floor_tile_map", "enemy_spawner", "main_menu")]
 script = ExtResource("1_m7l1v")
-final_wave_initial_delay = 10.0
-final_wave_delay_decrement = 1.0
-final_wave_min_delay = 4.0
 map_size = Vector2i(16, 16)
 wall_tile_map = NodePath("WallTileMap")
 floor_tile_map = NodePath("FloorTileMap")
-spawn_timer = NodePath("SpawnTimer")
-spawn_shape_cast = NodePath("SpawnShapeCast2D")
+enemy_spawner = NodePath("EnemySpawner")
 main_menu = NodePath("MenuLayer/MainMenu")
 
 [node name="WallTileMap" type="TileMapLayer" parent="."]
@@ -159,15 +160,22 @@ stream = ExtResource("8_bvs7a")
 autoplay = true
 bus = &"Music"
 
-[node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("spawn_timer", "spawn_shape_cast")]
+script = ExtResource("11_ya4ey")
+starting_difficulty = 4
+difficulty_per_wave = 4
+enemy_scenes = Array[PackedScene]([ExtResource("12_jkv2x"), ExtResource("13_jbj1t"), ExtResource("14_muem4"), ExtResource("15_dp3eg")])
+spawn_timer = NodePath("SpawnTimer")
+spawn_shape_cast = NodePath("SpawnShapeCast2D")
 
-[node name="SpawnShapeCast2D" type="ShapeCast2D" parent="."]
+[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+wait_time = 4.0
+
+[node name="SpawnShapeCast2D" type="ShapeCast2D" parent="EnemySpawner"]
 shape = SubResource("CircleShape2D_choun")
 target_position = Vector2(0, 0)
 max_results = 1
 collision_mask = 7
 
 [connection signal="died" from="Player" to="." method="_on_player_died"]
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="EnemySpawner/SpawnTimer" to="EnemySpawner" method="_on_spawn_timer_timeout"]

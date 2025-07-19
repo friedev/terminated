@@ -1,0 +1,93 @@
+class_name EnemySpawner extends Node
+
+@export var starting_difficulty: int
+@export var difficulty_per_wave: int
+@export var enemy_scenes: Array[PackedScene]
+
+@export_group("Internal Nodes")
+@export var spawn_timer: Timer
+@export var spawn_shape_cast: ShapeCast2D
+
+var wave := 0
+var enemy_prototypes: Dictionary[PackedScene, Enemy]
+
+
+func _ready() -> void:
+	for enemy_scene in self.enemy_scenes:
+		self.enemy_prototypes[enemy_scene] = enemy_scene.instantiate()
+
+
+func start() -> void:
+	self.wave = 0
+	self.spawn_wave()
+	self.spawn_timer.start()
+
+
+func stop() -> void:
+	self.spawn_timer.stop()
+
+
+func spawn_wave() -> void:
+	var difficulty := self.starting_difficulty + self.wave * self.difficulty_per_wave
+	self.spawn_enemies(difficulty)
+	self.wave += 1
+
+
+func spawn_enemies(max_difficulty: int) -> void:
+	var difficulty := 0
+
+	var open_coords: Array[Vector2i]
+	for x in range(Main.instance.map_size.x):
+		open_coords.append(Vector2i(x + 1, 1))
+		open_coords.append(Vector2i(x + 1, Main.instance.map_size.y))
+	for y in range(1, Main.instance.map_size.y - 1):
+		open_coords.append(Vector2i(1, y + 1))
+		open_coords.append(Vector2i(Main.instance.map_size.x, y + 1))
+
+	while difficulty < max_difficulty:
+		if len(open_coords) == 0:
+			push_warning(
+				"Not enough space to spawn enemies; stopping at %d difficulty out of %d max"
+				% [difficulty, max_difficulty]
+			)
+			break
+
+		var spawn_coords := open_coords[randi() % len(open_coords)]
+		open_coords.erase(spawn_coords)
+		var spawn_position := Main.instance.floor_tile_map.map_to_local(spawn_coords)
+
+		self.spawn_shape_cast.global_position = spawn_position
+		self.spawn_shape_cast.force_shapecast_update()
+		if self.spawn_shape_cast.is_colliding():
+			continue
+
+		var possible_enemy_scenes: Array[PackedScene]
+
+		var total_weight := 0.0
+		for enemy_scene in self.enemy_scenes:
+			var enemy_prototype := self.enemy_prototypes[enemy_scene]
+			if self.wave >= enemy_prototype.min_wave and enemy_prototype.difficulty <= max_difficulty:
+				possible_enemy_scenes.append(enemy_scene)
+				total_weight += enemy_prototype.weight
+
+		if len(possible_enemy_scenes) == 0:
+			push_warning(
+				"No more valid enemies to spawn; stopping at %d difficulty out of %d max"
+				% [difficulty, max_difficulty]
+			)
+			break
+
+		var chosen_weight := randf() * total_weight
+		var current_weight := 0.0
+		for enemy_scene in possible_enemy_scenes:
+			current_weight += self.enemy_prototypes[enemy_scene].weight
+			if current_weight > chosen_weight:
+				var enemy: Enemy = enemy_scene.instantiate()
+				enemy.global_position = spawn_position
+				SignalBus.node_spawned.emit(enemy)
+				difficulty += enemy.difficulty
+				break
+
+
+func _on_spawn_timer_timeout() -> void:
+	self.spawn_wave()

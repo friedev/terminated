@@ -11,6 +11,13 @@ class_name Enemy
 # If velocity is below this threshold, face the player instead of facing the velocity
 const velocity_threshold := 10.0
 
+@export_group("Spawning")
+@export var difficulty: int
+## The first wave in which this enemy can spawn.
+@export var min_wave: int
+## Chance to be spawned relative to other enemies.
+@export var weight: float
+
 @export_group("Internal Nodes")
 @export var sprite: AnimatedSprite2D
 @export var ambient_sound: AudioStreamPlayer2D

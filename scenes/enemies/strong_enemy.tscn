@@ -54,6 +54,9 @@ max_speed = 128.0
 max_health = 8
 death_effect_scene = ExtResource("2_di80h")
 debris_scene = ExtResource("3_bua7i")
+difficulty = 4
+min_wave = 2
+weight = 0.125
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_l3h1t")

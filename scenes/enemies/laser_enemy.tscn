@@ -60,6 +60,9 @@ laser_sound = NodePath("LaserSound")
 max_health = 8
 death_effect_scene = ExtResource("3_g8sn2")
 debris_scene = ExtResource("4_jy72e")
+difficulty = 4
+min_wave = 8
+weight = 0.125
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("1")

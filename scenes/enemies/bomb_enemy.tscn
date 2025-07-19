@@ -33,6 +33,9 @@ acceleration = 2.0
 max_speed = 128.0
 death_effect_scene = ExtResource("3_6maqp")
 debris_scene = ExtResource("4_6kp3y")
+difficulty = 4
+min_wave = 5
+weight = 0.125
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("1")

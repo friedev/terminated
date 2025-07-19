@@ -3,79 +3,19 @@ class_name Main extends Node2D
 ## Singleton instance.
 static var instance: Main
 
-class Wave:
-	var time: float # seconds
-	var enemies: Array
-
-	@warning_ignore("shadowed_variable")
-	func _init(time: float, enemies: Array) -> void:
-		self.time = time
-		self.enemies = enemies
-
-var waves := [
-	Wave.new(0.1, [4, 0, 0, 0, 0]),
-	Wave.new(6, [8, 0, 0, 0, 0]),
-	Wave.new(8, [8, 0, 0, 0, 0]),
-	Wave.new(10, [8, 0, 0, 0, 0]),
-	Wave.new(16, [0, 2, 0, 0, 0]),
-	Wave.new(22, [16, 0, 0, 0, 0]),
-	Wave.new(24, [16, 0, 0, 0, 0]),
-	Wave.new(30, [0, 4, 0, 0, 0]),
-	Wave.new(36, [16, 0, 0, 0, 0]),
-	Wave.new(38, [16, 2, 0, 0, 2]),
-	Wave.new(40, [0, 2, 0, 0, 2]),
-	Wave.new(44, [16, 0, 0, 0, 4]),
-	Wave.new(48, [16, 0, 0, 0, 4]),
-	Wave.new(52, [4, 0, 1, 0, 0]),
-	Wave.new(56, [4, 0, 1, 0, 0]),
-	Wave.new(62, [0, 2, 2, 0, 0]),
-	Wave.new(66, [16, 2, 0, 0, 0]),
-	Wave.new(68, [0, 0, 2, 0, 2]),
-	Wave.new(76, [0, 0, 0, 4, 0]),
-	Wave.new(80, [0, 0, 0, 4, 0]),
-	Wave.new(90, [16, 0, 0, 0, 0]),
-	Wave.new(92, [16, 0, 0, 0, 0]),
-	Wave.new(94, [16, 0, 0, 0, 0]),
-	Wave.new(96, [16, 0, 0, 0, 0]),
-	Wave.new(110, [0, 8, 0, 0, 0]),
-	Wave.new(116, [0, 0, 3, 0, 0]),
-	Wave.new(126, [0, 0, 0, 8, 0]),
-	Wave.new(128, [0, 0, 0, 0, 4]),
-	Wave.new(140, [16, 2, 1, 1, 2]),
-]
-
-@export var final_wave_initial_delay: float
-@export var final_wave_delay_decrement: float
-@export var final_wave_min_delay: float
-
 ## Dimensions of the arena floor, in tiles.
 @export var map_size: Vector2i
 
 @export_group("Internal Nodes")
 @export var wall_tile_map: TileMapLayer
 @export var floor_tile_map: TileMapLayer
-@export var spawn_timer: Timer
-@export var spawn_shape_cast: ShapeCast2D
+@export var enemy_spawner: EnemySpawner
 @export var main_menu: Control
-
-const debris_small := preload("res://scenes/debris/debris.tscn")
-const debris_large := preload("res://scenes/debris/large_debris.tscn")
-const crater := preload("res://scenes/debris/crater.tscn")
-
-const enemies: Array[PackedScene] = [
-	preload("res://scenes/enemies/basic_enemy.tscn"),
-	preload("res://scenes/enemies/strong_enemy.tscn"),
-	preload("res://scenes/enemies/laser_enemy.tscn"),
-	preload("res://scenes/enemies/basic_enemy.tscn"), # was splitter
-	preload("res://scenes/enemies/bomb_enemy.tscn"),
-]
 
 const FLOOR_COORDS := Vector2i(0, 0)
 const BORDER_COORDS := Vector2i(9, 0)
 
 var kills := 0
-var wave := 0
-var final_wave_delay := final_wave_initial_delay
 
 var flock_center: Vector2
 var flock_heading: Vector2
@@ -121,8 +61,6 @@ func setup() -> void:
 	self.get_tree().call_group("death_effects", "free")
 
 	self.kills = 0
-	self.wave = 0
-	self.final_wave_delay = final_wave_initial_delay
 
 	Player.instance.global_position = Vector2(
 		self.floor_tile_map.tile_set.tile_size
@@ -136,39 +74,8 @@ func setup() -> void:
 
 	self.main_menu.visible = false
 
-	self.spawn_timer.wait_time = waves[0].time
 	Globals.start_ticks = Time.get_ticks_msec()
-	self.spawn_timer.start()
-
-
-func spawn_wave(index: int) -> void:
-	for enemy_index in range(len(self.waves[index].enemies)):
-		for _i in range(self.waves[index].enemies[enemy_index]):
-			self.spawn_enemy(self.enemies[enemy_index])
-
-
-func spawn_enemy(enemy_scene: PackedScene) -> void:
-	var instance: Enemy = enemy_scene.instantiate()
-	var spawn_coords := -Vector2i.ONE
-	var spawn_position: Vector2
-	while spawn_coords == -Vector2i.ONE or self.spawn_shape_cast.is_colliding():
-		# TODO in theory, we shouldn't need to subtract one from map_size.x/y here
-		if randi() % 2 == 0:
-			spawn_coords = Vector2i(
-				randi() % (self.map_size.x - 1),
-				0 if randi() % 2 == 0 else self.map_size.y - 1
-			)
-		else:
-			spawn_coords = Vector2i(
-				0 if randi() % 2 == 0 else self.map_size.x - 1,
-				randi() % self.map_size.y - 1
-			)
-		spawn_coords += Vector2i.ONE
-		spawn_position = self.floor_tile_map.map_to_local(spawn_coords)
-		self.spawn_shape_cast.global_position = spawn_position
-		self.spawn_shape_cast.force_shapecast_update()
-	instance.global_position = spawn_position
-	self.add_child(instance)
+	self.enemy_spawner.start()
 
 
 func _input(event: InputEvent) -> void:
@@ -181,30 +88,10 @@ func _input(event: InputEvent) -> void:
 		self.setup()
 
 
-func _on_spawn_timer_timeout() -> void:
-	if not self.player.alive:
-		return
-
-	self.spawn_wave(wave)
-
-	if self.wave < len(self.waves) - 1:
-		self.spawn_timer.wait_time = (
-			self.waves[self.wave + 1].time - self.waves[self.wave].time
-		)
-		self.wave += 1
-	else:
-		self.spawn_timer.wait_time = self.final_wave_delay
-		self.final_wave_delay = max(
-			self.final_wave_min_delay,
-			self.final_wave_delay - self.final_wave_delay_decrement
-		)
-
-	self.spawn_timer.start()
-
-
 func _on_node_spawned(node: Node) -> void:
 	self.add_child(node)
 
 
 func _on_player_died() -> void:
+	self.enemy_spawner.stop()
 	self.main_menu.show()
