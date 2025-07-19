@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cjyksf5qjaw5w" path="res://scenes/death_effects/death_effect.tscn" id="1_xweo1"]
 [ext_resource type="Script" uid="uid://dl50vo5d1dl73" path="res://scenes/death_effects/bomb_death_effect.gd" id="2_08rjy"]
 [ext_resource type="AudioStream" uid="uid://7kbffpyqvcfc" path="res://audio/sound/death/strong_enemy.ogg" id="3_dvcx2"]
-[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/ui/circle_white_small.png" id="4_q57lp"]
+[ext_resource type="Texture2D" uid="uid://dp6c146m5glv4" path="res://sprites/ui/smoke.png" id="4_q57lp"]
 
 [sub_resource type="Gradient" id="Gradient_u2l0r"]
 colors = PackedColorArray(0.12549, 0.12549, 0.12549, 0.501961, 0, 0, 0, 0)
@@ -19,13 +19,15 @@ point_count = 2
 curve = SubResource("Curve_5qjwk")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ev8vn"]
+angle_min = 1.07288e-05
+angle_max = 360.0
 direction = Vector3(0, 0, 0)
 spread = 180.0
-initial_velocity_min = 96.0
-initial_velocity_max = 160.0
+initial_velocity_min = 64.0
+initial_velocity_max = 192.0
 gravity = Vector3(0, 0, 0)
-damping_min = 64.0
-damping_max = 64.0
+damping_min = 128.0
+damping_max = 128.0
 scale_max = 1.5
 scale_curve = SubResource("6")
 color_ramp = SubResource("4")
@@ -64,7 +66,7 @@ particles2 = NodePath("GPUParticles2D2")
 stream = ExtResource("3_dvcx2")
 
 [node name="GPUParticles2D" parent="." index="1"]
-amount = 24
+amount = 12
 texture = ExtResource("4_q57lp")
 lifetime = 1.0
 randomness = 0.5
