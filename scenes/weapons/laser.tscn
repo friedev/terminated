@@ -35,6 +35,7 @@ stun = 0.0
 color = Color(1, 1, 1, 1)
 shapecast = NodePath("ShapeCast2D")
 cooldown = 0.5
+screen_shake = 0.5
 
 [node name="GPUParticles2D" parent="." index="0"]
 amount = 6

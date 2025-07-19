@@ -24,6 +24,7 @@ var shoot2_pressed_time := -self.max_cooldown # milliseconds
 @export_group("Internal Nodes")
 @export var sprite: Sprite2D
 @export var collision_shape: CollisionShape2D
+
 @export var weapon_cooldown_timer: Timer
 @export var fly_cooldown_timer: Timer
 
@@ -155,13 +156,7 @@ func shoot_weapon(weapon: Weapon) -> bool:
 	weapon.fire()
 	self.weapon_cooldown_timer.start(weapon.cooldown)
 	self.fly_cooldown_timer.start()
-
-#	$ShakeCamera2D.shake(
-#		weapon.shake_duration,
-#		weapon.shake_amplitude,
-#		weapon.shake_amplitude
-#	)
-
+	SignalBus.screen_shake.emit(weapon.screen_shake)
 	return true
 
 
@@ -177,4 +172,5 @@ func die() -> void:
 	self.fly_particles.emitting = false
 	self.fly_sound.stop()
 	self.death_particles.emitting = true
+	SignalBus.screen_shake.emit(1.0)
 	self.died.emit()

@@ -25,11 +25,12 @@ scale_curve = SubResource("CurveTexture_y1i40")
 [node name="MachineGun" instance=ExtResource("1_7h8ef")]
 script = ExtResource("2_dyeiy")
 cooldown = 0.1
+screen_shake = 0.333
 
 [node name="GPUParticles2D" parent="." index="0"]
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_ysbmu")
 lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_ysbmu")
 
 [node name="AudioStreamPlayer2D" parent="." index="1"]
 stream = ExtResource("3_l3kuq")

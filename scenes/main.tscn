@@ -113,12 +113,12 @@ tile_set = SubResource("1")
 
 [node name="Player" parent="." instance=ExtResource("3_5sen2")]
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="ShakeCamera" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
 script = ExtResource("4_6phkc")
 shake_rate = 1.0
 max_offset = 24.0
-shake_reduction = 0.05
+shake_reduction = 1.0
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 

@@ -2,6 +2,7 @@ extends Node2D
 class_name Weapon
 
 @export var cooldown: float
+@export var screen_shake: float
 
 @export_group("External Nodes")
 @export var wielder: CharacterBody2D

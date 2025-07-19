@@ -27,11 +27,12 @@ script = ExtResource("2_ylbqb")
 bullet_count = 8
 spread_degrees = 45.0
 cooldown = 1.0
+screen_shake = 0.5
 
 [node name="GPUParticles2D" parent="." index="0"]
 amount = 6
-process_material = SubResource("ParticleProcessMaterial_q0viq")
 lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_q0viq")
 
 [node name="AudioStreamPlayer2D" parent="." index="1"]
 stream = ExtResource("3_3imvm")

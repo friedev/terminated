@@ -23,4 +23,6 @@ func die() -> void:
 			enemy.health -= damage
 			continue
 
+	SignalBus.screen_shake.emit(0.75)
+
 	super.die()
