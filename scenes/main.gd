@@ -1,5 +1,8 @@
 class_name Main extends Node2D
 
+## Singleton instance.
+static var instance: Main
+
 class Wave:
 	var time: float # seconds
 	var enemies: Array
@@ -49,7 +52,6 @@ var waves := [
 @export var map_size: Vector2i
 
 @export_group("Internal Nodes")
-@export var player: Player
 @export var wall_tile_map: TileMapLayer
 @export var floor_tile_map: TileMapLayer
 @export var spawn_timer: Timer
@@ -78,8 +80,10 @@ var final_wave_delay := final_wave_initial_delay
 var flock_center: Vector2
 var flock_heading: Vector2
 
+
 func _enter_tree() -> void:
-	Globals.main = self
+	assert(Main.instance == null)
+	Main.instance = self
 
 
 func _ready() -> void:
@@ -90,10 +94,10 @@ func _ready() -> void:
 
 	SignalBus.node_spawned.connect(self._on_node_spawned)
 
-	self.player.visible = false
-	self.player.set_process(false)
-	self.player.set_physics_process(false)
-	self.player.set_process_input(false)
+	Player.instance.visible = false
+	Player.instance.set_process(false)
+	Player.instance.set_physics_process(false)
+	Player.instance.set_process_input(false)
 
 
 func setup_tilemap() -> void:
@@ -120,15 +124,15 @@ func setup() -> void:
 	self.wave = 0
 	self.final_wave_delay = final_wave_initial_delay
 
-	self.player.global_position = Vector2(
+	Player.instance.global_position = Vector2(
 		self.floor_tile_map.tile_set.tile_size
 		* (self.map_size + Vector2i.ONE * 2)
 	) * 0.5
-	self.player.setup()
-	self.player.visible = true
-	self.player.set_process(true)
-	self.player.set_physics_process(true)
-	self.player.set_process_input(true)
+	Player.instance.setup()
+	Player.instance.visible = true
+	Player.instance.set_process(true)
+	Player.instance.set_physics_process(true)
+	Player.instance.set_process_input(true)
 
 	self.main_menu.visible = false
 
@@ -164,14 +168,13 @@ func spawn_enemy(enemy_scene: PackedScene) -> void:
 		self.spawn_shape_cast.global_position = spawn_position
 		self.spawn_shape_cast.force_shapecast_update()
 	instance.global_position = spawn_position
-	instance.player = self.player
 	self.add_child(instance)
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("quit"):
-		if self.player.alive:
-			self.player.die()
+		if Player.instance.alive:
+			Player.instance.die()
 		elif OS.get_name() != "HTML5":
 			self.get_tree().quit()
 	elif event.is_action_pressed("restart"):

@@ -26,7 +26,7 @@ func is_charging() -> bool:
 
 func _physics_process(_delta: float) -> void:
 	if not self.is_charging():
-		var target_rotation := (self.player.global_position - self.global_position).angle()
+		var target_rotation := self.angle_to_player()
 		self.rotation = lerp_angle(rotation, target_rotation, 0.1)
 
 

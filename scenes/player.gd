@@ -5,6 +5,9 @@ signal died
 # TODO remove hardcoded maximum cooldown
 const max_cooldown := 0.5
 
+## Singleton instance.
+static var instance: Player
+
 @export var walk_speed := 96
 @export var fly_speed := 192
 @export var inertia := 3
@@ -36,6 +39,12 @@ var shoot2_pressed_time := -self.max_cooldown # milliseconds
 @export var death_sound2: AudioStreamPlayer2D
 @export var fly_sound: AudioStreamPlayer2D
 @export var reloading_sound: AudioStreamPlayer2D
+
+
+func _enter_tree() -> void:
+	assert(Player.instance == null)
+	Player.instance = self
+
 
 func setup() -> void:
 	self.alive = true

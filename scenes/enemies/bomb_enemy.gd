@@ -13,8 +13,8 @@ func _process(_delta: float) -> void:
 
 func die() -> void:
 	for body in self.bomb_area.get_overlapping_bodies():
-		if body == self.player:
-			self.player.die()
+		if body is Player:
+			(body as Player).die()
 			continue
 
 		var enemy := body as Enemy

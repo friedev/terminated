@@ -11,8 +11,6 @@ class_name Enemy
 # If velocity is below this threshold, face the player instead of facing the velocity
 const velocity_threshold := 10.0
 
-var player: Player
-
 @export_group("Internal Nodes")
 @export var sprite: AnimatedSprite2D
 @export var ambient_sound: AudioStreamPlayer2D
@@ -63,8 +61,8 @@ func get_target_direction() -> Vector2:
 
 func handle_collision(collision: KinematicCollision2D) -> void:
 	var collider := collision.get_collider()
-	if collider == self.player:
-		self.player.die()
+	if collider is Player:
+		(collider as Player).die()
 		return
 
 	if collider is Enemy:
@@ -80,8 +78,12 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 		return
 
 
+func angle_to_player() -> float:
+	return self.global_position.angle_to_point(Player.instance.global_position)
+
+
 func direction_to_player() -> Vector2:
-	return Vector2(1, 0).rotated(self.position.angle_to_point(self.player.position))
+	return Vector2(1, 0).rotated(self.angle_to_player())
 
 
 func die() -> void:

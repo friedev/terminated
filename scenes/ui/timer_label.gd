@@ -3,7 +3,7 @@ extends Label
 
 func _process(_delta: float) -> void:
 	# Stop timer after player dies
-	if Globals.main.player.alive:
+	if Player.instance.alive:
 		var milliseconds := Time.get_ticks_msec() - Globals.start_ticks
 		@warning_ignore("integer_division")
 		var seconds := milliseconds / 1000

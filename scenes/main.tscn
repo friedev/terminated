@@ -94,7 +94,6 @@ final_wave_initial_delay = 10.0
 final_wave_delay_decrement = 1.0
 final_wave_min_delay = 4.0
 map_size = Vector2i(16, 16)
-player = NodePath("Player")
 wall_tile_map = NodePath("WallTileMap")
 floor_tile_map = NodePath("FloorTileMap")
 spawn_timer = NodePath("SpawnTimer")
