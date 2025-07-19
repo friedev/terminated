@@ -15,20 +15,18 @@
 [sub_resource type="CircleShape2D" id="1"]
 radius = 4.0
 
-[sub_resource type="Curve" id="Curve_0uwx5"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="Gradient" id="Gradient_d2wvv"]
+colors = PackedColorArray(0, 1, 1, 1, 0, 1, 1, 0)
 
-[sub_resource type="CurveTexture" id="CurveTexture_bmt0r"]
-curve = SubResource("Curve_0uwx5")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3v2ag"]
+gradient = SubResource("Gradient_d2wvv")
 
 [sub_resource type="ParticleProcessMaterial" id="13"]
-spread = 0.0
 gravity = Vector3(0, 0, 0)
 scale_min = 4.0
 scale_max = 4.0
-scale_curve = SubResource("CurveTexture_bmt0r")
 color = Color(0, 1, 1, 1)
+color_ramp = SubResource("GradientTexture1D_3v2ag")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape", "weapon_cooldown_timer", "fly_cooldown_timer", "machine_gun", "shotgun", "laser", "fly_particles", "death_particles", "hurt_sound", "death_sound1", "death_sound2", "fly_sound", "reloading_sound")]
 collision_layer = 2
