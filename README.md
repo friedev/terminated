@@ -4,6 +4,8 @@ Slay robots in this top-down arena shooter inspired by [Devil Daggers](https://d
 
 Terminated (including all code, art, and music) was created by [Aaron Friesen](https://frie.dev).
 
+See [Third-Party Licenses](THIRD-PARTY_LICENSES.md) for other assets.
+
 ## Instructions
 
 - [R] to start
@@ -14,11 +16,6 @@ Terminated (including all code, art, and music) was created by [Aaron Friesen](h
 - [RMB] for laser
 - [SCROLL] to zoom
 - [F] to toggle FPS
-
-## Assets and Tools
-
-- Font: [FixedSys Excelsior](https://github.com/kika/fixedsys)
-- Sound Effects: see `SOUND_LICENSES.txt`
 
 ## License
 
