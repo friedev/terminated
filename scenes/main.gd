@@ -1,5 +1,7 @@
 class_name Main extends Node2D
 
+signal game_started
+
 ## Singleton instance.
 static var instance: Main
 
@@ -32,6 +34,9 @@ func _ready() -> void:
 		"Expected wall and floor tile sizes to match"
 	)
 
+	self.setup_tilemap()
+	self.setup_player_position()
+
 	SignalBus.node_spawned.connect(self._on_node_spawned)
 
 	Player.instance.visible = false
@@ -49,9 +54,14 @@ func setup_tilemap() -> void:
 				self.wall_tile_map.set_cell(v, 0, self.BORDER_COORDS)
 
 
-func setup() -> void:
-	self.setup_tilemap()
+func setup_player_position() -> void:
+	Player.instance.global_position = Vector2(
+		self.floor_tile_map.tile_set.tile_size
+		* (self.map_size + Vector2i.ONE * 2)
+	) * 0.5
 
+
+func setup() -> void:
 	# Need to use free here instead of queue free, otherwise player takes damage
 	# from an enemy collision when respawning
 	self.get_tree().call_group("enemies", "free")
@@ -62,10 +72,7 @@ func setup() -> void:
 
 	self.kills = 0
 
-	Player.instance.global_position = Vector2(
-		self.floor_tile_map.tile_set.tile_size
-		* (self.map_size + Vector2i.ONE * 2)
-	) * 0.5
+	self.setup_player_position()
 	Player.instance.setup()
 	Player.instance.visible = true
 	Player.instance.set_process(true)
@@ -76,15 +83,12 @@ func setup() -> void:
 
 	Globals.start_ticks = Time.get_ticks_msec()
 	self.enemy_spawner.start()
+	
+	self.game_started.emit()
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("quit"):
-		if Player.instance.alive:
-			Player.instance.die()
-		elif OS.get_name() != "HTML5":
-			self.get_tree().quit()
-	elif event.is_action_pressed("restart"):
+	if event.is_action_pressed("restart"):
 		self.setup()
 
 
@@ -95,3 +99,7 @@ func _on_node_spawned(node: Node) -> void:
 func _on_player_died() -> void:
 	self.enemy_spawner.stop()
 	self.main_menu.show()
+
+
+func _on_main_menu_play_pressed() -> void:
+	self.setup()

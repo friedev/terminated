@@ -73,6 +73,10 @@ func _input(event: InputEvent) -> void:
 		self.shoot2_pressed_time = time
 		if not self.shoot_weapon(self.laser):
 			self.reloading_sound.play()
+	
+	elif event.is_action_pressed("quit"):
+		if self.alive:
+			self.die()
 
 
 func get_angle_to_mouse() -> float:
