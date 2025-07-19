@@ -61,9 +61,11 @@ func fire_laser() -> void:
 			self.shapecast.add_exception(enemy_hit)
 			continue
 
-		var tilemap_hit := object_hit as TileMap
-		if tilemap_hit != null:
+		if object_hit is TileMapLayer:
 			break
+
+		assert(false, "Unhandled collision")
+		break
 	self.shapecast.clear_exceptions()
 
 	var laser_beam: LaserBeam = self.LASER_BEAM_SCENE.instantiate()

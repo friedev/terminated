@@ -75,7 +75,7 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 			self.die()
 		return
 
-	if collider is TileMap and self.max_health == 1:
+	if collider is TileMapLayer and self.max_health == 1:
 		self.die()
 		return
 
