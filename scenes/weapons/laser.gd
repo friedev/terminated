@@ -24,7 +24,6 @@ func fire() -> void:
 	self.shapecast.force_shapecast_update()
 	var collision_point: Vector2
 	while self.shapecast.is_colliding():
-		self.shapecast.force_shapecast_update()
 		collision_point = self.shapecast.get_collision_point(0)
 		laser_end = collision_point
 		var object_hit := self.shapecast.get_collider(0)
@@ -36,6 +35,7 @@ func fire() -> void:
 			if enemy_hit.max_health > 1:
 				break
 			self.shapecast.add_exception(enemy_hit)
+			self.shapecast.force_shapecast_update()
 			continue
 
 		if object_hit is TileMapLayer:
