@@ -16,13 +16,15 @@ func get_option() -> bool:
 	)
 
 
-func set_option(value: bool, emit := true) -> void:
-	self.get_window().mode = (
-		Window.MODE_FULLSCREEN
-		if value
-		else Window.MODE_WINDOWED
-	)
-	super.set_option(value, emit)
+func set_option(value: Variant, emit := true) -> bool:
+	if super.set_option(value, emit):
+		self.get_window().mode = (
+			Window.MODE_FULLSCREEN
+			if value
+			else Window.MODE_WINDOWED
+		)
+		return true
+	return false
 
 
 func _process(_delta: float) -> void:

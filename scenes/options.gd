@@ -39,7 +39,7 @@ func save_config() -> bool:
 func apply_defaults() -> void:
 	for option_node in self.get_tree().get_nodes_in_group(self.OPTIONS_GROUP):
 		var option := option_node as Option
-		option.set_option(option.default, false)
+		option.set_option(option.get_default(), false)
 
 
 ## Set the options to their currently loaded values.

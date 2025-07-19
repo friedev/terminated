@@ -14,13 +14,20 @@ func _ready() -> void:
 			self.toggle_input_action = default_input_action
 
 
+func get_default() -> Variant:
+	return self.default
+
+
 func get_option() -> bool:
 	return self.check_box.button_pressed
 
 
-func set_option(value: bool, emit := true) -> void:
-	self.check_box.set_pressed_no_signal(value)
-	super.set_option(value, emit)
+func set_option(value: Variant, emit := true) -> bool:
+	if not value is bool:
+		assert(false)
+		return false
+	self.check_box.set_pressed_no_signal(value as bool)
+	return super.set_option(value, emit)
 
 
 func _on_check_box_toggled(button_pressed: bool) -> void:
