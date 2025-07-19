@@ -55,6 +55,6 @@ monitorable = false
 shape = SubResource("CircleShape2D_br853")
 
 [node name="Sprite2D" type="Sprite2D" parent="BombArea" index="1"]
-z_index = -2
+z_index = -4
 scale = Vector2(1.438, 1.438)
 texture = ExtResource("7_507ma")

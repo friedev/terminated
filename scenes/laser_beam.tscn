@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bk2h76yoravim" path="res://scenes/laser_beam.gd" id="1_a0sa2"]
 
 [node name="LaserBeam" type="Line2D" node_paths=PackedStringArray("timer") groups=["laser_beams"]]
+z_index = -2
 width = 4.0
 script = ExtResource("1_a0sa2")
 timer = NodePath("Timer")

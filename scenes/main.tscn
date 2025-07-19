@@ -107,7 +107,7 @@ use_parent_material = true
 tile_set = SubResource("1")
 
 [node name="FloorTileMap" type="TileMapLayer" parent="."]
-z_index = -4
+z_index = -6
 use_parent_material = true
 tile_set = SubResource("1")
 

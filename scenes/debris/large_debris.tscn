@@ -4,5 +4,5 @@
 
 [node name="LargeDebris" type="Sprite2D" groups=["debris"]]
 light_mask = 3
-z_index = -3
+z_index = -5
 texture = ExtResource("1")
