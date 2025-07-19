@@ -29,6 +29,8 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	Options.setup()
+
 	assert(
 		self.wall_tile_map.tile_set.tile_size == self.floor_tile_map.tile_set.tile_size,
 		"Expected wall and floor tile sizes to match"

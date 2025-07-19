@@ -117,8 +117,8 @@ tile_set = SubResource("1")
 zoom = Vector2(2, 2)
 script = ExtResource("4_6phkc")
 shake_rate = 1.0
-max_offset = 24.0
-shake_reduction = 1.0
+max_offset = 200.0
+shake_reduction = 2.0
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 

@@ -7,6 +7,7 @@
 custom_minimum_size = Vector2(32, 32)
 script = ExtResource("2_q8cjk")
 default = false
+toggle_input_action = ""
 check_box = NodePath("CheckBox")
 
 [node name="CheckBox" type="CheckBox" parent="." index="0"]

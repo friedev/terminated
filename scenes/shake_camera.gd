@@ -20,12 +20,11 @@ func _ready() -> void:
 
 
 func apply_shake(delta: float) -> void:
-	if not Globals.screen_shake_enabled:
-		self.shake = 0.0
 	var noise_position := Time.get_ticks_msec() * self.shake_rate
 	var x := self.noise.get_noise_1d(noise_position)
 	var y := self.noise.get_noise_1d(-noise_position)
-	self.offset = Vector2(x, y) * self.max_offset * (self.shake ** 2)
+	var screen_shake_setting: float = Options.options["screen_shake"]
+	self.offset = Vector2(x, y) * self.max_offset * (self.shake ** 2) * screen_shake_setting
 	self.shake -= self.shake_reduction * delta
 
 

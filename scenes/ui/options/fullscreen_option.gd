@@ -1,5 +1,4 @@
-extends CheckBoxOption
-class_name FullscreenOption
+class_name FullscreenOption extends CheckBoxOption
 
 var previous_value: bool
 
@@ -9,7 +8,7 @@ func _ready() -> void:
 	self.previous_value = self.default
 
 
-func get_option() -> Variant:
+func get_option() -> bool:
 	var window_mode := self.get_window().mode
 	return (
 		window_mode == Window.MODE_FULLSCREEN
@@ -17,16 +16,13 @@ func get_option() -> Variant:
 	)
 
 
-func set_option(value: Variant, emit := true) -> void:
-	if not value is bool:
-		return
-	var cast_value: bool = value
+func set_option(value: bool, emit := true) -> void:
 	self.get_window().mode = (
-		Window.MODE_EXCLUSIVE_FULLSCREEN
-		if cast_value
+		Window.MODE_FULLSCREEN
+		if value
 		else Window.MODE_WINDOWED
 	)
-	super.set_option(cast_value, emit)
+	super.set_option(value, emit)
 
 
 func _process(_delta: float) -> void:
@@ -36,7 +32,7 @@ func _process(_delta: float) -> void:
 	# - NOTIFICATION_WM_SIZE_CHANGED
 	# - Window.titlebar_changed
 	# - Viewport.size_changed
-	var current_value: bool = self.get_option()
+	var current_value := self.get_option()
 	if current_value != self.previous_value:
 		self.previous_value = current_value
 		self.set_option(current_value)

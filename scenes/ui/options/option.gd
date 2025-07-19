@@ -1,15 +1,20 @@
-extends Control
-class_name Option
+class_name Option extends Control
 
-signal changed(value: Variant)
+signal changed(value)
 
 @export var key: String
 
 
-func get_option() -> Variant:
-	return null
+func _ready() -> void:
+	if self.key in Options.options:
+		self.set_option(Options.options[self.key], false)
 
 
-func set_option(value: Variant, emit := true) -> void:
+func get_option():
+	return Options.options[self.key]
+
+
+func set_option(value, emit := true) -> void:
+	Options.options[self.key] = value
 	if emit:
 		self.changed.emit(value)

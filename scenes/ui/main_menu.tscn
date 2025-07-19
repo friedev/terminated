@@ -1,15 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxjdf1p7ppmjr"]
+[gd_scene load_steps=12 format=3 uid="uid://bxjdf1p7ppmjr"]
 
 [ext_resource type="Theme" uid="uid://cp2dw8jh1pmps" path="res://ui/theme.tres" id="1_0sglw"]
-[ext_resource type="Script" uid="uid://bloa2lj5wypf" path="res://scenes/options.gd" id="2_dy6pv"]
 [ext_resource type="Script" uid="uid://bjf4uvk2ono4a" path="res://scenes/ui/main_menu.gd" id="2_wb0q5"]
-[ext_resource type="PackedScene" uid="uid://dliy4c84b7iag" path="res://scenes/ui/options/audio_option.tscn" id="3_is7wu"]
 [ext_resource type="StyleBox" uid="uid://de2cuaf47srp5" path="res://ui/styles/stylebox_button_focus_danger.tres" id="4_q85j6"]
 [ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://scenes/ui/options/fullscreen_option.tscn" id="4_qnfpr"]
 [ext_resource type="Script" uid="uid://50onjg31221w" path="res://scenes/ui/quit_button.gd" id="5_8g5eo"]
-[ext_resource type="PackedScene" uid="uid://cgnmle83oa3at" path="res://scenes/ui/options/check_box_option.tscn" id="5_52wkn"]
-[ext_resource type="Script" uid="uid://rex0i8nt0iit" path="res://scenes/ui/options/screen_shake_option.gd" id="6_3i5l6"]
+[ext_resource type="Script" uid="uid://5cl8to4dtw3o" path="res://scenes/ui/options_menu.gd" id="6_8g5eo"]
+[ext_resource type="PackedScene" uid="uid://c2ycrcbab4t57" path="res://scenes/ui/options/volume_option.tscn" id="7_otr3d"]
 [ext_resource type="Script" uid="uid://cvfji11bhhncx" path="res://scenes/ui/version_label.gd" id="7_x8sms"]
+[ext_resource type="PackedScene" uid="uid://dbbnhubut8hco" path="res://scenes/ui/options/slider_option.tscn" id="8_q85j6"]
 [ext_resource type="Script" uid="uid://b6qdw17kc1ly0" path="res://scenes/ui/linked_label.gd" id="11_h4dpu"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_h4dpu"]
@@ -22,10 +21,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_0sglw")
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 script = ExtResource("2_wb0q5")
 default_focus = NodePath("VBoxContainer2/PlayButton")
 help_menu = NodePath("HelpMenu")
@@ -120,66 +119,85 @@ text = "       [R] Reboot
      [ESC] Self-Destruct"
 uppercase = true
 
-[node name="OptionsMenu" type="PanelContainer" parent="."]
+[node name="OptionsMenu" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("6_8g5eo")
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionsMenu"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsMenu"]
 layout_mode = 2
 
-[node name="Options" type="GridContainer" parent="OptionsMenu/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="OptionsMenu/PanelContainer"]
+layout_mode = 2
+
+[node name="Options" type="GridContainer" parent="OptionsMenu/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 2
-script = ExtResource("2_dy6pv")
 
-[node name="SoundOption" parent="OptionsMenu/MarginContainer/Options" instance=ExtResource("3_is7wu")]
-custom_minimum_size = Vector2(0, 0)
+[node name="SoundOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("7_otr3d")]
+custom_minimum_size = Vector2(128, 32)
 layout_mode = 2
-bus_name = "Sound"
-default = true
-key = "sound"
+size_flags_horizontal = 8
+bus_name = &"Sound"
+default = 0.5
 
-[node name="SoundLabel" type="Label" parent="OptionsMenu/MarginContainer/Options"]
+[node name="SoundLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
 layout_mode = 2
 text = "Sound"
 uppercase = true
 
-[node name="MusicOption" parent="OptionsMenu/MarginContainer/Options" instance=ExtResource("3_is7wu")]
-custom_minimum_size = Vector2(0, 0)
+[node name="SoundOption2" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("7_otr3d")]
+custom_minimum_size = Vector2(128, 32)
 layout_mode = 2
-bus_name = "Music"
-default = true
-key = "music"
+size_flags_horizontal = 8
+bus_name = &"Music"
+default = 0.5
 
-[node name="MusicLabel" type="Label" parent="OptionsMenu/MarginContainer/Options"]
+[node name="MusicLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
 layout_mode = 2
 text = "Music"
 uppercase = true
 
-[node name="FullscreenOption" parent="OptionsMenu/MarginContainer/Options" instance=ExtResource("4_qnfpr")]
-custom_minimum_size = Vector2(0, 0)
+[node name="FullscreenOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("4_qnfpr")]
 layout_mode = 2
+size_flags_horizontal = 8
+default = true
+toggle_input_action = "toggle_fullscreen"
 key = "fullscreen"
 
-[node name="FullscreenLabel" type="Label" parent="OptionsMenu/MarginContainer/Options"]
+[node name="FullscreenLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
 layout_mode = 2
 text = "Fullscreen"
 uppercase = true
 
-[node name="ScreenShakeOption" parent="OptionsMenu/MarginContainer/Options" instance=ExtResource("5_52wkn")]
+[node name="SliderOption" parent="OptionsMenu/PanelContainer/MarginContainer/Options" instance=ExtResource("8_q85j6")]
 layout_mode = 2
-script = ExtResource("6_3i5l6")
-default = true
+default = 0.3
 key = "screen_shake"
 
-[node name="ScreenShakeLabel" type="Label" parent="OptionsMenu/MarginContainer/Options"]
+[node name="ScreenShakeLabel" type="Label" parent="OptionsMenu/PanelContainer/MarginContainer/Options"]
 layout_mode = 2
 text = "Screen Shake"
 uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionsMenu"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="OptionsMenu/HBoxContainer"]
+layout_mode = 2
+text = "SAVE"
+
+[node name="UndoButton" type="Button" parent="OptionsMenu/HBoxContainer"]
+layout_mode = 2
+text = "UNDO"
+
+[node name="DefaultsButton" type="Button" parent="OptionsMenu/HBoxContainer"]
+layout_mode = 2
+text = "DEFAULTS"
 
 [node name="CreditsMenu" type="PanelContainer" parent="."]
 visible = false
@@ -235,7 +253,7 @@ script = ExtResource("11_h4dpu")
 [connection signal="toggled" from="VBoxContainer2/OptionsButton" to="." method="_on_options_button_toggled"]
 [connection signal="toggled" from="VBoxContainer2/CreditsButton" to="." method="_on_credits_button_toggled"]
 [connection signal="pressed" from="VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="changed" from="OptionsMenu/MarginContainer/Options/SoundOption" to="OptionsMenu/MarginContainer/Options" method="_on_option_changed"]
-[connection signal="changed" from="OptionsMenu/MarginContainer/Options/MusicOption" to="OptionsMenu/MarginContainer/Options" method="_on_option_changed"]
-[connection signal="changed" from="OptionsMenu/MarginContainer/Options/FullscreenOption" to="OptionsMenu/MarginContainer/Options" method="_on_option_changed"]
-[connection signal="changed" from="OptionsMenu/MarginContainer/Options/ScreenShakeOption" to="OptionsMenu/MarginContainer/Options" method="_on_option_changed"]
+[connection signal="changed" from="OptionsMenu/PanelContainer/MarginContainer/Options/FullscreenOption" to="OptionsMenu/PanelContainer/MarginContainer/Options" method="_on_option_changed"]
+[connection signal="pressed" from="OptionsMenu/HBoxContainer/SaveButton" to="OptionsMenu" method="_on_save_button_pressed"]
+[connection signal="pressed" from="OptionsMenu/HBoxContainer/UndoButton" to="OptionsMenu" method="_on_undo_button_pressed"]
+[connection signal="pressed" from="OptionsMenu/HBoxContainer/DefaultsButton" to="OptionsMenu" method="_on_defaults_button_pressed"]
