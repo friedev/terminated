@@ -25,7 +25,7 @@ animations = [{
 "texture": ExtResource("5")
 }],
 "loop": true,
-"name": "default",
+"name": &"default",
 "speed": 12.0
 }]
 
@@ -63,10 +63,10 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("7")
 
 [node name="DamageParticles" parent="." index="2"]
-process_material = SubResource("ParticleProcessMaterial_xjdmu")
 lifetime = 0.15
 preprocess = 0.05
 randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_xjdmu")
 
 [node name="HurtSound" parent="." index="3"]
 stream = ExtResource("8")
