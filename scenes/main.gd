@@ -53,6 +53,7 @@ var waves := [
 @export var wall_tile_map: TileMapLayer
 @export var floor_tile_map: TileMapLayer
 @export var spawn_timer: Timer
+@export var spawn_shape_cast: ShapeCast2D
 @export var main_menu: Control
 
 const debris_small := preload("res://scenes/debris/debris.tscn")
@@ -144,22 +145,24 @@ func spawn_wave(index: int) -> void:
 
 func spawn_enemy(enemy_scene: PackedScene) -> void:
 	var instance: Enemy = enemy_scene.instantiate()
+	var spawn_coords := -Vector2i.ONE
 	var spawn_position: Vector2
-	# TODO in theory, we shouldn't need to subtract one from map_size.x/y here
-	if randi() % 2 == 0:
-		spawn_position = self.floor_tile_map.map_to_local(
-			Vector2i(
+	while spawn_coords == -Vector2i.ONE or self.spawn_shape_cast.is_colliding():
+		# TODO in theory, we shouldn't need to subtract one from map_size.x/y here
+		if randi() % 2 == 0:
+			spawn_coords = Vector2i(
 				randi() % (self.map_size.x - 1),
 				0 if randi() % 2 == 0 else self.map_size.y - 1
-			) + Vector2i.ONE
-		)
-	else:
-		spawn_position = self.floor_tile_map.map_to_local(
-			Vector2i(
+			)
+		else:
+			spawn_coords = Vector2i(
 				0 if randi() % 2 == 0 else self.map_size.x - 1,
 				randi() % self.map_size.y - 1
-			) + Vector2i.ONE
-		)
+			)
+		spawn_coords += Vector2i.ONE
+		spawn_position = self.floor_tile_map.map_to_local(spawn_coords)
+		self.spawn_shape_cast.global_position = spawn_position
+		self.spawn_shape_cast.force_shapecast_update()
 	instance.global_position = spawn_position
 	instance.player = self.player
 	self.add_child(instance)
