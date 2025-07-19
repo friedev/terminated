@@ -135,6 +135,7 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="TimerLabel" type="Label" parent="HUDLayer/HUD"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -178,6 +179,7 @@ target_position = Vector2(0, 0)
 max_results = 1
 collision_mask = 7
 
+[connection signal="game_started" from="." to="HUDLayer/HUD/TimerLabel" method="_on_main_game_started"]
 [connection signal="game_started" from="." to="MenuLayer/MainMenu" method="_on_main_game_started"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="play_pressed" from="MenuLayer/MainMenu" to="." method="_on_main_menu_play_pressed"]

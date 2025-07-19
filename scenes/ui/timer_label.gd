@@ -1,6 +1,10 @@
 extends Label
 
 
+func _ready() -> void:
+	self.hide()
+
+
 func _process(_delta: float) -> void:
 	# Stop timer after player dies
 	if Player.instance.alive:
@@ -12,3 +16,7 @@ func _process(_delta: float) -> void:
 		milliseconds %= 1000
 		seconds %= 60
 		self.text = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
+
+
+func _on_main_game_started() -> void:
+	self.show()
