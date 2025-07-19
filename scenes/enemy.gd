@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Enemy
 
+signal destroyed
+
 @export var acceleration: float
 @export var max_speed: float
 @export var max_health: int
@@ -90,10 +92,13 @@ func angle_to_player() -> float:
 
 
 func direction_to_player() -> Vector2:
-	return Vector2(1, 0).rotated(self.angle_to_player())
+	return Vector2.RIGHT.rotated(self.angle_to_player())
 
 
 func die() -> void:
+	if self.is_queued_for_deletion():
+		return
+	
 	var death_effect: DeathEffect = self.death_effect_scene.instantiate()
 	death_effect.global_position = self.global_position
 	SignalBus.node_spawned.emit(death_effect)
@@ -104,3 +109,4 @@ func die() -> void:
 	SignalBus.node_spawned.emit(debris)
 
 	self.queue_free()
+	self.destroyed.emit()
