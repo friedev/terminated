@@ -96,7 +96,7 @@ radius = 15.0
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("wall_tile_map", "floor_tile_map", "enemy_spawner", "main_menu")]
 script = ExtResource("1_m7l1v")
-map_size = Vector2i(16, 16)
+map_size = Vector2i(24, 24)
 wall_tile_map = NodePath("WallTileMap")
 floor_tile_map = NodePath("FloorTileMap")
 enemy_spawner = NodePath("EnemySpawner")
