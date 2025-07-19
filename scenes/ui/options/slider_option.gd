@@ -13,12 +13,12 @@ func get_option() -> float:
 	return slider.value
 
 
-func set_option(value: Variant, emit := true) -> bool:
+func set_option(value: Variant) -> bool:
 	if not value is float:
 		assert(false)
 		return false
 	slider.set_value_no_signal(value as float)
-	return super.set_option(value, emit)
+	return super.set_option(value)
 
 
 func _on_slider_value_changed(value: float) -> void:

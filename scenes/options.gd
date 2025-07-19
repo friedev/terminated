@@ -21,7 +21,7 @@ func load_config() -> bool:
 		var option := option_node as Option
 		if config.has_section_key(OPTIONS_SECTION, option.key):
 			option.set_option(
-				config.get_value(OPTIONS_SECTION, option.key), false
+				config.get_value(OPTIONS_SECTION, option.key)
 			)
 	return true
 
@@ -39,7 +39,7 @@ func save_config() -> bool:
 func apply_defaults() -> void:
 	for option_node in get_tree().get_nodes_in_group(OPTIONS_GROUP):
 		var option := option_node as Option
-		option.set_option(option.get_default(), false)
+		option.set_option(option.get_default())
 
 
 ## Set the options to their currently loaded values.
@@ -47,7 +47,7 @@ func apply_options() -> void:
 	for option_node in get_tree().get_nodes_in_group(OPTIONS_GROUP):
 		var option := option_node as Option
 		if option.key in options:
-			option.set_option(options[option.key], false)
+			option.set_option(options[option.key])
 
 
 ## Perform initial options setup on game start. To be called by the root node of

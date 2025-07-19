@@ -16,8 +16,8 @@ func get_option() -> bool:
 	)
 
 
-func set_option(value: Variant, emit := true) -> bool:
-	if super.set_option(value, emit):
+func set_option(value: Variant) -> bool:
+	if super.set_option(value):
 		get_window().mode = (
 			Window.MODE_FULLSCREEN
 			if value

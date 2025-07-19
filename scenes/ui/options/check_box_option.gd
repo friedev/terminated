@@ -22,12 +22,12 @@ func get_option() -> bool:
 	return check_box.button_pressed
 
 
-func set_option(value: Variant, emit := true) -> bool:
+func set_option(value: Variant) -> bool:
 	if not value is bool:
 		assert(false)
 		return false
 	check_box.set_pressed_no_signal(value as bool)
-	return super.set_option(value, emit)
+	return super.set_option(value)
 
 
 func _on_check_box_toggled(button_pressed: bool) -> void:

@@ -1,13 +1,11 @@
 class_name Option extends Control
 
-signal changed(value: Variant)
-
 @export var key: String
 
 
 func _ready() -> void:
 	if key in Options.options:
-		set_option(Options.options[key], false)
+		set_option(Options.options[key])
 
 
 func get_default() -> Variant:
@@ -19,8 +17,7 @@ func get_option() -> Variant:
 	return Options.options[key]
 
 
-func set_option(value: Variant, emit := true) -> bool:
+func set_option(value: Variant) -> bool:
 	Options.options[key] = value
-	if emit:
-		changed.emit(value)
+	SignalBus.option_changed.emit(key, value)
 	return true
