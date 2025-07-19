@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bxjdf1p7ppmjr"]
 
-[ext_resource type="Theme" uid="uid://b2kbr0yu1h6tg" path="res://ui/theme.tres" id="1_0sglw"]
+[ext_resource type="Theme" uid="uid://cp2dw8jh1pmps" path="res://ui/theme.tres" id="1_0sglw"]
 [ext_resource type="Script" uid="uid://bloa2lj5wypf" path="res://scenes/options.gd" id="2_dy6pv"]
 [ext_resource type="PackedScene" uid="uid://dliy4c84b7iag" path="res://scenes/ui/options/audio_option.tscn" id="3_is7wu"]
 [ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://scenes/ui/options/fullscreen_option.tscn" id="4_qnfpr"]
@@ -42,7 +42,7 @@ layout_mode = 2
 layout_mode = 2
 text = "       [R] to Start
      [ESC] to Quit
-	
+
     [WASD] to Move
 Hold [LMB] to Shoot
  Tap [LMB] for Shotgun
