@@ -28,6 +28,7 @@ theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 script = ExtResource("2_wb0q5")
 default_focus = NodePath("VBoxContainer2/PlayButton")
+submenu_button_group = SubResource("ButtonGroup_h4dpu")
 help_menu = NodePath("HelpMenu")
 options_menu = NodePath("OptionsMenu")
 credits_menu = NodePath("CreditsMenu")

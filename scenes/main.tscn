@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dhhobx3w6vhyc"]
+[gd_scene load_steps=23 format=3 uid="uid://dhhobx3w6vhyc"]
 
 [ext_resource type="Script" uid="uid://bie7a5du7w0vi" path="res://scenes/main.gd" id="1_m7l1v"]
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://sprites/tileset.png" id="2_svqu7"]
@@ -154,6 +154,9 @@ cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
 [sub_resource type="Theme" id="Theme_dake5"]
 default_font = SubResource("FontFile_uerxt")
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_jbj1t"]
+allow_unpress = true
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_choun"]
 radius = 15.0
 
@@ -234,6 +237,7 @@ script = ExtResource("7_85g3d")
 
 [node name="MainMenu" parent="MenuLayer" instance=ExtResource("7_kwnbg")]
 visible = false
+submenu_button_group = SubResource("ButtonGroup_jbj1t")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_bvs7a")

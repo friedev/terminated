@@ -3,6 +3,7 @@ extends Control
 signal play_pressed
 
 @export var default_focus: Control
+@export var submenu_button_group: ButtonGroup
 
 @export_group("Internal Nodes")
 @export var help_menu: Control
@@ -48,3 +49,11 @@ func _on_credits_button_toggled(toggled_on: bool) -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		var pressed_button := submenu_button_group.get_pressed_button()
+		if pressed_button != null:
+			pressed_button.button_pressed = false
+			pressed_button.grab_focus()
