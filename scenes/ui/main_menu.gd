@@ -11,6 +11,10 @@ signal play_pressed
 
 
 func _ready() -> void:
+	open_menu()
+
+
+func open_menu() -> void:
 	show()
 	help_menu.hide()
 	options_menu.hide()
@@ -20,6 +24,10 @@ func _ready() -> void:
 
 func _on_main_game_started() -> void:
 	hide()
+
+
+func _on_player_died() -> void:
+	open_menu()
 	
 
 func _on_play_button_pressed() -> void:

@@ -85,8 +85,6 @@ func setup() -> void:
 	Player.instance.set_physics_process(true)
 	Player.instance.set_process_input(true)
 
-	main_menu.visible = false
-
 	Globals.start_ticks = Time.get_ticks_msec()
 	enemy_spawner.start()
 	
@@ -100,11 +98,6 @@ func _input(event: InputEvent) -> void:
 
 func _on_node_spawned(node: Node) -> void:
 	add_child(node)
-
-
-func _on_player_died() -> void:
-	enemy_spawner.stop()
-	main_menu.show()
 
 
 func _on_main_menu_play_pressed() -> void:

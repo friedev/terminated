@@ -91,3 +91,7 @@ func spawn_enemies(max_difficulty: int) -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_wave()
+
+
+func _on_player_died() -> void:
+	stop()
