@@ -95,3 +95,8 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_player_died() -> void:
 	stop()
+
+
+func _exit_tree() -> void:
+	for enemy_scene in enemy_prototypes:
+		enemy_prototypes[enemy_scene].queue_free()
