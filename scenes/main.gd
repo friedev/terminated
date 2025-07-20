@@ -15,7 +15,7 @@ static var instance: Main
 @export var main_menu: Control
 
 const FLOOR_COORDS := Vector2i(0, 0)
-const BORDER_COORDS := Vector2i(9, 0)
+const WALL_COORDS := Vector2i(0, 1)
 
 var kills := 0
 
@@ -48,12 +48,16 @@ func _ready() -> void:
 
 
 func setup_tilemap() -> void:
-	for x in range(0, map_size.x + 2):
-		for y in range(0, map_size.y + 2):
+	var wall_coords: Array[Vector2i]
+	for x in range(-32, map_size.x + 34):
+		for y in range(-32, map_size.y + 34):
 			var v := Vector2i(x, y)
-			floor_tile_map.set_cell(v, 0, FLOOR_COORDS)
-			if x == 0 or x == map_size.x + 1 or y == 0 or y == map_size.y + 1:
-				wall_tile_map.set_cell(v, 0, BORDER_COORDS)
+			if x <= 0 or x > map_size.x or y <= 0 or y > map_size.y:
+				wall_coords.append(v)
+				wall_tile_map.set_cell(v, 0, WALL_COORDS)
+			else:
+				floor_tile_map.set_cell(v, 0, FLOOR_COORDS)
+	wall_tile_map.set_cells_terrain_connect(wall_coords, 0, 0, false)
 
 
 func setup_player_position() -> void:
