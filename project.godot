@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Terminated"
-config/version="2.0.0-dev"
+config/description="Top-down arena shooter"
+config/version="2.0.0"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.4")
 config/icon="res://icon.png"
