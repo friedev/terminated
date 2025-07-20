@@ -13,13 +13,7 @@ class_name Weapon
 @export var projectile_spawn_point: Node2D
 
 
-func spawn_projectile(projectile: Node2D) -> void:
-	wielder.get_parent().add_child(projectile)
-	projectile.global_position = projectile_spawn_point.global_position
-	projectile.look_at(get_global_mouse_position())
-
-
-func fire() -> void:
+func fire(_fire_angle: float) -> void:
 	particles.restart()
 	sound.pitch_scale = 1 + (randf() - 0.5) * 0.25
 	sound.play()

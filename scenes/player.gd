@@ -14,16 +14,17 @@ static var instance: Player
 
 var alive := false
 
-var shoot1_pressed := false
-var shoot1_pressed_time := -max_cooldown # milliseconds
-var shoot2_pressed := false
-var shoot2_pressed_time := -max_cooldown # milliseconds
+var mouse_aim := true
+
+var gun_pressed := false
+var gun_pressed_time := -max_cooldown # milliseconds
 
 @export var bullet := preload("res://scenes/bullet.tscn")
 
 @export_group("Internal Nodes")
 @export var sprite: Sprite2D
 @export var collision_shape: CollisionShape2D
+@export var aim_line: Line2D
 
 @export var weapon_cooldown_timer: Timer
 @export var fly_cooldown_timer: Timer
@@ -49,10 +50,8 @@ func _enter_tree() -> void:
 
 func setup() -> void:
 	alive = true
-	shoot1_pressed = false
-	shoot1_pressed_time = - max_cooldown
-	shoot2_pressed = false
-	shoot2_pressed_time = - max_cooldown
+	gun_pressed = false
+	gun_pressed_time = - max_cooldown
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
@@ -64,13 +63,21 @@ func setup() -> void:
 func _input(event: InputEvent) -> void:
 	var time := Time.get_ticks_msec() / 1000.0
 
-	if event.is_action_pressed("shoot1"):
-		shoot1_pressed = true
-		shoot1_pressed_time = time
+	if event is InputEventMouseMotion:
+		mouse_aim = true
+	elif (
+		event.is_action_pressed("aim_left")
+		or event.is_action_pressed("aim_right")
+		or event.is_action_pressed("aim_up")
+		or event.is_action_pressed("aim_down")
+	):
+		mouse_aim = false
 
-	elif event.is_action_pressed("shoot2"):
-		shoot2_pressed = true
-		shoot2_pressed_time = time
+	if event.is_action_pressed("gun"):
+		gun_pressed = true
+		gun_pressed_time = time
+
+	elif event.is_action_pressed("laser"):
 		if not shoot_weapon(laser):
 			reloading_sound.play()
 	
@@ -80,9 +87,15 @@ func _input(event: InputEvent) -> void:
 
 
 func get_angle_to_mouse() -> float:
-	return global_position.angle_to_point(
-		get_global_mouse_position()
-	) + PI
+	return global_position.angle_to_point(get_global_mouse_position())
+	
+
+func get_aim_input() -> Vector2:
+	return Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+
+	
+func get_aim_angle() -> float:
+	return get_angle_to_mouse() if mouse_aim else get_aim_input().angle()
 
 
 func _physics_process(delta: float) -> void:
@@ -100,10 +113,10 @@ func _physics_process(delta: float) -> void:
 	if input_velocity.length() != 0:
 		var magnitude: float
 		var new_velocity := Vector2()
-		if not fly_cooldown_timer.is_stopped() or Input.is_action_pressed("shoot1"):
+		if not fly_cooldown_timer.is_stopped() or Input.is_action_pressed("gun"):
 			new_velocity = input_velocity.normalized()
 			magnitude = walk_speed
-			new_rotation = get_angle_to_mouse()
+			new_rotation = get_aim_angle() + PI
 			fly_particles.emitting = false
 			fly_sound.stop()
 		else:
@@ -129,35 +142,38 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 	else:
 		velocity = Vector2()
-		new_rotation = get_angle_to_mouse()
+		new_rotation = get_aim_angle() + PI
 		fly_particles.emitting = false
 		fly_sound.stop()
 	new_rotation += PI
 	# TODO export variable for rotation weight
 	rotation = lerp_angle(rotation, new_rotation, 24 * delta)
+	aim_line.global_rotation = get_aim_angle()
+	aim_line.visible = not mouse_aim and get_aim_input().length() > 0
 
-	var shoot1_currently_pressed := Input.is_action_pressed("shoot1")
-	var shoot2_currently_pressed := Input.is_action_pressed("shoot2")
-	if shoot1_currently_pressed or shoot1_pressed:
+	var gun_currently_pressed := Input.is_action_pressed("gun")
+	if gun_currently_pressed or gun_pressed:
 		var time := Time.get_ticks_msec() / 1000.0
-		var held_duration := time - shoot1_pressed_time
+		var held_duration := time - gun_pressed_time
 		var using_machine_gun: bool = held_duration > machine_gun.cooldown
-		if shoot1_currently_pressed and using_machine_gun:
+		if gun_currently_pressed and using_machine_gun:
 			shoot_weapon(machine_gun)
-		elif not shoot1_currently_pressed and not using_machine_gun:
+		elif not gun_currently_pressed and not using_machine_gun:
 			if not shoot_weapon(shotgun):
 				reloading_sound.play()
-		shoot1_pressed = shoot1_currently_pressed
-
-	elif shoot2_currently_pressed:
+		gun_pressed = gun_currently_pressed
+	elif Input.is_action_pressed("laser"):
 		shoot_weapon(laser)
-		shoot2_pressed = shoot2_currently_pressed
+	elif Input.is_action_pressed("shotgun"):
+		shoot_weapon(shotgun)
+	elif Input.is_action_pressed("machine_gun"):
+		shoot_weapon(machine_gun)
 
 
 func shoot_weapon(weapon: Weapon) -> bool:
 	if not weapon_cooldown_timer.is_stopped():
 		return false
-	weapon.fire()
+	weapon.fire(get_aim_angle())
 	weapon_cooldown_timer.start(weapon.cooldown)
 	fly_cooldown_timer.start()
 	SignalBus.screen_shake.emit(weapon.screen_shake)
@@ -170,6 +186,7 @@ func die() -> void:
 	set_physics_process(false)
 	set_process_input(false)
 	sprite.hide()
+	aim_line.hide()
 	collision_shape.set_deferred("disabled", true)
 	death_sound1.play()
 	death_sound2.play()

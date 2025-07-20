@@ -11,7 +11,7 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export_group("Internal Nodes")
 @export var shapecast: ShapeCast2D
 
-func fire() -> void:
+func fire(fire_angle: float) -> void:
 	# TODO merge with enemy laser implementation: give LaserEnemy a Laser node
 	var laser_start := global_position
 	var laser_end := (
@@ -19,7 +19,7 @@ func fire() -> void:
 		+ global_position
 	)
 
-	shapecast.look_at(get_global_mouse_position())
+	shapecast.global_rotation = fire_angle
 	shapecast.target_position = Vector2(max_range, 0)
 	shapecast.force_shapecast_update()
 	var collision_point: Vector2
@@ -51,4 +51,4 @@ func fire() -> void:
 	laser_beam.add_point(laser_end)
 	laser_beam.default_color = color
 
-	super.fire()
+	super.fire(fire_angle)

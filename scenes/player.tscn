@@ -28,13 +28,14 @@ scale_max = 4.0
 color = Color(0, 1, 1, 1)
 color_ramp = SubResource("GradientTexture1D_3v2ag")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape", "weapon_cooldown_timer", "fly_cooldown_timer", "machine_gun", "shotgun", "laser", "fly_particles", "death_particles", "hurt_sound", "death_sound1", "death_sound2", "fly_sound", "reloading_sound")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape", "aim_line", "weapon_cooldown_timer", "fly_cooldown_timer", "machine_gun", "shotgun", "laser", "fly_particles", "death_particles", "hurt_sound", "death_sound1", "death_sound2", "fly_sound", "reloading_sound")]
 collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_fj7dw")
 sprite = NodePath("Sprite2D")
 collision_shape = NodePath("CollisionShape2D")
+aim_line = NodePath("AimLine")
 weapon_cooldown_timer = NodePath("WeaponCooldownTimer")
 fly_cooldown_timer = NodePath("FlyCooldownTimer")
 machine_gun = NodePath("MachineGun")
@@ -104,3 +105,9 @@ bus = &"Sound"
 [node name="ReloadingSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13")
 bus = &"Sound"
+
+[node name="AimLine" type="Line2D" parent="."]
+z_index = -1
+points = PackedVector2Array(0, 0, 1000, 0)
+width = 1.0
+default_color = Color(1, 1, 1, 0.5)

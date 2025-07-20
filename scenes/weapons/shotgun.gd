@@ -9,13 +9,14 @@ var spread: float:
 	get:
 		return deg_to_rad(spread_degrees)
 
-func fire() -> void:
+func fire(fire_angle: float) -> void:
 	for i in range(bullet_count):
 		var bullet: Bullet = BULLET_SCENE.instantiate()
-		super.spawn_projectile(bullet)
-		bullet.rotation += (randf() * spread) - (spread * 0.5)
+		SignalBus.node_spawned.emit(bullet)
+		bullet.global_position = projectile_spawn_point.global_position
+		bullet.global_rotation = fire_angle + randf_range(-0.5, +0.5) * spread
 		bullet.velocity = (
 			wielder.velocity
 			+ Vector2(cos(bullet.rotation), sin(bullet.rotation)) * bullet.speed
 		)
-	super.fire()
+	super.fire(fire_angle)
