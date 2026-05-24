@@ -1,6 +1,5 @@
 extends Node
 
-
 var flock_center := Vector2()
 var flock_heading := Vector2()
 

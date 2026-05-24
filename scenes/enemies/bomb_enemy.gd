@@ -1,5 +1,5 @@
-extends Enemy
 class_name BombEnemy
+extends Enemy
 
 @export var damage: int
 

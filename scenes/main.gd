@@ -1,4 +1,5 @@
-class_name Main extends Node2D
+class_name Main
+extends Node2D
 
 signal game_started
 
@@ -33,7 +34,7 @@ func _ready() -> void:
 
 	assert(
 		wall_tile_map.tile_set.tile_size == floor_tile_map.tile_set.tile_size,
-		"Expected wall and floor tile sizes to match"
+		"Expected wall and floor tile sizes to match",
 	)
 
 	setup_tilemap()
@@ -63,7 +64,7 @@ func setup_tilemap() -> void:
 func setup_player_position() -> void:
 	Player.instance.global_position = Vector2(
 		floor_tile_map.tile_set.tile_size
-		* (map_size + Vector2i.ONE * 2)
+		* (map_size + Vector2i.ONE * 2),
 	) * 0.5
 
 
@@ -87,7 +88,7 @@ func setup() -> void:
 
 	Globals.start_ticks = Time.get_ticks_msec()
 	enemy_spawner.start()
-	
+
 	game_started.emit()
 
 

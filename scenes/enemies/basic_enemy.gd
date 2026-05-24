@@ -1,5 +1,5 @@
-extends Enemy
 class_name BasicEnemy
+extends Enemy
 
 # Flock parameters
 @export var inertia_weight: float

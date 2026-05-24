@@ -1,6 +1,5 @@
 extends VBoxContainer
 
-
 func _on_save_button_pressed() -> void:
 	Options.save_config()
 

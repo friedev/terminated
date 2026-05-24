@@ -8,7 +8,7 @@ const OPTIONS_SECTION := "options"
 const OPTIONS_GROUP := &"options"
 
 ## Currently loaded options.
-var options := {}
+var options := { }
 
 
 ## Set each option to its value read from the config file.
@@ -21,7 +21,7 @@ func load_config() -> bool:
 		var option := option_node as Option
 		if config.has_section_key(OPTIONS_SECTION, option.key):
 			option.set_option(
-				config.get_value(OPTIONS_SECTION, option.key)
+				config.get_value(OPTIONS_SECTION, option.key),
 			)
 	return true
 

@@ -1,5 +1,5 @@
-extends CharacterBody2D
 class_name Bullet
+extends CharacterBody2D
 
 @export var damage: int
 @export var speed: float

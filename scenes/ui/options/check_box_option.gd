@@ -1,4 +1,5 @@
-class_name CheckBoxOption extends Option
+class_name CheckBoxOption
+extends Option
 
 @export var default: bool
 @export var toggle_input_action := ""

@@ -1,5 +1,5 @@
-extends Enemy
 class_name LaserEnemy
+extends Enemy
 
 const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 
@@ -14,6 +14,7 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export var charge_timer: Timer
 @export var laser_particles: GPUParticles2D
 @export var laser_sound: AudioStreamPlayer2D
+
 
 func _ready() -> void:
 	super._ready()

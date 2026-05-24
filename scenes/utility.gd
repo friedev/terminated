@@ -1,6 +1,5 @@
 class_name Utility
 
-
 static func format_msec(milliseconds: int) -> String:
 	@warning_ignore("integer_division")
 	var seconds := milliseconds / 1000

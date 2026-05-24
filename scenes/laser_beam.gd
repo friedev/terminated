@@ -1,5 +1,5 @@
-extends Line2D
 class_name LaserBeam
+extends Line2D
 
 var max_width := 4.0
 var duration := 0.5

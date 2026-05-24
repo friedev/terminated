@@ -1,5 +1,5 @@
-extends Node2D
 class_name DeathEffect
+extends Node2D
 
 @export_group("Internal Nodes")
 @export var sound: AudioStreamPlayer2D

@@ -1,4 +1,5 @@
-class_name Player extends CharacterBody2D
+class_name Player
+extends CharacterBody2D
 
 signal died
 
@@ -51,7 +52,7 @@ func _enter_tree() -> void:
 func setup() -> void:
 	alive = true
 	gun_pressed = false
-	gun_pressed_time = - max_cooldown
+	gun_pressed_time = -max_cooldown
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
@@ -80,7 +81,7 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("laser"):
 		if not shoot_weapon(laser):
 			reloading_sound.play()
-	
+
 	elif event.is_action_pressed("quit"):
 		if alive:
 			die()
@@ -88,12 +89,12 @@ func _input(event: InputEvent) -> void:
 
 func get_angle_to_mouse() -> float:
 	return global_position.angle_to_point(get_global_mouse_position())
-	
+
 
 func get_aim_input() -> Vector2:
 	return Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 
-	
+
 func get_aim_angle() -> float:
 	return get_angle_to_mouse() if mouse_aim else get_aim_input().angle()
 
@@ -123,7 +124,8 @@ func _physics_process(delta: float) -> void:
 			if (
 				velocity.length() == 0
 				or is_equal_approx(
-					absf(velocity.angle_to(input_velocity)), PI
+					absf(velocity.angle_to(input_velocity)),
+					PI,
 				)
 			):
 				new_velocity = input_velocity.normalized()

@@ -1,4 +1,5 @@
-class_name ShakeCamera extends Camera2D
+class_name ShakeCamera
+extends Camera2D
 
 ## Frequency of shakes.
 @export var shake_rate: float

@@ -9,6 +9,7 @@ var spread: float:
 	get:
 		return deg_to_rad(spread_degrees)
 
+
 func fire(fire_angle: float) -> void:
 	for i in range(bullet_count):
 		var bullet: Bullet = BULLET_SCENE.instantiate()

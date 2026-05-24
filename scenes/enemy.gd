@@ -1,5 +1,5 @@
-extends CharacterBody2D
 class_name Enemy
+extends CharacterBody2D
 
 signal destroyed
 
@@ -98,7 +98,7 @@ func direction_to_player() -> Vector2:
 func die() -> void:
 	if is_queued_for_deletion():
 		return
-	
+
 	var death_effect: DeathEffect = death_effect_scene.instantiate()
 	death_effect.global_position = global_position
 	SignalBus.node_spawned.emit(death_effect)

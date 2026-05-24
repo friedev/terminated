@@ -1,4 +1,5 @@
-class_name EnemySpawner extends Node
+class_name EnemySpawner
+extends Node
 
 @export var starting_difficulty: int
 @export var difficulty_per_wave: int
@@ -48,7 +49,7 @@ func spawn_enemies(max_difficulty: int) -> void:
 		if len(open_coords) == 0:
 			push_warning(
 				"Not enough space to spawn enemies; stopping at %d difficulty out of %d max"
-				% [difficulty, max_difficulty]
+				% [difficulty, max_difficulty],
 			)
 			break
 
@@ -73,7 +74,7 @@ func spawn_enemies(max_difficulty: int) -> void:
 		if len(possible_enemy_scenes) == 0:
 			push_warning(
 				"No more valid enemies to spawn; stopping at %d difficulty out of %d max"
-				% [difficulty, max_difficulty]
+				% [difficulty, max_difficulty],
 			)
 			break
 

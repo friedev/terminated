@@ -11,6 +11,7 @@ const LASER_BEAM_SCENE := preload("res://scenes/laser_beam.tscn")
 @export_group("Internal Nodes")
 @export var shapecast: ShapeCast2D
 
+
 func fire(fire_angle: float) -> void:
 	# TODO merge with enemy laser implementation: give LaserEnemy a Laser node
 	var laser_start := global_position
@@ -40,7 +41,7 @@ func fire(fire_angle: float) -> void:
 
 		if object_hit is TileMapLayer:
 			break
-		
+
 		assert(false, "Unhandled collision")
 		break
 	shapecast.clear_exceptions()

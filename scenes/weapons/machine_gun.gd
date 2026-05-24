@@ -2,6 +2,7 @@ extends Weapon
 
 const BULLET_SCENE := preload("res://scenes/bullet.tscn")
 
+
 func fire(fire_angle: float) -> void:
 	var bullet: Bullet = BULLET_SCENE.instantiate()
 	SignalBus.node_spawned.emit(bullet)

@@ -1,4 +1,5 @@
-class_name HighScoreLabel extends Label
+class_name HighScoreLabel
+extends Label
 
 const CONFIG_PATH := "user://scores.cfg"
 const SECTION := "scores"
