@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://brcqfpfn1mwrl"]
+
+[ext_resource type="Script" uid="uid://tt8s82d4juy3" path="res://src/enemy.gd" id="1_ge6lr"]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1060547427 node_paths=PackedStringArray("sprite", "ambient_sound", "hurt_sound", "damage_particles") groups=["enemies"]]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_ge6lr")
+max_health = 1
+sprite = NodePath("AnimatedSprite2D")
+ambient_sound = NodePath("AmbientSound")
+hurt_sound = NodePath("HurtSound")
+damage_particles = NodePath("DamageParticles")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1368392472]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=619629321]
+rotation = 1.5708
+autoplay = "default"
+
+[node name="DamageParticles" type="GPUParticles2D" parent="." unique_id=120967760]
+emitting = false
+lifetime = 0.1
+one_shot = true
+explosiveness = 1.0
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="." unique_id=1427713047]
+bus = &"Sound"
+
+[node name="AmbientSound" type="AudioStreamPlayer2D" parent="." unique_id=856522940]
+max_distance = 512.0
+attenuation = 2.0
+bus = &"Sound"

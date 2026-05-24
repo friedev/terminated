@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://by3vlmhmap0f3"]
+
+[ext_resource type="Texture2D" uid="uid://d1w1v6y24qvr1" path="res://assets/images/debris/debris.png" id="1"]
+
+[node name="Debris" type="Sprite2D" groups=["debris"]]
+light_mask = 3
+z_index = -5
+texture = ExtResource("1")

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cfxibblterwyy"]
+
+[ext_resource type="PackedScene" uid="uid://cidh4a2l0xhe" path="res://src/weapon.tscn" id="1_46y6d"]
+[ext_resource type="Script" uid="uid://ckqwcmkbsse64" path="res://src/weapons/laser.gd" id="2_8mtbw"]
+[ext_resource type="AudioStream" uid="uid://i1egadteuis3" path="res://assets/audio/sound/weapons/laser.ogg" id="3_bnf7k"]
+
+[sub_resource type="Curve" id="Curve_8c167"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2avos"]
+curve = SubResource("Curve_8c167")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5xjyq"]
+spread = 60.0
+initial_velocity_min = 64.0
+initial_velocity_max = 92.0
+gravity = Vector3(0, 0, 0)
+damping_min = 128.0
+damping_max = 128.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_2avos")
+color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4r37b"]
+radius = 8.0
+
+[node name="Laser" node_paths=PackedStringArray("shapecast") instance=ExtResource("1_46y6d")]
+script = ExtResource("2_8mtbw")
+damage = 0
+max_range = 1536.0
+knockback = 0.0
+stun = 0.0
+color = Color(1, 1, 1, 1)
+shapecast = NodePath("ShapeCast2D")
+cooldown = 0.5
+screen_shake = 0.5
+
+[node name="GPUParticles2D" parent="." index="0"]
+amount = 6
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_5xjyq")
+
+[node name="AudioStreamPlayer2D" parent="." index="1"]
+stream = ExtResource("3_bnf7k")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." index="3"]
+shape = SubResource("CircleShape2D_4r37b")
+target_position = Vector2(0, 0)
+collision_mask = 5
