@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bxjdf1p7ppmjr"]
 
-[ext_resource type="Theme" uid="uid://cp2dw8jh1pmps" path="res://assets/ui/theme.tres" id="1_0sglw"]
 [ext_resource type="Script" uid="uid://bjf4uvk2ono4a" path="res://src/ui/main_menu.gd" id="2_wb0q5"]
 [ext_resource type="StyleBox" uid="uid://de2cuaf47srp5" path="res://assets/ui/styles/stylebox_button_focus_danger.tres" id="4_q85j6"]
 [ext_resource type="PackedScene" uid="uid://rasjftexmjht" path="res://src/ui/options/fullscreen_option.tscn" id="4_qnfpr"]
@@ -21,7 +20,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_0sglw")
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32

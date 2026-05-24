@@ -46,6 +46,11 @@ window/size/fullscreen=true
 
 project/assembly_name="Terminated"
 
+[gui]
+
+theme/custom="uid://cp2dw8jh1pmps"
+theme/custom_font="uid://bu2eay6qumf2f"
+
 [input]
 
 ui_accept={

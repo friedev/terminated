@@ -4,8 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://cob2nvys2ljix" path="res://assets/images/tileset.png" id="2_svqu7"]
 [ext_resource type="PackedScene" uid="uid://bmqqmmpjuvqd" path="res://src/player.tscn" id="3_5sen2"]
 [ext_resource type="Script" uid="uid://dsjeoe7g42ah8" path="res://src/shake_camera.gd" id="4_6phkc"]
-[ext_resource type="Theme" uid="uid://cp2dw8jh1pmps" path="res://assets/ui/theme.tres" id="5_o078d"]
-[ext_resource type="FontFile" uid="uid://bu2eay6qumf2f" path="res://assets/ui/fonts/FSEX302.ttf" id="6_0fveq"]
 [ext_resource type="Script" uid="uid://dqmnuwy8dowof" path="res://src/ui/fps_label.gd" id="7_85g3d"]
 [ext_resource type="Script" uid="uid://cuxjfvpu8gft2" path="res://src/ui/timer_label.gd" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://bxjdf1p7ppmjr" path="res://src/ui/main_menu.tscn" id="7_kwnbg"]
@@ -112,58 +110,7 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_tpcbk")
 
-[sub_resource type="FontFile" id="FontFile_uerxt"]
-fallbacks = Array[Font]([ExtResource("6_0fveq")])
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/glyphs/0/advance = Vector2(0, 0)
-cache/0/16/0/glyphs/0/offset = Vector2(0, 0)
-cache/0/16/0/glyphs/0/size = Vector2(0, 0)
-cache/0/16/0/glyphs/0/uv_rect = Rect2(0, 0, 0, 0)
-cache/0/16/0/glyphs/0/texture_idx = -1
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/8 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/24/0 = Vector2(0, 0)
-cache/0/16/8/glyphs/0/offset = Vector2(0, 0)
-cache/0/16/8/glyphs/0/size = Vector2(0, 0)
-cache/0/16/8/glyphs/0/uv_rect = Rect2(0, 0, 0, 0)
-cache/0/16/8/glyphs/0/texture_idx = -1
-cache/0/32/0/ascent = 0.0
-cache/0/32/0/descent = 0.0
-cache/0/32/0/underline_position = 0.0
-cache/0/32/0/underline_thickness = 0.0
-cache/0/32/0/scale = 1.0
-cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/32/0/kerning_overrides/16/8 = Vector2(0, 0)
-cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
-cache/0/32/0/kerning_overrides/24/0 = Vector2(0, 0)
-cache/0/24/0/ascent = 0.0
-cache/0/24/0/descent = 0.0
-cache/0/24/0/underline_position = 0.0
-cache/0/24/0/underline_thickness = 0.0
-cache/0/24/0/scale = 1.0
-cache/0/24/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/24/0/kerning_overrides/16/8 = Vector2(0, 0)
-cache/0/24/0/kerning_overrides/32/0 = Vector2(0, 0)
-cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
-
-[sub_resource type="Theme" id="Theme_dake5"]
-default_font = SubResource("FontFile_uerxt")
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_tb146"]
+[sub_resource type="ButtonGroup" id="ButtonGroup_mlv6i"]
 allow_unpress = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_choun"]
@@ -204,7 +151,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("5_o078d")
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
@@ -219,7 +165,6 @@ size_flags_vertical = 0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
-theme = SubResource("Theme_dake5")
 text = "XX:XX.XX"
 uppercase = true
 script = ExtResource("7_choun")
@@ -238,7 +183,6 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme = SubResource("Theme_dake5")
 text = "FPS: 60"
 script = ExtResource("7_85g3d")
 
@@ -246,7 +190,7 @@ script = ExtResource("7_85g3d")
 
 [node name="MainMenu" parent="MenuLayer" unique_id=1943378221 instance=ExtResource("7_kwnbg")]
 visible = false
-submenu_button_group = SubResource("ButtonGroup_tb146")
+submenu_button_group = SubResource("ButtonGroup_mlv6i")
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1238508115]
 stream = ExtResource("8_bvs7a")
